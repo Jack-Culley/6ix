@@ -3,3 +3,8 @@ section iframe {
   height: 100%;
   position: absolute;
 }
+
+button.game-button {
+  width: 65px;
+  height: 100px;
+}
