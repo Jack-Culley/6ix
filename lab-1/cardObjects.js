@@ -44,19 +44,16 @@ function generateCards(cards) {
 function generateBoard(cards) {
   let tbody = document.getElementById("table-body");
   let board = new Set();
-  for(let i = 0; i < 13; i++) {
-    let trIndex = -1;
+  let trIndex = -1;
+  for(let i = 0; i < 12; i++) {
     if(i % 4 == 0 && i < 12) {
-      let tr = document.createElement("tr");
-      tr.className = "card-row";
-      tbody.appendChild(tr);
       trIndex++;
     }
     let tr = document.getElementsByClassName("card-row")[trIndex];
+    console.log(tr)
     let card = cards[getRandomInt(81)];
     let td = document.createElement("td");
     let button = document.createElement("button");
-    //TODO: figure out why td is undefined
     button.type = "button";
     button.style = `background: url(../assets/Images/${card.imageString})`
     button.className = "game-button"
