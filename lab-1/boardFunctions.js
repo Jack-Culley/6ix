@@ -1,11 +1,13 @@
 "use strict"
 import { generateCards } from './cardObjects.js'
 
-let clickedCards = [];
+let clickedCards = new Map();
 let cards = [];
 let board = [];
-function highlightCard(card, cardElement) {
-  if(card.isClicked) {
+
+function highlightCard(isClicked, cardElement) {
+  console.log('highlighting')
+  if(isClicked) {
     cardElement.className += " clicked";
   } else {
     cardElement.className = "game-button";
@@ -16,17 +18,50 @@ function getRandomInt(num) {
   return Math.floor(Math.random() * num);
 }
 
+function checkIfSet() {
+  let colors = new Set();
+  let shapes = new Set();
+  let numSymbs = new Set();
+  let shades = new Set();
+  // console.log(clickedCards)
+  clickedCards.forEach((v, card) => {
+    colors.add(card.color);
+    shapes.add(card.shapes);
+    numSymbs.add(card.numSymb);
+    shades.add(card.shade);
+  });
+  let colorsValid = (colors.size == 1 || colors.size == 3);
+  let shapesValid = (shapes.size == 1 || shapes.size == 3);
+  let numSymbsValid = (numSymbs.size == 1 || numSymbs.size == 3);
+  let shadesValid = (shades.size == 1 || shades.size == 3);
+
+  return colorsValid && shapesValid && numSymbsValid && shadesValid
+}
+
 function buttonClick(click) {
-  let cardIndex = parseInt(click.target.id) - 1;
+  console.log('clicked')
+  let target = click.target;
+  let cardIndex = parseInt(target.id) - 1;
   let card = board[cardIndex];
   card.isClicked = !card.isClicked;
-  console.log(card)
-  highlightCard(card, click.target)
-  clickedCards.push(card);
-  if(clickedCards.length == 3) {
+  highlightCard(card.isClicked, target)
+  clickedCards.set(card, target)
+  // console.log(clickedCards)
+
+  if(clickedCards.size == 3) {
     console.log('checking if set...')
+    console.log(checkIfSet());
+    if(!checkIfSet()) {
+      console.log('Here!')
+      clickedCards.forEach((cardElement, cardObject) => {
+        cardObject.isClicked = false;
+        highlightCard(cardObject.isClicked, cardElement);
+      })
+      clickedCards.clear();
+    }
     //checkIfSet
     //clear clicked cards array if not set else increment player score
+    // if it is a set clear event listeners on the clicked buttons then append 3 more cards to the board
   }
 }
 
