@@ -8,3 +8,10 @@ button.game-button {
   width: 65px;
   height: 100px;
 }
+
+button.clicked {
+  width: 65px;
+  height: 100px;
+  border-color: red;
+  border-width: 5px;
+}
