@@ -6,7 +6,6 @@ let cards = [];
 let board = [];
 
 function highlightCard(isClicked, cardElement) {
-  console.log('highlighting')
   if(isClicked) {
     cardElement.className += " clicked";
   } else {
@@ -23,7 +22,6 @@ function checkIfSet() {
   let shapes = new Set();
   let numSymbs = new Set();
   let shades = new Set();
-  // console.log(clickedCards)
   clickedCards.forEach((v, card) => {
     colors.add(card.color);
     shapes.add(card.shapes);
@@ -39,20 +37,15 @@ function checkIfSet() {
 }
 
 function buttonClick(click) {
-  console.log('clicked')
   let target = click.target;
   let cardIndex = parseInt(target.id) - 1;
   let card = board[cardIndex];
   card.isClicked = !card.isClicked;
   highlightCard(card.isClicked, target)
   clickedCards.set(card, target)
-  // console.log(clickedCards)
 
-  if(clickedCards.size == 3) {
-    console.log('checking if set...')
-    console.log(checkIfSet());
+  if(clickedCards.size >= 3) {
     if(!checkIfSet()) {
-      console.log('Here!')
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         highlightCard(cardObject.isClicked, cardElement);
@@ -88,7 +81,6 @@ function generateBoard() {
     // We have to deplete the deck when laying down cards on the board
     cards.splice(cardIndex, 1);
   }
-  console.log(cards.length)
 }
 
 //gets called after deck is depleted
