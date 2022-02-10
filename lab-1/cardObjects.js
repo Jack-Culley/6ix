@@ -20,6 +20,10 @@ function createImageString(color, numSymb, shape, shade) {
   return `${color}_${shape}_${shade}_${numSymb}.PNG`;
 }
 
+function getRandomInt(num) {
+  return Math.floor(Math.random() * num);
+}
+
 //generates all 81 cards into an array
 function generateCards(cards) {
   let c, n, sp, sd;
@@ -36,5 +40,4 @@ function generateCards(cards) {
   }
 }
 
-
-export { generateCards, Card }
+export { generateCards, Card, getRandomInt };
