@@ -4,7 +4,7 @@ const numSymbs = [1, 2, 3];
 
 const shapes = ["rhombus", "oval", "tilde"];
 
-const shades = ["empty", "dashed", "filled"];
+const shades = ["unfilled", "semi", "filled"];
 
 //constructor for card object
 function Card(color, numSymb, shape, shade) {
@@ -37,4 +37,31 @@ function generateCards(cards) {
 }
 
 
-export { generateCards, Card }
+window.onload = function () {
+    var e = document.getElementById('generate');
+    e.addEventListener("click", displayBoard, false);
+}
+
+
+function displayCard(cardObj, n){
+    console.log(cardObj.numSymb);
+    for(let i = 0; i < cardObj.numSymb; i++){
+        const th = document.getElementById(n);
+        const card = document.createElement("img");
+        card.setAttribute('class','card');
+        card.setAttribute('src', '../assets/cardImages/' + cardObj.shape + '_' + cardObj.shade + '_' + cardObj.color + '.png');
+        th.appendChild(card);
+        th.appendChild(document.createElement("br"));
+        console.log(card);
+        console.log(th);
+    }
+}
+
+function displayBoard(){
+    let i = 1;
+    for(var iter = board.values(), card= null; card=iter.next().value;){
+        console.log(card);
+        displayCard(card, i);
+        i++;
+    }
+}

@@ -90,3 +90,5 @@ function cleanUp() {
 
 generateCards(cards)
 generateBoard()
+
+export { getRandomInt };
