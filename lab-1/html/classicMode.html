@@ -6,12 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="icon" href="../assets/indexScreenImages/setLogo.png">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Game of Set! - Classic Mode</title>
   </head>
-  <body class="has-background-primary"></body>
-    <h1>
-        Classic Mode
-    </h1>
-    <footer class="footer has-background-primary"> 
+  <body class="has-background-primary">
+    <section class="section is-flex is-justify-content-center">
+      <h1 class="title is-size-1" style="margin-bottom: 50px d">
+          Classic Mode
+      </h1>
+    </section>
+
+      <div class="table-container is-flex is-justify-content-center">
+        <table id="card-container" class="table has-background-primary has-text-centered">
+          <tbody id="table-body">
+            <tr class="card-row"></tr>
+            <tr class="card-row"></tr>
+            <tr class="card-row"></tr>
+          </tbody>
+        </table>
+      </div>
+    <footer class="footer has-background-primary">
     </footer>
+  <!-- <script src="../cardObjects.js"> -->
+  <script src="../boardFunctions.js" type="module">
+
+  </script>
   </body>
+

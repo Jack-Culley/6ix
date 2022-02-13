@@ -3,3 +3,24 @@ section iframe {
   height: 100%;
   position: absolute;
 }
+
+button.game-button {
+  width: 65px;
+  height: 100px;
+}
+
+button.clicked {
+  width: 65px;
+  height: 100px;
+  border-color: red;
+  border-width: 5px;
+}
+
+table {
+  width: 75%;
+  height: 50%;
+}
+
+tr {
+  margin: 10px 10px;
+}
