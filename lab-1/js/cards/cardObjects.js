@@ -4,7 +4,7 @@ const numSymbs = [1, 2, 3];
 
 const shapes = ["rhombus", "oval", "tilde"];
 
-const shades = ["unfilled", "semi", "filled"];
+const shades = ["empty", "dashed", "filled"];
 
 //constructor for card object
 function Card(color, numSymb, shape, shade) {
