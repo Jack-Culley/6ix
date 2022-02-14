@@ -20,6 +20,10 @@ function createImageString(color, numSymb, shape, shade) {
   return `${color}_${shape}_${shade}_${numSymb}.PNG`;
 }
 
+function getRandomInt(num) {
+  return Math.floor(Math.random() * num);
+}
+
 //generates all 81 cards into an array
 function generateCards(cards) {
   let c, n, sp, sd;
@@ -36,32 +40,4 @@ function generateCards(cards) {
   }
 }
 
-
-window.onload = function () {
-    var e = document.getElementById('generate');
-    e.addEventListener("click", displayBoard, false);
-}
-
-
-function displayCard(cardObj, n){
-    console.log(cardObj.numSymb);
-    for(let i = 0; i < cardObj.numSymb; i++){
-        const th = document.getElementById(n);
-        const card = document.createElement("img");
-        card.setAttribute('class','card');
-        card.setAttribute('src', '../assets/cardImages/' + cardObj.shape + '_' + cardObj.shade + '_' + cardObj.color + '.png');
-        th.appendChild(card);
-        th.appendChild(document.createElement("br"));
-        console.log(card);
-        console.log(th);
-    }
-}
-
-function displayBoard(){
-    let i = 1;
-    for(var iter = board.values(), card= null; card=iter.next().value;){
-        console.log(card);
-        displayCard(card, i);
-        i++;
-    }
-}
+export { generateCards, Card, getRandomInt };
