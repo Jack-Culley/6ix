@@ -1,5 +1,5 @@
 "use strict"
-import { generateCards, getRandomInt } from './cardObjects.js'
+import { generateCards, Card, getRandomInt } from '../cards/cardObjects.js'
 
 let clickedCards = new Map();
 let cards = [];
@@ -44,7 +44,7 @@ function selectNewCard() {
 function createButton(id, card, isAddingToExistingBoard) {
     let button = document.createElement("button");
     button.type = "button";
-    button.style = `background: url(../assets/Images/${card.imageString})`;
+    button.style = `background: url(../assets/images/${card.imageString})`;
     button.className = "game-button";
     let newId = isAddingToExistingBoard ? id : id + 1;
     button.id = `${newId}`;
