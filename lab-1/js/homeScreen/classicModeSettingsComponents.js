@@ -1,7 +1,43 @@
 //global variables
 let humanPlayersCount = 0;
 let cpuPlayersCount = 0;
+const MAX_PLAYERS = 8;
 
+// fucntion to change html buttons, display warning messages, etc depending on the number of total
+// players selected
+function changeHTMLBasedOnPlayerNumber(){
+
+    // if total players is greater than max count, display warning message and disable/enable buttons
+    if ((humanPlayersCount + cpuPlayersCount) > MAX_PLAYERS)
+    {
+        // display warning message
+        document.getElementById("max_player_warning").style.display = "block";
+        // disable add item buttons
+        document.getElementById("addHumanPlayersButton").disabled = true;
+        document.getElementById("addCPUPlayersButton").disabled = true;
+    } else {
+        document.getElementById("max_player_warning").style.display = "none";
+        // enable add item buttons
+        document.getElementById("addHumanPlayersButton").disabled = false;
+        document.getElementById("addCPUPlayersButton").disabled = false;
+    }
+
+    // if count for humans or cpu players is more than 0, enable "delete item" button
+    if(humanPlayersCount > 0)
+    {
+        document.getElementById("removeHumanPlayersButton").disabled = false;
+    } else {
+        document.getElementById("removeHumanPlayersButton").disabled = true;
+    }
+
+    if(cpuPlayersCount > 0)
+    {
+        document.getElementById("removeCPUPlayersButton").disabled = false;
+    } else {
+        document.getElementById("removeCPUPlayersButton").disabled = true;
+    }
+
+};
 
 // function to add number of human players to classicMode
 function addHumanPlayers(){
@@ -25,6 +61,7 @@ function addHumanPlayers(){
     document.getElementById("humanPlayersList").appendChild(newListElement);
 
     humanPlayersCount++;
+    changeHTMLBasedOnPlayerNumber();
 }
 
 // function to remove human player
@@ -38,6 +75,7 @@ function removeHumanPlayers(){
 
         listParent.removeChild(listItemChild);
         humanPlayersCount--;
+        changeHTMLBasedOnPlayerNumber();
     }
 }
 
@@ -78,6 +116,7 @@ function addCPUPlayers(){
     document.getElementById("cpuPlayersList").appendChild(newListElement);
 
     cpuPlayersCount++;
+    changeHTMLBasedOnPlayerNumber();
 
 }
 
@@ -92,5 +131,6 @@ function removeCPUPlayers(){
 
         listParent.removeChild(listItemChild);
         cpuPlayersCount--;
+        changeHTMLBasedOnPlayerNumber();
     }
 }

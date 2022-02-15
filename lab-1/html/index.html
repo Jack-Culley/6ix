@@ -65,13 +65,39 @@
                     ></button>
                 </header>
                 <section class="modal-card-body">
+                    <h1
+                        class="has-text-danger"
+                        id="max_player_warning"
+                        style="display: none"
+                    >
+                        Max players reached! No more than 8 total players
+                    </h1>
                     <h1>Add Human Players</h1>
-                    <button onclick="addHumanPlayers();">Add Item</button>
-                    <button onclick="removeHumanPlayers();">Delete Item</button>
+                    <button
+                        id="addHumanPlayersButton"
+                        onclick="addHumanPlayers();"
+                    >
+                        Add Item
+                    </button>
+                    <button
+                        id="removeHumanPlayersButton"
+                        onclick="removeHumanPlayers();"
+                        disabled
+                    >
+                        Delete Item
+                    </button>
                     <ul id="humanPlayersList"></ul>
                     <h1>Add Computer Players</h1>
-                    <button onclick="addCPUPlayers();">Add Item</button>
-                    <button onclick="removeCPUPlayers();">Delete Item</button>
+                    <button id="addCPUPlayersButton" onclick="addCPUPlayers();">
+                        Add Item
+                    </button>
+                    <button
+                        id="removeCPUPlayersButton"
+                        onclick="removeCPUPlayers();"
+                        disabled
+                    >
+                        Delete Item
+                    </button>
                     <ul id="cpuPlayersList"></ul>
                 </section>
                 <footer class="modal-card-foot is-justify-content-center">
