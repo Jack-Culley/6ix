@@ -63,6 +63,19 @@ function selectNewCard() {
   return cards.splice(randomCard, 1)[0];
 }
 
+//find the leftmost empty slot on the grid
+function addToEmptySpace() {
+  let columns = document.getElementsByClassName("tile-parent");
+  let columnArray = [];
+  for(let i = 0; i < columns.length; i++) {
+    columnArray[i] = columns[i];
+  }
+  columnArray.filter((col) => {
+    console.log(col.children)
+  })
+  return columnArray.filter((column) => column.children.length < 4)[0];
+}
+
 //Button click event listener that handles set checking and card highlighting
 function buttonClick(click) {
   let target = click.target;
@@ -85,18 +98,23 @@ function buttonClick(click) {
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
-        let tile = cardElement.parentElement;
-        tile.removeChild(cardElement);
+        let tileParent = cardElement.parentElement.parentElement;
+        tileParent.removeChild(cardElement.parentElement);
         // we don't want to replace cards that have been added when there are
         // more than 12 cards on the board as per the rules
         board.splice(board.indexOf(cardObject), 1);
         if(board.length < 12) {
+          let newTile = document.createElement("div");
+          newTile.className = "tile center card-container";
           let newCard = selectNewCard();
           let button = createButton(usedCards.length, newCard);
           //removes old card from board
+          //this is used to make sure the cards get appended to the first empty slot on the grid
+          let nextIncompleteTile = addToEmptySpace();
           board.push(newCard);
           usedCards.push(newCard);
-          tile.appendChild(button);
+          newTile.appendChild(button);
+          nextIncompleteTile.appendChild(newTile);
         }
       })
       clickedCards.clear();
