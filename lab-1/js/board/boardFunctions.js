@@ -3,7 +3,7 @@ import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
 
 let clickedCards = new Map();
 let cards = [];
-let board = []
+let board = [];
 let usedCards = [];
 
 function highlightCard(isClicked, cardElement, cardObject) {
@@ -15,22 +15,12 @@ function highlightCard(isClicked, cardElement, cardObject) {
   }
 }
 
-function createNewRow() {
-  let tbody = document.getElementById("table-body");
-  let newRow = document.createElement("tr");
-  newRow.className = "card-row";
-  tbody.appendChild(newRow);
-  return newRow;
-}
-
-
 //checks if the selected cards make up a set per game of set rules
 function checkIfSet() {
   let colors = new Set();
   let shapes = new Set();
   let numSymbs = new Set();
   let shades = new Set();
-  console.log(clickedCards)
   clickedCards.forEach((v, card) => {
     colors.add(card.color);
     shapes.add(card.shapes);
@@ -45,46 +35,32 @@ function checkIfSet() {
   return colorsValid && shapesValid && numSymbsValid && shadesValid
 }
 
+//creates a button for the td element
+function createButton(id, card, isAppendingToBoard) {
+    let button = document.createElement("button");
+    button.type = "button";
+    button.style = `background: url(../assets/images/${card.imageString})`;
+    button.className = "game-button";
+    button.id = (isAppendingToBoard ? id : id + 1).toString();
+    button.addEventListener("click", (click) => buttonClick(click));
+    return button;
+}
+
+function addCards() {
+  let numCards = cards.length >= 3 ? 3 : cards.length;
+  generateBoard(numCards);
+}
+
+function createAddCardButton() {
+  let button = document.getElementById("add-card-button");
+  button.addEventListener("click", () => addCards())
+}
+
 //gets a new card randomly from the bank of unused cards
 function selectNewCard() {
   let randomCard = getRandomInt(cards.length);
   //splice returns an array
   return cards.splice(randomCard, 1)[0];
-}
-
-//creates a button for the td element
-function createButton(id, card) {
-    let button = document.createElement("button");
-    button.type = "button";
-    button.style = `background: url(../assets/images/${card.imageString})`;
-    button.className = "game-button";
-    button.id = `${id+1}`;
-    button.addEventListener("click", (click) => buttonClick(click));
-    return button;
-}
-
-function addCard() {
-  let rows = document.getElementsByClassName("card-row");
-  let lastRow = rows[rows.length-1];
-  let children = lastRow.childNodes;
-  let newCardId = children[children.length-1].childNodes[0].id;
-  let newCard = selectNewCard();
-  let newButton = createButton(parseInt(newCardId), newCard);
-  let td = document.createElement("td");
-  td.appendChild(newButton);
-  if(lastRow.childNodes.length === 4) {
-    let newRow = createNewRow();
-    newRow.appendChild(td);
-  } else {
-    lastRow.appendChild(td);
-  }
-  board.push(newCard);
-  usedCards.push(newCard);
-}
-
-function createAddCardButton() {
-  let button = document.getElementById("add-card-button");
-  button.addEventListener("click", () => addCard())
 }
 
 //Button click event listener that handles set checking and card highlighting
@@ -109,17 +85,19 @@ function buttonClick(click) {
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
-        let tr = cardElement.parentElement.parentElement;
-        tr.removeChild(cardElement.parentElement);
-        let newCard = selectNewCard();
-        let button = createButton(parseInt(cardElement.id), newCard);
-        let td = document.createElement("td");
-        //removes old card from board
+        let tile = cardElement.parentElement;
+        tile.removeChild(cardElement);
+        // we don't want to replace cards that have been added when there are
+        // more than 12 cards on the board as per the rules
         board.splice(board.indexOf(cardObject), 1);
-        board.push(newCard);
-        usedCards.push(newCard);
-        td.appendChild(button);
-        tr.appendChild(td);
+        if(board.length < 12) {
+          let newCard = selectNewCard();
+          let button = createButton(usedCards.length, newCard);
+          //removes old card from board
+          board.push(newCard);
+          usedCards.push(newCard);
+          tile.appendChild(button);
+        }
       })
       clickedCards.clear();
     }
@@ -127,25 +105,27 @@ function buttonClick(click) {
 }
 
 //uses a Set object to generate a board of 12 unique cards
-function generateBoard() {
-  let trIndex = -1;
-  for(let i = 0; i < 12; i++) {
+function generateBoard(numCards) {
+  let tileParent;
+  let tileAncestor = document.getElementById("card-container");
+  for(let i = 0; i < numCards; i++) {
     if(i % 4 == 0 && i < 12) {
-      trIndex++;
+      tileParent = document.createElement("div");
+      tileParent.className = "tile tile-parent is-vertical";
+      tileAncestor.appendChild(tileParent);
     }
-    let tr = document.getElementsByClassName("card-row")[trIndex];
-    let cardIndex = getRandomInt(81 - i);
+    let newTile = document.createElement("div");
+    newTile.className = "tile center card-container";
+    let cardIndex = getRandomInt(cards.length);
     let card = cards[cardIndex];
-    let td = document.createElement("td");
-    let button = createButton(i, card);
-    td.appendChild(button);
-    tr.appendChild(td);
     board.push(card);
     usedCards.push(card);
+    let button = createButton(usedCards.indexOf(usedCards[usedCards.length-1]), card);
+    newTile.appendChild(button);
+    tileParent.appendChild(newTile);
     // We have to deplete the deck when laying down cards on the board
     cards.splice(cardIndex, 1);
   }
-  createAddCardButton();
 }
 
 //gets called after a set is found
@@ -156,11 +136,6 @@ function cleanUp() {
   // removes all existing event listeners
 }
 
-// let cs= [new Card("purple", 3, "oval", "dashed"), new Card("green", 3, "rhombus", "filled"), new Card("red", 3, "tilde", "empty")]
-// clickedCards.set(cs[0], 'h')
-// clickedCards.set(cs[1], 'h')
-// clickedCards.set(cs[2], 'h')
-// console.log(checkIfSet())
-// clickedCards.clear()
 generateCards(cards);
-generateBoard();
+generateBoard(12);
+createAddCardButton();
