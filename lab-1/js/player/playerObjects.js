@@ -6,5 +6,15 @@ class Player{
 		this.sets = [];
 	}
 
-	//@todo Player methods, such as changeScore() and addSet()
+	incrementScore(){
+		this.score++;
+	}
+
+	decrementScore(){
+		this.score--;
+	}
+
+	winSet(wonSet){
+		this.sets.push(wonSet);
+	}
 }
