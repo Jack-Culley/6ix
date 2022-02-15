@@ -70,9 +70,6 @@ function addToEmptySpace() {
   for(let i = 0; i < columns.length; i++) {
     columnArray[i] = columns[i];
   }
-  columnArray.filter((col) => {
-    console.log(col.children)
-  })
   return columnArray.filter((column) => column.children.length < 4)[0];
 }
 
@@ -155,5 +152,4 @@ function cleanUp() {
 }
 
 generateCards(cards);
-generateBoard(12);
-createAddCardButton();
+export { generateBoard, createAddCardButton };
