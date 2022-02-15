@@ -36,12 +36,12 @@ function checkIfSet() {
 }
 
 //creates a button for the td element
-function createButton(id, card, isAppendingToBoard) {
+function createButton(id, card) {
     let button = document.createElement("button");
     button.type = "button";
     button.style = `background: url(../assets/images/${card.imageString})`;
     button.className = "game-button";
-    button.id = (isAppendingToBoard ? id : id + 1).toString();
+    button.id = `${id+1}`;
     button.addEventListener("click", (click) => buttonClick(click));
     return button;
 }
