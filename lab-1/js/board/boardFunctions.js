@@ -108,7 +108,7 @@ function giveHint() {
     highlightCard(card.isClicked, target, card);
   }
   clickedCards.clear();
-  
+
   for (const thisSet of boardSets){
     let target = document.getElementById(thisSet[0] + 1);
     let card = usedCards[thisSet[0]];
@@ -178,6 +178,21 @@ function buttonClick(click) {
   if(card.isClicked) {
     clickedCards.set(card, target)
   }
+
+  //Displays a game message for 1 second based on validity of chosen cards. @GameFlow
+  function displaySetMessage(isSet) {
+    let className = isSet ? "is-success" : "is-danger";
+    let messageTop = isSet ? "SET Won!" : "Not a SET!";
+    let messageBottom = isSet ? "+1 Point" : "-1 Point";
+    document.getElementById("game-message").classList.toggle(className);
+    document.getElementById("mesg-top").innerHTML = messageTop;
+    document.getElementById("mesg-bottom").innerHTML = messageBottom;
+    setTimeout(function(){
+      document.getElementById("game-message").classList.toggle(className);
+      document.getElementById("mesg-top").innerHTML = "<br>";
+      document.getElementById("mesg-bottom").innerHTML = "Look for a SET!";
+    }, 1000)
+}
 
   if(clickedCards.size >= 3) {
     displaySetMessage(checkIfSet());

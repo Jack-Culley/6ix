@@ -1,14 +1,32 @@
+/*
+* Author: Drew Holowaty
+*
+* Purpose: The purose of this JS script is to provide functions that enable the end user to 
+* select the number of human and CPU players for the Set classic game mode. The user is able to
+* input names for human players as well as select the difficulty for each computer player. 
+*/
+
+/*
+* HTML ID Naming conventions
+* 
+* text input for human player name: human_#
+*
+*/
+
+
 //global variables
 let humanPlayersCount = 0;
 let cpuPlayersCount = 0;
 const MAX_PLAYERS = 8;
+
+
 
 // fucntion to change html buttons, display warning messages, etc depending on the number of total
 // players selected
 function changeHTMLBasedOnPlayerNumber(){
 
     // if total players is greater than max count, display warning message and disable/enable buttons
-    if ((humanPlayersCount + cpuPlayersCount) > MAX_PLAYERS)
+    if ((humanPlayersCount + cpuPlayersCount) >= MAX_PLAYERS)
     {
         // display warning message
         document.getElementById("max_player_warning").style.display = "block";
@@ -83,6 +101,7 @@ function removeHumanPlayers(){
 function addCPUPlayers(){
     // creates and styles CPU component and adds options for all difficulties
     selectElement = document.createElement("select");
+    selectElement.setAttribute("id","cpu_"+cpuPlayersCount.toString());
 
     easyOption = document.createElement("option");
     easyOption.setAttribute("value","easy");
@@ -108,7 +127,6 @@ function addCPUPlayers(){
 
     // creates list item element
     newListElement = document.createElement("li");
-    newListElement.setAttribute("id","cpuListNumber_"+cpuPlayersCount.toString());
 
     newListElement.innerHTML = "CPU " + (cpuPlayersCount + 1).toString() + ":  "; 
     newListElement.appendChild(selectElement);
