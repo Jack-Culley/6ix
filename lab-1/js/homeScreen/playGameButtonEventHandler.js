@@ -1,4 +1,4 @@
-// import {generatePlayerObjects} from "../board/classicModeAddPlayers.js"
+import {generatePlayerObjects} from "../board/classicModeAddPlayers.js"
 
 // adds event listener on "Play Game!" button
 let playGameButton_element = document.getElementById("playGameButton");
@@ -21,7 +21,7 @@ function getPlayerData()
 
     let numberOfHumans = document.getElementById("humanPlayersList").getElementsByTagName("li").length;
     let numberOfCPUs = document.getElementById("cpuPlayersList").getElementsByTagName("li").length;
-    
+
     // loops through number of humans players, gets data based on generated list item ids
     for (let i = 0; i < numberOfHumans; i++) {
         let tempId = "human_" + i.toString();
