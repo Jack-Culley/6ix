@@ -86,16 +86,16 @@ function buttonClick(click) {
 
   if(clickedCards.size >= 3) {
     if(!checkIfSet()) {
-      document.getElementById("mesgTop").innerHTML = "Not a SET!"; //@GameFlow
-      document.getElementById("mesgBottom").innerHTML = "-1 Point"; //@GameFlow
+      document.getElementById("mesg-top").innerHTML = "Not a SET!"; //@GameFlow
+      document.getElementById("mesg-bottom").innerHTML = "-1 Point"; //@GameFlow
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
         highlightCard(cardObject.isClicked, cardElement, cardObject);
       })
     } else {
-      document.getElementById("mesgTop").innerHTML = "SET Won!"; //@GameFlow
-      document.getElementById("mesgBottom").innerHTML = "+1 Point"; //@GameFlow
+      document.getElementById("mesg-top").innerHTML = "SET Won!"; //@GameFlow
+      document.getElementById("mesg-bottom").innerHTML = "+1 Point"; //@GameFlow
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
