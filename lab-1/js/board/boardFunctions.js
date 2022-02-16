@@ -100,7 +100,7 @@ function buttonClick(click) {
         // we don't want to replace cards that have been added when there are
         // more than 12 cards on the board as per the rules
         board.splice(board.indexOf(cardObject), 1);
-        if(board.length < 12 && cards.length < 12) {
+        if(board.length < 12) {
           let newTile = document.createElement("div");
           newTile.className = "tile center card-container";
           let newCard = selectNewCard();
