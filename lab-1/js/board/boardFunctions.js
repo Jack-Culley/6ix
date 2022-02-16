@@ -104,14 +104,16 @@ function buttonClick(click) {
           let newTile = document.createElement("div");
           newTile.className = "tile center card-container";
           let newCard = selectNewCard();
-          let button = createButton(usedCards.length, newCard);
-          //removes old card from board
-          //this is used to make sure the cards get appended to the first empty slot on the grid
-          let nextIncompleteTile = addToEmptySpace();
-          board.push(newCard);
-          usedCards.push(newCard);
-          newTile.appendChild(button);
-          nextIncompleteTile.appendChild(newTile);
+          if(newCard !== null) {
+            let button = createButton(usedCards.length, newCard);
+            //removes old card from board
+            //this is used to make sure the cards get appended to the first empty slot on the grid
+            let nextIncompleteTile = addToEmptySpace();
+            board.push(newCard);
+            usedCards.push(newCard);
+            newTile.appendChild(button);
+            nextIncompleteTile.appendChild(newTile);
+          }
         }
       })
       clickedCards.clear();
