@@ -1,4 +1,4 @@
-import { getRandomInt } from './boardFunctions.js';
+import { getRandomInt } from '../cards/cardObjects.js'
 
 const easy = 1;
 const medium = 2;
@@ -93,7 +93,7 @@ showOdds(iCPU);
 //      * medium - 66%
 //      * hard - 76%
 //      * insane - 80%
-//      * 
+//      *
 //      * @returns false if no mistake should be made else true.
 //      */
 //     isMistake(){
