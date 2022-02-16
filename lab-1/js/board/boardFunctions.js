@@ -100,7 +100,7 @@ function buttonClick(click) {
         // we don't want to replace cards that have been added when there are
         // more than 12 cards on the board as per the rules
         board.splice(board.indexOf(cardObject), 1);
-        if(board.length < 12) {
+        if(board.length < 12 && cards.length < 12) {
           let newTile = document.createElement("div");
           newTile.className = "tile center card-container";
           let newCard = selectNewCard();
@@ -150,6 +150,25 @@ function cleanUp() {
   });
   // removes all existing event listeners
 }
+function clearBoard() {
+  let tileContainer = document.getElementById("card-container");
+  let length = tileContainer.children.length;
+  let children = [];
+  for(let i = 0; i < length; i++) {
+    let child = tileContainer.children.item(i);
+    children.push(child)
+  }
+  children.forEach((child) => {
+    tileContainer.remove(child);
+  })
+  let cardContainer = document.createElement("div");
+  cardContainer.className = "tile is-ancestor has-background-primary has-text-centered"
+  tileContainer.appendChild(cardContainer)
+  board.forEach(card => {
+    board.splice(board.indexOf(card), 1)
+    cards.push(card)
+  });
+}
 
 generateCards(cards);
-export { generateBoard, createAddCardButton };
+export { generateBoard, createAddCardButton, clearBoard };
