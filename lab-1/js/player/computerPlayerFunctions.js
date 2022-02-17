@@ -5,19 +5,6 @@ const medium = 2;
 const hard = 3;
 const insane = 4;
 
-class Player {
-    constructor(name) {
-        this.name = name;
-        this.score = 0;
-        this.sets = [];
-    }
-
-    increaseScore(num){
-        this.score += num;
-    }
-}
-
-//object implementation. May be more concise?
 function CPU(difficulty, name){
     this.difficulty = difficulty;
     this.score = 0;
@@ -27,13 +14,18 @@ function CPU(difficulty, name){
         if(getRandomInt(100/this.difficulty) < Math.floor(100/(this.difficulty+1))) return true;
         else return false;
     }
+    this.timeout = 15000 - 3000*this.difficulty;
 }
 
 function CPUTurn(cpu){
+    setTimeout(() => {}, cpu.timeout);
     if(cpu.isNextSetCorrect){
-        //cpu chooses a correct set
+        cpu.winSet(Array.from(boatSets).sets.pop());
+        cpu.increaseScore();
     } else {
-        //cpu chooses a random set
+        //what to do to show cpu guessed incorrectly?
+        //highlight random cards or just decrease score and display a message saying "CPU[] guessed incorrectly"
+        cpu.decrementScore();
     }
 }
 
@@ -102,3 +94,7 @@ showOdds(iCPU);
 //     }
 // }
 
+// var user = new Player("user");
+// //makes these two calls whenever game launches and the user is instantiated
+// CPU.prototype = user;
+// CPU.prototype.constructor = CPU;
