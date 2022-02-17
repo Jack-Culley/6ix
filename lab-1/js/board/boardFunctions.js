@@ -173,4 +173,4 @@ function clearBoard() {
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, clearBoard };
+export { generateBoard, createAddCardButton, clearBoard, board };
