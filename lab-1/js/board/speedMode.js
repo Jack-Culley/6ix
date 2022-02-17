@@ -1,4 +1,4 @@
-import { generateBoard, createAddCardButton, board } from './boardFunctions.js';
+import { generateBoard, createAddCardButton, cards, addCards, board } from './boardFunctions.js';
 
 let t = 3;
 let countDown = setInterval(gameStart, 1000);
@@ -31,18 +31,23 @@ function startTimer(){
 }
 
 function playGame(timer){
+  
   let int = setInterval(() => {
     if(board.length > 0){
-      document.getElementById("cardsLeft").innerHTML = "Cards Left: " + board.length;
+      document.getElementById("cardsLeft").innerHTML = "Cards Left: " + cards.length;
+      if(board.length < 12){
+        addCards();
+      }
     } else {
       clearInterval(int);
       stopGame();
     }
   }, 500);
   
+
   function stopGame(){
     clearInterval(timer);
-    document.getElementById("stopTimer").innerHTML = "You found all the sets in";
+    document.getElementById("stopTimer").innerHTML = "Well Done! You found all the sets in ";
   }
   
 }
