@@ -25,7 +25,10 @@ function startTimer(){
   var timeElapsed;
   let timer = setInterval(() => {
     timeElapsed = Date.now() - start;
-    document.getElementById("timer").innerHTML = (timeElapsed / 1000).toFixed(3) + " s";
+    let seconds = timeElapsed/1000;
+    let minutes = Math.floor(seconds/60);
+    seconds -= minutes*60;
+    document.getElementById("timer").innerHTML = " " + minutes + " m " + seconds.toFixed(3) + " s";
   }, 100);
   return timer;
 }
