@@ -59,6 +59,10 @@ function createAddCardButton() {
 //gets a new card randomly from the bank of unused cards
 function selectNewCard() {
   let randomCard = getRandomInt(cards.length);
+
+  if(cards.length === 0 || cards[randomCard] === null) {
+    return null;
+  }
   //splice returns an array
   return cards.splice(randomCard, 1)[0];
 }
