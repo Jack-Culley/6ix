@@ -266,4 +266,4 @@ function cleanUp() {
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats };
+export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats, highlightCard };

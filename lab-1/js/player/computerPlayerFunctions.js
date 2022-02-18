@@ -1,4 +1,4 @@
-import { getRandomInt } from '../cards/cardObjects.js'
+import { getRandomInt, highlightCard, board } from './boardFunctions.js';
 
 const easy = 1;
 const medium = 2;
@@ -17,15 +17,25 @@ function CPU(difficulty, name){
     this.timeout = 15000 - 3000*this.difficulty;
 }
 
+//function to do a CPU turn. When its time for a CPU to do something, can just call the function
 function CPUTurn(cpu){
     setTimeout(() => {}, cpu.timeout);
     if(cpu.isNextSetCorrect){
-        cpu.winSet(Array.from(boatSets).sets.pop());
+        cpu.winSet(Array.from(boardSets).sets.pop());
         cpu.increaseScore();
+        document.getElementById("game-move").innerHTML = "CPU" + cpu.name + "chose a correct set!";
     } else {
-        //what to do to show cpu guessed incorrectly?
-        //highlight random cards or just decrease score and display a message saying "CPU[] guessed incorrectly"
+        //highlights random cards for 2 seconds
+        highlightCard(true, board[getRandomInt(12)]);
+        highlightCard(true, board[getRandomInt(12)]);
+        highlightCard(true, board[getRandomInt(12)]);
+        setTimeout(() =>{
+            highlightCard(false, board[getRandomInt(12)]);
+            highlightCard(false, board[getRandomInt(12)]);
+            highlightCard(false, board[getRandomInt(12)]);
+        }, 2000);
         cpu.decrementScore();
+        document.getElementById("game-move").innerHTML = "CPU" + cpu.name + "chose an incorrect set!";
     }
 }
 
