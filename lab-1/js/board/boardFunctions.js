@@ -64,7 +64,6 @@ function checkIfSetOnBoard() {
     }
     clickedCards.delete(board[i]);
   }
-  console.log(currSets);
   return currSets;
 }
 
