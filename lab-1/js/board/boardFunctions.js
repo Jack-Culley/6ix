@@ -41,15 +41,15 @@ function checkIfSetOnBoard() {
   let currSets = new Set();
 
   //Loop through the "first" card in a potential set
-  for (let i = 0; i < board.size - 2; i++){
+  for (let i = 0; i < board.length - 2; i++){
     clickedCards.set(board[i], null);
 
     //Loop through the "second" card in a potential set
-    for (let j = i + 1; j < board.size - 1; j++){
+    for (let j = i + 1; j < board.length - 1; j++){
       clickedCards.set(board[j], null);
 
       //Loop through the "third" card in a potential set
-      for (let k = j + 1; k < board.size; k++){
+      for (let k = j + 1; k < board.length; k++){
         clickedCards.set(board[k], null);
 
         let validSet = checkIfSet();
@@ -97,7 +97,23 @@ function createHintButton() {
 }
 
 function giveHint() {
-  console.log("giveHint");
+  //Clear clicked cards so that the hint is the only highlighted card
+  for (const thisCard of clickedCards){
+    let card = thisCard[0];
+    let target = thisCard[1];
+    card.isClicked = false;
+    highlightCard(card.isClicked, target, card);
+  }
+  clickedCards.clear();
+  
+  for (const thisSet of boardSets){
+    let target = document.getElementById(thisSet[0] + 1);
+    let card = usedCards[thisSet[0]];
+    card.isClicked = true;
+    highlightCard(card.isClicked, target, card);
+    clickedCards.set(card, target);
+    break;
+  }
 }
 
 //gets a new card randomly from the bank of unused cards
