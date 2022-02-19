@@ -86,6 +86,10 @@ function buttonClick(click) {
 
   if(clickedCards.size >= 3) {
     if(!checkIfSet()) {
+      document.getElementById("game-message").classList.toggle("is-danger"); //@GameFlow
+      setTimeout(function(){
+        document.getElementById("game-message").classList.toggle("is-danger"); //@GameFlow
+      }, 1000);
       document.getElementById("mesg-top").innerHTML = "Not a SET!"; //@GameFlow
       document.getElementById("mesg-bottom").innerHTML = "-1 Point"; //@GameFlow
       clickedCards.forEach((cardElement, cardObject) => {
@@ -94,6 +98,10 @@ function buttonClick(click) {
         highlightCard(cardObject.isClicked, cardElement, cardObject);
       })
     } else {
+      document.getElementById("game-message").classList.toggle("is-success"); //@GameFlow
+      setTimeout(function(){
+        document.getElementById("game-message").classList.toggle("is-success"); //@GameFlow
+      }, 1000);
       document.getElementById("mesg-top").innerHTML = "SET Won!"; //@GameFlow
       document.getElementById("mesg-bottom").innerHTML = "+1 Point"; //@GameFlow
       cleanUp();
