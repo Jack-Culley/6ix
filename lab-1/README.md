@@ -1,5 +1,7 @@
 # Game of Set
 
+## Sources
+Card images courtesy of binc74 https://github.com/binc74/game-of-set/tree/master/Images
 ## Pre-requisites
 - Visual Studio Code or any IDE that can start a webserver
 - VSCode Live Server Extension
