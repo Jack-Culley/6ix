@@ -1,6 +1,5 @@
 "use strict"
 import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
-
 let clickedCards = new Map();
 let cards = [];
 let board = [];
@@ -59,10 +58,6 @@ function createAddCardButton() {
 //gets a new card randomly from the bank of unused cards
 function selectNewCard() {
   let randomCard = getRandomInt(cards.length);
-
-  if(cards.length === 0 || cards[randomCard] === null) {
-    return null;
-  }
   //splice returns an array
   return cards.splice(randomCard, 1)[0];
 }
@@ -88,8 +83,29 @@ function buttonClick(click) {
     clickedCards.set(card, target)
   }
 
+  //Displays a game message for 1 second based on validity of chosen cards. @GameFlow
+  function displaySetMessage(isSet) {
+    let className = isSet ? "is-success" : "is-danger";
+    let messageTop = isSet ? "SET Won!" : "Not a SET!";
+    let messageBottom;
+    if(document.getElementById("speed").firstChild.nodeValue.includes("Speed")){
+      messageBottom = isSet ? "" : "+5 seconds";
+    } else {
+      messageBottom = isSet ? "+1 Point" : "-1 Point";
+    }
+    document.getElementById("game-message").classList.toggle(className);
+    document.getElementById("mesg-top").innerHTML = messageTop; 
+    document.getElementById("mesg-bottom").innerHTML = messageBottom; 
+    setTimeout(function(){
+      document.getElementById("game-message").classList.toggle(className);
+      document.getElementById("mesg-top").innerHTML = "<br>"; 
+      document.getElementById("mesg-bottom").innerHTML = "Look for a SET!"; 
+    }, 1000)
+}
+
   if(clickedCards.size >= 3) {
-    if(!checkIfSet()) {
+    displaySetMessage(checkIfSet());
+    if(!checkIfSet()) {      
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
@@ -151,30 +167,11 @@ function generateBoard(numCards) {
 
 //gets called after a set is found
 function cleanUp() {
-  clickedCards.forEach((cardE, k) => {
+  clickedCards.forEach((cardE) => {
     cardE.removeEventListener("click", buttonClick);
   });
   // removes all existing event listeners
 }
-function clearBoard() {
-  let tileContainer = document.getElementById("card-container");
-  let length = tileContainer.children.length;
-  let children = [];
-  for(let i = 0; i < length; i++) {
-    let child = tileContainer.children.item(i);
-    children.push(child)
-  }
-  children.forEach((child) => {
-    tileContainer.remove(child);
-  })
-  let cardContainer = document.createElement("div");
-  cardContainer.className = "tile is-ancestor has-background-primary has-text-centered"
-  tileContainer.appendChild(cardContainer)
-  board.forEach(card => {
-    board.splice(board.indexOf(card), 1)
-    cards.push(card)
-  });
-}
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, clearBoard, usedCards, cards, board, addCards };
+export { generateBoard, createAddCardButton, addCards, board, cards };
