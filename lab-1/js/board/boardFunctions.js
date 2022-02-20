@@ -84,26 +84,30 @@ function buttonClick(click) {
     clickedCards.set(card, target)
   }
 
+  //Displays a game message for 1 second based on validity of chosen cards. @GameFlow
+  function displaySetMessage(isSet) {
+    let className = isSet ? "is-success" : "is-danger";
+    let messageTop = isSet ? "SET Won!" : "Not a SET!";
+    let messageBottom = isSet ? "+1 Point" : "-1 Point";
+    document.getElementById("game-message").classList.toggle(className);
+    document.getElementById("mesg-top").innerHTML = messageTop; 
+    document.getElementById("mesg-bottom").innerHTML = messageBottom; 
+    setTimeout(function(){
+      document.getElementById("game-message").classList.toggle(className);
+      document.getElementById("mesg-top").innerHTML = "<br>"; 
+      document.getElementById("mesg-bottom").innerHTML = "Look for a SET!"; 
+    }, 1000)
+}
+
   if(clickedCards.size >= 3) {
-    if(!checkIfSet()) {
-      document.getElementById("game-message").classList.toggle("is-danger"); //@GameFlow
-      setTimeout(function(){
-        document.getElementById("game-message").classList.toggle("is-danger"); //@GameFlow
-      }, 1000);
-      document.getElementById("mesg-top").innerHTML = "Not a SET!"; //@GameFlow
-      document.getElementById("mesg-bottom").innerHTML = "-1 Point"; //@GameFlow
+    displaySetMessage(checkIfSet());
+    if(!checkIfSet()) {      
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
         highlightCard(cardObject.isClicked, cardElement, cardObject);
       })
     } else {
-      document.getElementById("game-message").classList.toggle("is-success"); //@GameFlow
-      setTimeout(function(){
-        document.getElementById("game-message").classList.toggle("is-success"); //@GameFlow
-      }, 1000);
-      document.getElementById("mesg-top").innerHTML = "SET Won!"; //@GameFlow
-      document.getElementById("mesg-bottom").innerHTML = "+1 Point"; //@GameFlow
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
