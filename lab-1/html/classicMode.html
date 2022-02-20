@@ -12,12 +12,12 @@
         <link rel="stylesheet" href="../assets/style.css" />
         <script
             src="../js/board/classicModeAddPlayers.js"
-            type="text/javascript"
+            type="module"
         ></script>
         <title>Game of Set! - Classic Mode</title>
     </head>
     <body class="has-background-primary">
-        <section class="section is-flex is-justify-content-center">
+        <section class="section is-flex is-justify-content-center mb-6">
             <h1 class="title is-size-1" style="margin-bottom: 50px d">
                 Classic Mode
             </h1>
@@ -58,5 +58,13 @@
     </script>
     <script src="../js/board/classicModeAddPlayers.js" type="text/javascript" ></script>
     <footer class="footer has-background-primary"></footer>
+        <section class="section is-flex is-justify-content-center">
+            <button class="js-modal-trigger button is-rounded is-large">
+                SET!
+            </button>
+        </section>
+
+        <div class="columns py-6" id="playerDisplay"></div>
+        <footer class="footer has-background-primary"></footer>
     </body>
 </html>

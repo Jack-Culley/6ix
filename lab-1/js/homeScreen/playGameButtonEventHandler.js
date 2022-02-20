@@ -1,4 +1,3 @@
-import {generatePlayerObjects} from "../board/classicModeAddPlayers.js"
 
 // adds event listener on "Play Game!" button
 let playGameButton_element = document.getElementById("playGameButton");
@@ -7,13 +6,10 @@ let playGameButton_element = document.getElementById("playGameButton");
 playGameButton_element.addEventListener("click", getPlayerData);
 
 // moves to classic mode game window
-//playGameButton_element.addEventListener("click", () => {window.location.href='classicMode.html';});
+playGameButton_element.addEventListener("click", () => {window.location.href='classicMode.html';});
 
 
-// function to get data regarding number of human players selected, calls function from board 
-// functions with information array of players as an input. The baord function will create a player 
-// object for each element in the array, and generate the corresponding html to show this data on the
-// classic mode screen
+// function to get data regarding number of human players selected, stores arrays in sessionStorage
 function getPlayerData()
 {
     const humanPlayersArray = [];
@@ -42,7 +38,8 @@ function getPlayerData()
         cpuPlayersArray.push(difficulty);
     }
 
-    // // calls board function
-    generatePlayerObjects(humanPlayersArray,cpuPlayersArray);
+    // stores arrays for use on next screen
+    sessionStorage.setItem(humanPlayersArray);
+    sessionStorage.setItem(cpuPlayersArray);
 
 }
