@@ -55,16 +55,17 @@ function playGame(timer){
   //if board is empty, end the game
     } else {
       clearInterval(int);
-      stopGame();
+      stopGame(timer);
     }
   }, 500);
   
-//clears timer and shows the overall time
-  function stopGame(){
-    clearInterval(timer);
-    document.getElementById("stop-timer").innerHTML = "Well Done! You found all the sets in ";
-    document.getElementById("mesg-top").innerHTML = (speed.wins / (speed.wins + speed.loses)) * 100 + "% accuracy";
-  }
-  
 }
+
+//clears timer and shows the overall time
+function stopGame(timer){
+  clearInterval(timer);
+  document.getElementById("stop-timer").innerHTML = "Well Done! You found all the sets in ";
+  document.getElementById("mesg-top").innerHTML = (speed.wins / (speed.wins + speed.loses)) * 100 + "% accuracy";
+}
+
 export {speed};
