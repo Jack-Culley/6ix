@@ -1,6 +1,6 @@
 import { generateBoard, createAddCardButton, cards, addCards, board } from './boardFunctions.js';
 
-var speed = {
+let speed = {
   wins: 0,
   loses: 0,
   time: 0,
@@ -28,7 +28,7 @@ function gameStart() {
 
 
 //starts game clock and returns the timer object
-var timeElapsed;
+let timeElapsed;
 function startTimer(){
   let start = Date.now();
   //uses javascript date object finds difference between initial time and current time for total 
