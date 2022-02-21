@@ -1,6 +1,6 @@
 "use strict"
-import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
-
+import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js';
+import { speed } from '../board/speedMode.js';
 let clickedCards = new Map();
 let cards = [];
 let board = [];
@@ -92,11 +92,24 @@ function buttonClick(click) {
   function displaySetMessage(isSet) {
     let className = isSet ? "is-success" : "is-danger";
     let messageTop = isSet ? "SET Won!" : "Not a SET!";
-    let messageBottom = isSet ? "+1 Point" : "-1 Point";
+    let messageBottom;
+    if(document.getElementById("speed").firstChild.nodeValue.includes("Speed")){
+      if(!isSet){
+        messageBottom = '+5 seconds';
+        speed.loses += 1;
+        speed.time += 1;
+      } else {
+      speed.wins += 1;
+      messageBottom = "<br>";
+      }
+    } else {
+      messageBottom = isSet ? "+1 Point" : "-1 Point";
+    }
     document.getElementById("game-message").classList.toggle(className);
     document.getElementById("mesg-top").innerHTML = messageTop; 
     document.getElementById("mesg-bottom").innerHTML = messageBottom; 
     setTimeout(function(){
+      if(board.length == 0) return;
       document.getElementById("game-message").classList.toggle(className);
       document.getElementById("mesg-top").innerHTML = "<br>"; 
       document.getElementById("mesg-bottom").innerHTML = "Look for a SET!"; 
@@ -167,11 +180,11 @@ function generateBoard(numCards) {
 
 //gets called after a set is found
 function cleanUp() {
-  clickedCards.forEach((cardE, k) => {
+  clickedCards.forEach((cardE) => {
     cardE.removeEventListener("click", buttonClick);
   });
   // removes all existing event listeners
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton };
+export { generateBoard, createAddCardButton, addCards, board, cards };
