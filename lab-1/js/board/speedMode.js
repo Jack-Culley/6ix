@@ -38,7 +38,7 @@ function startTimer(){
     let seconds = timeElapsed/1000 + speed.time*5;
     let minutes = Math.floor(seconds/60);
     seconds -= minutes*60;
-    document.getElementById("timer").innerHTML = " " + minutes + " m " + seconds.toFixed(3) + " s";
+    document.getElementById("timer").innerHTML = minutes + " m " + seconds.toFixed(3) + " s";
   }, 100);
   return timer;
 }
@@ -64,8 +64,8 @@ function playGame(timer){
 //clears timer and shows the overall time
 function stopGame(timer){
   clearInterval(timer);
-  document.getElementById("stop-timer").innerHTML = "Well Done! You found all the sets in ";
-  document.getElementById("mesg-top").innerHTML = (speed.wins / (speed.wins + speed.loses)) * 100 + "% accuracy";
+  document.getElementById("stop-timer").innerHTML = "Well Done! You found all the sets in:";
+  document.getElementById("mesg-bottom").innerHTML = ((speed.wins / (speed.wins + speed.loses)) * 100).toFixed(1) + "% accuracy";
 }
 
 export {speed};
