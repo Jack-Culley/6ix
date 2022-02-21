@@ -1,5 +1,6 @@
 "use strict"
-import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
+import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js';
+import { speed } from '../board/speedMode.js';
 let clickedCards = new Map();
 let cards = [];
 let board = [];
@@ -58,6 +59,10 @@ function createAddCardButton() {
 //gets a new card randomly from the bank of unused cards
 function selectNewCard() {
   let randomCard = getRandomInt(cards.length);
+
+  if(cards.length === 0 || cards[randomCard] === null) {
+    return null;
+  }
   //splice returns an array
   return cards.splice(randomCard, 1)[0];
 }
@@ -87,9 +92,13 @@ function buttonClick(click) {
   function displaySetMessage(isSet) {
     let className = isSet ? "is-success" : "is-danger";
     let messageTop = isSet ? "SET Won!" : "Not a SET!";
-    let messageBottom;
+    let messageBottom = "";
     if(document.getElementById("speed").firstChild.nodeValue.includes("Speed")){
-      messageBottom = isSet ? "" : "+5 seconds";
+      if(!isSet){
+        messageBottom = '+5 seconds';
+        speed.loses += 1;
+        speed.time += 1;
+      } else speed.wins += 1;
     } else {
       messageBottom = isSet ? "+1 Point" : "-1 Point";
     }

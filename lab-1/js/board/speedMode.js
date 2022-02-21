@@ -1,5 +1,11 @@
 import { generateBoard, createAddCardButton, cards, addCards, board } from './boardFunctions.js';
 
+var speed = {
+  wins: 0,
+  loses: 0,
+  time: 0,
+}
+
 let t = 3;
 let countDown = setInterval(gameStart, 1000);
 document.getElementById("mesg-top").innerHTML = "Get Ready!"; //@GameFlow
@@ -20,14 +26,16 @@ function gameStart() {
   }
 }
 
+
 //starts game clock and returns the timer object
+var timeElapsed;
 function startTimer(){
   let start = Date.now();
   //uses javascript date object finds difference between initial time and current time for total 
   //elapsed time. more accurate than setTimeout.
   let timer = setInterval(() => {
-    let timeElapsed = Date.now() - start;
-    let seconds = timeElapsed/1000;
+    timeElapsed = Date.now() - start;
+    let seconds = timeElapsed/1000 + speed.time*5;
     let minutes = Math.floor(seconds/60);
     seconds -= minutes*60;
     document.getElementById("timer").innerHTML = " " + minutes + " m " + seconds.toFixed(3) + " s";
@@ -55,6 +63,8 @@ function playGame(timer){
   function stopGame(){
     clearInterval(timer);
     document.getElementById("stop-timer").innerHTML = "Well Done! You found all the sets in ";
+    document.getElementById("mesg-top").innerHTML = (speed.wins / (speed.wins + speed.loses)) * 100 + "% accuracy";
   }
   
 }
+export {speed};
