@@ -1,7 +1,9 @@
-import { speedModeStats, generateBoard, createAddCardButton, cards, addCards, board } from './boardFunctions.js';
+import { speedModeStats, generateBoard, createAddCardButton, cards, addCards, board, createHintButton } from './boardFunctions.js';
 
 let t = 3;
 let countDown = setInterval(gameStart, 1000);
+document.getElementById("add-card-button").style.display = 'none'; //@GameFlow
+document.getElementById("hint-button").style.display = "none"; //@GameFlow
 document.getElementById("mesg-top").innerHTML = "Get Ready!"; //@GameFlow
 function gameStart() {
   //updates countdown until game starts
@@ -14,8 +16,11 @@ function gameStart() {
     document.getElementById("mesg-top").innerHTML = "Cards Dealt"; //@GameFlow
     document.getElementById("mesg-bottom").innerHTML = "Find all the SETS!"; //@GameFlow
     clearInterval(countDown);
+    document.getElementById("add-card-button").style.display = 'block'; //@GameFlow
+    document.getElementById("hint-button").style.display = 'block'; //@GameFlow
     generateBoard(12);
     createAddCardButton();
+    createHintButton();
     playGame(startTimer());
   }
 }
