@@ -4,6 +4,7 @@ let clickedCards = new Map();
 let cards = [];
 let board = [];
 let usedCards = [];
+let boardSets = new Set();
 let speedModeStats = {
   wins: 0,
   loses: 0,
@@ -27,7 +28,7 @@ function checkIfSet() {
   let shades = new Set();
   clickedCards.forEach((v, card) => {
     colors.add(card.color);
-    shapes.add(card.shapes);
+    shapes.add(card.shape);
     numSymbs.add(card.numSymb);
     shades.add(card.shade);
   });
@@ -36,7 +37,38 @@ function checkIfSet() {
   let numSymbsValid = (numSymbs.size === 1 || numSymbs.size === 3);
   let shadesValid = (shades.size === 1 || shades.size === 3);
 
-  return colorsValid && shapesValid && numSymbsValid && shadesValid
+  return colorsValid && shapesValid && numSymbsValid && shadesValid;
+}
+
+//Function that returns a set whose elements are arrays, and the array elements are the indicies of usedCards that create a set
+function checkIfSetOnBoard() {
+  let currSets = new Set();
+
+  //Loop through the "first" card in a potential set
+  for (let i = 0; i < board.length - 2; i++){
+    clickedCards.set(board[i], null);
+
+    //Loop through the "second" card in a potential set
+    for (let j = i + 1; j < board.length - 1; j++){
+      clickedCards.set(board[j], null);
+
+      //Loop through the "third" card in a potential set
+      for (let k = j + 1; k < board.length; k++){
+        clickedCards.set(board[k], null);
+
+        let validSet = checkIfSet();
+        if (validSet){
+          let thisSet = [usedCards.indexOf(board[i]), usedCards.indexOf(board[j]), usedCards.indexOf(board[k])];
+          currSets.add(thisSet);
+        }
+
+        clickedCards.delete(board[k]);
+      }
+      clickedCards.delete(board[j]);
+    }
+    clickedCards.delete(board[i]);
+  }
+  return currSets;
 }
 
 //creates a button for the td element
@@ -53,11 +85,38 @@ function createButton(id, card) {
 function addCards() {
   let numCards = cards.length >= 3 ? 3 : cards.length;
   generateBoard(numCards);
+  boardSets = checkIfSetOnBoard();
 }
 
 function createAddCardButton() {
   let button = document.getElementById("add-card-button");
   button.addEventListener("click", () => addCards())
+}
+
+function createHintButton() {
+  let button = document.getElementById("hint-button");
+  button.addEventListener("click", () => giveHint());
+  boardSets = checkIfSetOnBoard();
+}
+
+function giveHint() {
+  //Clear clicked cards so that the hint is the only highlighted card
+  for (const thisCard of clickedCards){
+    let card = thisCard[0];
+    let target = thisCard[1];
+    card.isClicked = false;
+    highlightCard(card.isClicked, target, card);
+  }
+  clickedCards.clear();
+  
+  for (const thisSet of boardSets){
+    let target = document.getElementById(thisSet[0] + 1);
+    let card = usedCards[thisSet[0]];
+    card.isClicked = true;
+    highlightCard(card.isClicked, target, card);
+    clickedCards.set(card, target);
+    break;
+  }
 }
 
 //gets a new card randomly from the bank of unused cards
@@ -154,6 +213,7 @@ function buttonClick(click) {
         }
       })
       clickedCards.clear();
+      boardSets = checkIfSetOnBoard();
     }
   }
 }
@@ -191,4 +251,4 @@ function cleanUp() {
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, addCards, board, cards, speedModeStats };
+export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats };
