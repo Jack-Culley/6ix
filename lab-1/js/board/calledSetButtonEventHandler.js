@@ -16,7 +16,7 @@ function chooseHumanPlayer() {
         let chooseHumanPlayersModal = document.getElementById("chooseHumanPlayers");
 
         // calls function to allow player to pick sets
-        playerButton.addEventListener("click",() => {humanPlayers[i].executeTurn()});
+        playerButton.addEventListener("click",() => { humanPlayers[i].isTurn = true });
 
         // closes modal
         playerButton.addEventListener("click", () => {chooseHumanPlayersModal.classList.remove('is-active');});

@@ -1,5 +1,7 @@
 "use strict"
-import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js';
+import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
+import { humanPlayers } from "../board/classicModeAddPlayers.js"
+
 let clickedCards = new Map();
 let cards = [];
 let board = [];
@@ -38,7 +40,6 @@ function checkIfSet() {
   let shadesValid = (shades.size === 1 || shades.size === 3);
 
   return colorsValid && shapesValid && numSymbsValid && shadesValid;
-<<<<<<< HEAD
 }
 
 //Function that returns a set whose elements are arrays, and the array elements are the indicies of usedCards that create a set
@@ -70,8 +71,6 @@ function checkIfSetOnBoard() {
     clickedCards.delete(board[i]);
   }
   return currSets;
-=======
->>>>>>> player class updated
 }
 
 //creates a button for the td element
@@ -173,6 +172,11 @@ function displaySetMessage(isSet) {
 
 //Button click event listener that handles set checking and card highlighting
 function buttonClick(click) {
+  let human = humanPlayers.filter((player) => player.isTurn);
+  if(human.length === 0) {
+    return;
+  }
+  console.log(human)
   let target = click.target;
   let cardIndex = parseInt(target.id) - 1;
   let card = usedCards[cardIndex];
@@ -195,17 +199,19 @@ function buttonClick(click) {
       document.getElementById("mesg-top").innerHTML = "<br>";
       document.getElementById("mesg-bottom").innerHTML = "Look for a SET!";
     }, 1000)
-}
+  }
 
   if(clickedCards.size >= 3) {
     displaySetMessage(checkIfSet());
     if(!checkIfSet()) {
+      human[0].failedSet();
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
         highlightCard(cardObject.isClicked, cardElement, cardObject);
       })
     } else {
+      human[0].gotSet();
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
@@ -230,9 +236,14 @@ function buttonClick(click) {
           }
         }
       })
+<<<<<<< HEAD
       clickedCards.clear();
       boardSets = checkIfSetOnBoard();
+=======
+>>>>>>> Refactoring button click event handler to handle player interations
     }
+    human[0].updateHTML();
+    clickedCards.clear();
   }
 }
 
