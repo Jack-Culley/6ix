@@ -1,11 +1,15 @@
 "use strict"
-import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
-
+import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js';
 let clickedCards = new Map();
 let cards = [];
 let board = [];
 let usedCards = [];
 let boardSets = new Set();
+let speedModeStats = {
+  wins: 0,
+  loses: 0,
+  time: 0,
+}
 
 function highlightCard(isClicked, cardElement, cardObject) {
   if(isClicked) {
@@ -136,6 +140,34 @@ function addToEmptySpace() {
   return columnArray.filter((column) => column.children.length < 4)[0];
 }
 
+//Displays a game message for 1 second based on validity of chosen cards. @GameFlow
+function displaySetMessage(isSet) {
+  let className = isSet ? "is-success" : "is-danger";
+  let messageTop = isSet ? "SET Won!" : "Not a SET!";
+  let messageBottom;
+  if(document.getElementById("speed")?.firstChild.nodeValue.includes("Speed")){
+    if(!isSet){
+      messageBottom = '+5 seconds';
+      speedModeStats.loses += 1;
+      speedModeStats.time += 1;
+    } else {
+    speedModeStats.wins += 1;
+    messageBottom = "<br>";
+    }
+  } else {
+    messageBottom = isSet ? "+1 Point" : "-1 Point";
+  }
+  document.getElementById("game-message").classList.toggle(className);
+  document.getElementById("mesg-top").innerHTML = messageTop;
+  document.getElementById("mesg-bottom").innerHTML = messageBottom;
+  setTimeout(function(){
+    if(board.length == 0) return;
+    document.getElementById("game-message").classList.toggle(className);
+    document.getElementById("mesg-top").innerHTML = "<br>";
+    document.getElementById("mesg-bottom").innerHTML = "Look for a SET!";
+  }, 1000)
+}
+
 //Button click event listener that handles set checking and card highlighting
 function buttonClick(click) {
   let target = click.target;
@@ -147,24 +179,9 @@ function buttonClick(click) {
     clickedCards.set(card, target)
   }
 
-  //Displays a game message for 1 second based on validity of chosen cards. @GameFlow
-  function displaySetMessage(isSet) {
-    let className = isSet ? "is-success" : "is-danger";
-    let messageTop = isSet ? "SET Won!" : "Not a SET!";
-    let messageBottom = isSet ? "+1 Point" : "-1 Point";
-    document.getElementById("game-message").classList.toggle(className);
-    document.getElementById("mesg-top").innerHTML = messageTop; 
-    document.getElementById("mesg-bottom").innerHTML = messageBottom; 
-    setTimeout(function(){
-      document.getElementById("game-message").classList.toggle(className);
-      document.getElementById("mesg-top").innerHTML = "<br>"; 
-      document.getElementById("mesg-bottom").innerHTML = "Look for a SET!"; 
-    }, 1000)
-}
-
   if(clickedCards.size >= 3) {
     displaySetMessage(checkIfSet());
-    if(!checkIfSet()) {      
+    if(!checkIfSet()) {
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
@@ -227,11 +244,11 @@ function generateBoard(numCards) {
 
 //gets called after a set is found
 function cleanUp() {
-  clickedCards.forEach((cardE, k) => {
+  clickedCards.forEach((cardE) => {
     cardE.removeEventListener("click", buttonClick);
   });
   // removes all existing event listeners
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, createHintButton };
+export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats };

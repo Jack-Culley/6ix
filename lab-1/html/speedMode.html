@@ -6,12 +6,51 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="icon" href="../assets/indexScreenImages/setLogo.png">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Game of Set! - Speed Mode</title>
   </head>
-  <body class="has-background-primary"></body>
-    <h1>
-        Speed Mode
-    </h1>
-    <footer class="footer has-background-primary"> 
+  <body class="has-background-primary">
+    <section class="section is-flex is-justify-content-center">
+      <h1 id="speed" class="title is-size-1" style="margin-bottom: 50px d">
+          Speed Mode
+      </h1>
+    </section>
+
+
+    <section id = "game-message" class="hero is-info is-small is-justify-content-center">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <p id="mesg-top" class="title">
+            <br>
+            <!--Top Message updated by game functions-->
+          </p>
+          <p id="mesg-bottom" class="title">
+            <br>
+            <!--Bottom message updated by game functions-->
+          </p>
+          <p id="cards-left" class="title">
+            <br>
+            <!--# cards left updated by speedmode functions-->
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-flex is-flex-direction-column is-align-items-center">
+      <p id="stop-timer" class="title"></p>
+      <p id="timer" class="title"></p>
+    </section>
+    <section class="section is-flex is-justify-content-center">
+      <button id="add-card-button" class="button is-dark">Add more cards</button>
+    </section>
+      <div class="tile-container is-flex is-justify-content-center">
+        <div id="card-container" class="tile is-ancestor has-background-primary has-text-centered"></div>
+      </div>
+    <footer class="footer has-background-primary">
     </footer>
+  <!-- <script src="../cardObjects.js"> -->
+  <script src="../js/board/speedMode.js" type="module">
+
+  </script>
   </body>
+</html>
