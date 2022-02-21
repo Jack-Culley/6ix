@@ -1,5 +1,7 @@
 "use strict"
-import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js';
+import { Card, generateCards, getRandomInt } from '../cards/cardObjects.js'
+import { humanPlayers } from "../board/classicModeAddPlayers.js"
+
 let clickedCards = new Map();
 let cards = [];
 let board = [];
@@ -108,7 +110,7 @@ function giveHint() {
     highlightCard(card.isClicked, target, card);
   }
   clickedCards.clear();
-  
+
   for (const thisSet of boardSets){
     let target = document.getElementById(thisSet[0] + 1);
     let card = usedCards[thisSet[0]];
@@ -170,6 +172,11 @@ function displaySetMessage(isSet) {
 
 //Button click event listener that handles set checking and card highlighting
 function buttonClick(click) {
+  let human = humanPlayers.filter((player) => player.isTurn);
+  if(human.length === 0) {
+    return;
+  }
+  console.log(human)
   let target = click.target;
   let cardIndex = parseInt(target.id) - 1;
   let card = usedCards[cardIndex];
@@ -179,15 +186,32 @@ function buttonClick(click) {
     clickedCards.set(card, target)
   }
 
+  //Displays a game message for 1 second based on validity of chosen cards. @GameFlow
+  function displaySetMessage(isSet) {
+    let className = isSet ? "is-success" : "is-danger";
+    let messageTop = isSet ? "SET Won!" : "Not a SET!";
+    let messageBottom = isSet ? "+1 Point" : "-1 Point";
+    document.getElementById("game-message").classList.toggle(className);
+    document.getElementById("mesg-top").innerHTML = messageTop;
+    document.getElementById("mesg-bottom").innerHTML = messageBottom;
+    setTimeout(function(){
+      document.getElementById("game-message").classList.toggle(className);
+      document.getElementById("mesg-top").innerHTML = "<br>";
+      document.getElementById("mesg-bottom").innerHTML = "Look for a SET!";
+    }, 1000)
+  }
+
   if(clickedCards.size >= 3) {
     displaySetMessage(checkIfSet());
     if(!checkIfSet()) {
+      human[0].failedSet();
       clickedCards.forEach((cardElement, cardObject) => {
         cardObject.isClicked = false;
         //unhighlights a card if selected cards are not part of a set
         highlightCard(cardObject.isClicked, cardElement, cardObject);
       })
     } else {
+      human[0].gotSet();
       cleanUp();
       //adds the new cards to the board
       clickedCards.forEach((cardElement, cardObject) => {
@@ -215,6 +239,8 @@ function buttonClick(click) {
       clickedCards.clear();
       boardSets = checkIfSetOnBoard();
     }
+    human[0].updateHTML();
+    clickedCards.clear();
   }
 }
 
@@ -251,4 +277,4 @@ function cleanUp() {
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats };
+export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats, highlightCard, clickedCards, checkIfSet };
