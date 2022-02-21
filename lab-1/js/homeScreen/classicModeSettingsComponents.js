@@ -1,14 +1,14 @@
 /*
 * Author: Drew Holowaty
 *
-* Purpose: The purose of this JS script is to provide functions that enable the end user to 
+* Purpose: The purose of this JS script is to provide functions that enable the end user to
 * select the number of human and CPU players for the Set classic game mode. The user is able to
-* input names for human players as well as select the difficulty for each computer player. 
+* input names for human players as well as select the difficulty for each computer player.
 */
 
 /*
 * HTML ID Naming conventions
-* 
+*
 * text input for human player name: human_#
 *
 */
@@ -16,7 +16,6 @@
 
 //global variables
 let humanPlayersCount = 0;
-let cpuPlayersCount = 0;
 const MAX_PLAYERS = 8;
 
 
@@ -26,18 +25,16 @@ const MAX_PLAYERS = 8;
 function changeHTMLBasedOnPlayerNumber(){
 
     // if total players is greater than max count, display warning message and disable/enable buttons
-    if ((humanPlayersCount + cpuPlayersCount) >= MAX_PLAYERS)
+    if ((humanPlayersCount) >= MAX_PLAYERS)
     {
         // display warning message
         document.getElementById("max_player_warning").style.display = "block";
         // disable add item buttons
         document.getElementById("addHumanPlayersButton").disabled = true;
-        document.getElementById("addCPUPlayersButton").disabled = true;
     } else {
         document.getElementById("max_player_warning").style.display = "none";
         // enable add item buttons
         document.getElementById("addHumanPlayersButton").disabled = false;
-        document.getElementById("addCPUPlayersButton").disabled = false;
     }
 
     // if count for humans or cpu players is more than 0, enable "delete item" button
@@ -47,14 +44,6 @@ function changeHTMLBasedOnPlayerNumber(){
     } else {
         document.getElementById("removeHumanPlayersButton").disabled = true;
     }
-
-    if(cpuPlayersCount > 0)
-    {
-        document.getElementById("removeCPUPlayersButton").disabled = false;
-    } else {
-        document.getElementById("removeCPUPlayersButton").disabled = true;
-    }
-
 };
 
 // function to add number of human players to classicMode
@@ -72,8 +61,8 @@ function addHumanPlayers(){
     // creates and list item element
     newListElement = document.createElement("li");
     newListElement.setAttribute("id","humanListNumber_"+humanPlayersCount.toString());
-    
-    newListElement.innerHTML = "Player " + (humanPlayersCount + 1).toString() + ":  "; 
+
+    newListElement.innerHTML = "Player " + (humanPlayersCount + 1).toString() + ":  ";
     newListElement.appendChild(newInputBox);
 
     document.getElementById("humanPlayersList").appendChild(newListElement);
@@ -93,62 +82,6 @@ function removeHumanPlayers(){
 
         listParent.removeChild(listItemChild);
         humanPlayersCount--;
-        changeHTMLBasedOnPlayerNumber();
-    }
-}
-
-// function to add number of cpu players to classicMode as well as their difficulty 
-function addCPUPlayers(){
-    // creates and styles CPU component and adds options for all difficulties
-    selectElement = document.createElement("select");
-    selectElement.setAttribute("id","cpu_"+cpuPlayersCount.toString());
-
-    easyOption = document.createElement("option");
-    easyOption.setAttribute("value","easy");
-    easyOption.innerHTML = "Easy";
-
-    mediumOption = document.createElement("option");
-    mediumOption.setAttribute("value","medium");
-    mediumOption.innerHTML = "Medium";
-
-    hardOption = document.createElement("option");
-    hardOption.setAttribute("value","hard");
-    hardOption.innerHTML = "Hard";
-
-    insaneOption = document.createElement("option");
-    insaneOption.setAttribute("value","insane");
-    insaneOption.innerHTML = "Insane";
-
-    selectElement.appendChild(easyOption);
-    selectElement.appendChild(mediumOption);
-    selectElement.appendChild(hardOption);
-    selectElement.appendChild(insaneOption);
-
-
-    // creates list item element
-    newListElement = document.createElement("li");
-
-    newListElement.innerHTML = "CPU " + (cpuPlayersCount + 1).toString() + ":  "; 
-    newListElement.appendChild(selectElement);
-
-    document.getElementById("cpuPlayersList").appendChild(newListElement);
-
-    cpuPlayersCount++;
-    changeHTMLBasedOnPlayerNumber();
-
-}
-
-// function to remove cpu player
-function removeCPUPlayers(){
-    if (cpuPlayersCount < 1)
-    {
-        return; // does nothing because there is no players to remove
-    } else {
-        let listParent = document.getElementById("cpuPlayersList");
-        let listItemChild = document.getElementById("cpuListNumber_"+(cpuPlayersCount - 1).toString());
-
-        listParent.removeChild(listItemChild);
-        cpuPlayersCount--;
         changeHTMLBasedOnPlayerNumber();
     }
 }

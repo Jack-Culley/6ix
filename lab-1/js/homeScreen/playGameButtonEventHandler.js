@@ -13,10 +13,8 @@ playGameButton_element.addEventListener("click", () => {window.location.href='cl
 function getPlayerData()
 {
     const humanPlayersArray = [];
-    const cpuPlayersArray = [];
 
     let numberOfHumans = document.getElementById("humanPlayersList").getElementsByTagName("li").length;
-    let numberOfCPUs = document.getElementById("cpuPlayersList").getElementsByTagName("li").length;
 
     // loops through number of humans players, gets data based on generated list item ids
     for (let i = 0; i < numberOfHumans; i++) {
@@ -25,21 +23,12 @@ function getPlayerData()
 
         // if name is not given, default name of "player_#" is given
         if (name.localeCompare('') == 0) {
-            name = "Player " + (i + 1).toString(); 
+            name = "Player " + (i + 1).toString();
         }
         humanPlayersArray.push(name);
     }
 
-    // loops through number of cpu players, gets data based on generated list item ids
-    for(let i = 0; i < numberOfCPUs; i++) {
-        let tempId = "cpu_" + i.toString();
-        let tempElement = document.getElementById(tempId);
-        let difficulty = tempElement.options[tempElement.selectedIndex].text;
-        cpuPlayersArray.push(difficulty);
-    }
 
     // stores arrays for use on next screen
     sessionStorage.setItem("humanPlayersArray",humanPlayersArray);
-    sessionStorage.setItem("cpuPlayersArray",cpuPlayersArray);
-
 }
