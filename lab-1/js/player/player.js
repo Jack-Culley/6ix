@@ -1,18 +1,23 @@
+import {clickedCards, checkIfSet} from "../board/boardFunctions.js";
 class Player{
 	//Constructor for player objects
 	constructor(name) {
 		this.name = name;
 		this.score = 0;
 		this.sets = [];
-		this.isTurn = false;
 	}
 
 	// function to add set
 	executeTurn() {
 		// function to get set of cards
-		// if returned cards is set
-		this.sets.push(/*returned set*/);
-		this.score++;
+		console.log(clickedCards);
+		if(clickedCards.size >= 3) {
+			if(!checkIfSet()){
+				this.score--;
+			} else {
+				this.score++;
+			}
+		}
 		// updates html
 		let playerID = this.name + "_scoreID";
 		let scoreText = document.getElementById(playerID);

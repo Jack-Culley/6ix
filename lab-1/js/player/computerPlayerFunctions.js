@@ -5,11 +5,13 @@ const medium = 2;
 const hard = 3;
 const insane = 4;
 
-function CPU(difficulty, name){
-    this.difficulty = difficulty;
-    this.score = 0;
-    this.sets = [];
-    this.name = name;
+class CPU {
+    constructor(difficulty, name) {
+        this.difficulty = difficulty;
+        this.score = 0;
+        this.sets = [];
+        this.name = name;
+    }
     this.isNextSetCorrect = function(){
         if(getRandomInt(100/this.difficulty) < Math.floor(100/(this.difficulty+1))) return true;
         else return false;
@@ -103,6 +105,8 @@ showOdds(iCPU);
 //         else return true;
 //     }
 // }
+
+export { CPU };
 
 // var user = new Player("user");
 // //makes these two calls whenever game launches and the user is instantiated

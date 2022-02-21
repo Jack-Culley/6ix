@@ -39,7 +39,7 @@ function getPlayerData()
     }
 
     // stores arrays for use on next screen
-    sessionStorage.setItem(humanPlayersArray);
-    sessionStorage.setItem(cpuPlayersArray);
+    sessionStorage.setItem("humanPlayersArray",humanPlayersArray);
+    sessionStorage.setItem("cpuPlayersArray",cpuPlayersArray);
 
 }

@@ -38,6 +38,7 @@ function checkIfSet() {
   let shadesValid = (shades.size === 1 || shades.size === 3);
 
   return colorsValid && shapesValid && numSymbsValid && shadesValid;
+<<<<<<< HEAD
 }
 
 //Function that returns a set whose elements are arrays, and the array elements are the indicies of usedCards that create a set
@@ -69,6 +70,8 @@ function checkIfSetOnBoard() {
     clickedCards.delete(board[i]);
   }
   return currSets;
+=======
+>>>>>>> player class updated
 }
 
 //creates a button for the td element
@@ -266,4 +269,4 @@ function cleanUp() {
 }
 
 generateCards(cards);
-export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats, highlightCard };
+export { generateBoard, createAddCardButton, addCards, createHintButton, board, cards, speedModeStats, highlightCard, clickedCards, checkIfSet };

@@ -9,13 +9,13 @@ function generatePlayerObjects(){
 
 
     let humanPlayersNamesStr = sessionStorage.getItem("humanPlayersArray");
-    const humanPlayersNames = humanPlayersNamesStr == null ? [] : humanPlayersNamesStr.split(",");
+    const humanPlayersNames = humanPlayersNamesStr === "" ? [] : humanPlayersNamesStr.split(",");
 
     let cpuPlayersNamesStr = sessionStorage.getItem("cpuPlayersArray");
-    const cpuPlayersNames = cpuPlayersNamesStr == null ? [] : cpuPlayersNamesStr.split(",");
-    
-    let playerDisplay = document.getElementById("playerDisplay");
+    const cpuPlayersNames = cpuPlayersNamesStr === "" ? [] : cpuPlayersNamesStr.split(",");
 
+    let playerDisplay = document.getElementById("playerDisplay");
+    
     // loops through humanPlayersNames, generates corresponding html element and objects
     for (let i=0; i < humanPlayersNames.length; i++) {
         // creates individual column
