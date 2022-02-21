@@ -1,18 +1,19 @@
-import { Player } from "../player/player.js";
+import { Player, CPU } from "../player/player.js";
 
 export const humanPlayers = [];
+export const cpuPlayers = [];
 
 // function to generate objects for computer and human players
 // humanPlayersNames: [Player 1, Player 2, ...]
-// cpuPlayersNames: [easy, medium, hard, insane, ...]
+// cpuPlayerDifficulty: [easy, medium, hard, insane, ...]
 function generatePlayerObjects(){
 
 
     let humanPlayersNamesStr = sessionStorage.getItem("humanPlayersArray");
     const humanPlayersNames = humanPlayersNamesStr === "" ? [] : humanPlayersNamesStr.split(",");
 
-    let cpuPlayersNamesStr = sessionStorage.getItem("cpuPlayersArray");
-    const cpuPlayersNames = cpuPlayersNamesStr === "" ? [] : cpuPlayersNamesStr.split(",");
+    let cpuPlayersDifficultyStr = sessionStorage.getItem("cpuPlayersArray");
+    const cpuPlayerDifficulty = cpuPlayersDifficultyStr === "" ? [] : cpuPlayersDifficultyStr.split(",");
 
     let playerDisplay = document.getElementById("playerDisplay");
     
@@ -43,16 +44,34 @@ function generatePlayerObjects(){
         playerDisplay.appendChild(playerColumn);
     }
 
-     // loops through cpuPlayersNames, generates corresponding html element and objects
-     for (let i=0; i < cpuPlayersNames.length; i++) {
+     // loops through cpuPlayerDifficulty, generates corresponding html element and objects
+     for (let i=0; i < cpuPlayerDifficulty.length; i++) {
         // creates individual column
         let playerColumn = document.createElement("div");
-        playerColumn.setAttribute("class","column is-flex is-justify-content-center");
-        playerColumn.innerHTML = cpuPlayersNames[i];
+        playerColumn.setAttribute("class","column has-text-centered");
 
-        // adds column to paretn columns
+        // creates Player object for cpu player
+        let cpuName = cpuPlayerDifficulty[i] + " CPU " + (i+1).toString();
+        cpuPlayers[i] = new CPU(cpuPlayerDifficulty[i], cpuName);
+
+        // creates elements for player name 
+        let nameText = document.createElement("p");
+        nameText.innerHTML = cpuPlayers[i].name;
+
+        let scoreText = document.createElement("p");
+        scoreText.innerHTML = cpuPlayers[i].score;
+
+        let scoreTextId = cpuPlayers[i].name + "_scoreID";
+        scoreText.setAttribute("id",scoreTextId);
+
+        // adds information to column
+        playerColumn.appendChild(nameText);
+        playerColumn.appendChild(scoreText);
+
+        // adds column to parent columns
         playerDisplay.appendChild(playerColumn);
     }
 }
 
+console.log(cpuPlayers);
 generatePlayerObjects();

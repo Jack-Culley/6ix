@@ -22,29 +22,44 @@
         ></script>
     </head>
     <body class="has-background-primary">
-        <section class="section is-flex is-justify-content-center mb-6">
-            <h1 class="title is-size-1" style="margin-bottom: 50px d">
-                Classic Mode
-            </h1>
-        </section>
         <div class="container has-text-centered">
             <p id="game-move" class="title"></p>
         </div>
 
-    <section id = "game-message" class="hero is-info is-small is-justify-content-center">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <p id="mesg-top" class="title">
-            <br>
-            <!--Top Message updated by game functions-->
-          </p>
-          <p id="mesg-bottom" class="title">
-            <br>
-            <!--Bottom message updated by game functions-->
-          </p>
+        <section
+            id="game-message"
+            class="hero is-info is-small is-justify-content-center"
+        >
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p id="mesg-top" class="title">
+                        <br />
+                        <!--Top Message updated by game functions-->
+                    </p>
+                    <p id="mesg-bottom" class="title">
+                        <br />
+                        <!--Bottom message updated by game functions-->
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section is-flex is-justify-content-center">
+            <button id="add-card-button" class="button is-dark">
+                Add more cards
+            </button>
+        </section>
+        <div class="tile-container is-flex is-justify-content-center">
+            <div
+                id="card-container"
+                class="tile is-ancestor has-background-primary has-text-centered"
+            ></div>
         </div>
-      </div>
-    </section>
+        <script src="../js/board/classicMode.js" type="module"></script>
+        <script
+            src="../js/board/classicModeAddPlayers.js"
+            type="module"
+        ></script>
 
     <section class="section is-flex is-justify-content-center">
       <button id="add-card-button" class="button is-dark">Add more cards</button>
@@ -71,7 +86,7 @@
             </button>
         </section>
 
-        <div class="columns py-6" id="playerDisplay"></div>
+        <div class="columns" id="playerDisplay"></div>
         <footer class="footer has-background-primary"></footer>
         <div id="chooseHumanPlayers" class="modal">
             <div class="modal-background"></div>

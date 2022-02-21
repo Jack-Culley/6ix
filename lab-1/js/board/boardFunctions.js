@@ -236,11 +236,8 @@ function buttonClick(click) {
           }
         }
       })
-<<<<<<< HEAD
       clickedCards.clear();
       boardSets = checkIfSetOnBoard();
-=======
->>>>>>> Refactoring button click event handler to handle player interations
     }
     human[0].updateHTML();
     clickedCards.clear();
