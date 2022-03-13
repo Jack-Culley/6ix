@@ -1,0 +1,11 @@
+<div class="container is-flex is-justify-content-center">
+    <div class="card" id="user-actions">
+        <div class="card-header is-justify-content-center is-size-1">User Actions</div>
+        <!-- add link to sign up method -->
+        <div class="card-body is-flex-direction-column">
+            <%= link_to "Sign up", new_user_registration_path, class: 'button' %>
+            <%= link_to "Sign in", new_user_session_path, class: 'button' %>
+            <%= link_to "Logout", destroy_user_session_path, class: 'button is-danger', method: :delete %>
+        </div>
+    </div>
+</div>
