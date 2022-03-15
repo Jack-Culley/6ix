@@ -14,7 +14,7 @@ module Users
     def create
       super do |resource|
         sign_in resource
-        redirect_to '/dashboard' and return
+        redirect_to dashboard_index_url and return
       end
     end
 

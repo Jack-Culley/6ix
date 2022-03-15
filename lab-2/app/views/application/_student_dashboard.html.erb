@@ -1,0 +1,5 @@
+<div>Hello <%= @user.first_name %></div>
+<%= @user.user_type %>
+<% @courses.all.each do |c| %>
+  <div><%= c.course_title %></div>
+<% end %>

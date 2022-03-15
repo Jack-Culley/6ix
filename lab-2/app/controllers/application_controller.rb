@@ -6,6 +6,24 @@ class ApplicationController < ActionController::Base
 
   before_action :update_allowed_parameters, if: :devise_controller?
 
+  private
+
+  def osu_client
+    @osu_client ||= Faraday.new(url: 'https://content.osu.edu/v2') do |f|
+      f.request :json
+      f.response :json
+    end
+  end
+
+  def get_params(opts)
+    params = {}
+    opts.each do |key, value|
+      params[key.to_sym] = value
+    end
+
+    params
+  end
+
   protected
 
   def update_allowed_parameters
