@@ -1,2 +1,1 @@
-<div>Hello <%= @user.first_name %></div>
-<%= @user.user_type %>
+<%= render partial: 'dashboard', locals: { courses: @courses, sections: @sections, pagy: @pagy } %>

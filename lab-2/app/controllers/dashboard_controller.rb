@@ -6,6 +6,7 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
+    @pagy, @courses = pagy(Course.all)
     @sections = Section.all
   end
 

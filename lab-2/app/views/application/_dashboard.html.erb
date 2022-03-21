@@ -12,14 +12,14 @@
     <% courses.all.each do |c| %>
       <tr>
         <!-- &#8594; is the right facing arrow code -->
-        <td class='<%= "toggle course_#{c.id}" %>'>&#8594;</td> 
+        <td class='<%= "toggle course_#{c.id}" %>' data-bs-toggle="collapse" data-bs-target='#<%= "course_#{c.id}" %>'>&#8594;</td> 
         <td><%= c.department %></td>
         <td><%= c.campus %></td>
         <td><%= c.course_title %></td>
       </tr>
-      <tr class='<%= "hidden course_#{c.id}" %>'>
+      <tr class='<%= "collapse" %>' id='<%= "course_#{c.id}" %>'>
         <td>
-          <table class="table">
+          <table class="table" id="child-table">
               <thead>
                 <tr>
                   <th>Section Number</th>
@@ -46,33 +46,4 @@
     <% end %>
   </tbody>
 </table>
-
-<script>
-  const toggleRow = (click) => {
-    let row = click.target
-    toggleArrow(row)
-    toggleHidden(row)
-    row.classList.toggle('clicked')
-  }
-
-  const toggleHidden = (row) => {
-    let course = row.classList[1]
-    let table = document.getElementsByClassName(course)[1]
-    table.classList.toggle('expanded')
-    table.classList.toggle('hidden')
-  }
-
-  const toggleArrow = (row) => {
-    if(row.classList.contains('clicked')) {
-      //if clicked, toggle the right facing arrow
-      row.innerHTML = '&#8594;'
-    } else {
-      row.innerHTML = '&#8595;'
-    }
-  }
-
-  let toggles = document.getElementsByClassName('toggle');
-  for(let i = 0; i < toggles.length; i++) {
-    toggles[i].addEventListener('click', toggleRow)
-  }
-</script>
+<%== render partial: 'bulma_nav', locals: {pagy: pagy} %>
