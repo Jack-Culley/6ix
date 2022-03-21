@@ -11,12 +11,9 @@ module Users
     # end
 
     # POST /resource
-    def create
-      super do |resource|
-        sign_in resource
-        redirect_to dashboard_index_url and return
-      end
-    end
+    # def create
+    #   super
+    # end
 
     # GET /resource/edit
     # def edit

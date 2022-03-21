@@ -1,0 +1,78 @@
+<div class="is-size-1">Course catalogue</div>
+<table class="table is-fullwidth is-hoverable" id="parent-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Department</th>
+      <th>Campus</th>
+      <th>Course Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% courses.all.each do |c| %>
+      <tr>
+        <!-- &#8594; is the right facing arrow code -->
+        <td class='<%= "toggle course_#{c.id}" %>'>&#8594;</td> 
+        <td><%= c.department %></td>
+        <td><%= c.campus %></td>
+        <td><%= c.course_title %></td>
+      </tr>
+      <tr class='<%= "hidden course_#{c.id}" %>'>
+        <td>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>Section Number</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Days of the Week</th>
+                  <th>Number of graders</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% sections.where(course_id: c.id).each do |s| %>
+                    <tr class="expandable">
+                      <td><%= s.section_number %></td>
+                      <td><%= get_date(s.start_time) %></td>
+                      <td><%= get_date(s.end_time) %></td>
+                      <td><%= get_days_of_week(s.days_of_the_week) %></td>
+                      <td><%= s.number_of_graders %></td>
+                    </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  const toggleRow = (click) => {
+    let row = click.target
+    toggleArrow(row)
+    toggleHidden(row)
+    row.classList.toggle('clicked')
+  }
+
+  const toggleHidden = (row) => {
+    let course = row.classList[1]
+    let table = document.getElementsByClassName(course)[1]
+    table.classList.toggle('expanded')
+    table.classList.toggle('hidden')
+  }
+
+  const toggleArrow = (row) => {
+    if(row.classList.contains('clicked')) {
+      //if clicked, toggle the right facing arrow
+      row.innerHTML = '&#8594;'
+    } else {
+      row.innerHTML = '&#8595;'
+    }
+  }
+
+  let toggles = document.getElementsByClassName('toggle');
+  for(let i = 0; i < toggles.length; i++) {
+    toggles[i].addEventListener('click', toggleRow)
+  }
+</script>
