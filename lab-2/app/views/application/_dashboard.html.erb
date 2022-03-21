@@ -6,6 +6,9 @@
       <th>Department</th>
       <th>Campus</th>
       <th>Course Title</th>
+      <% if admin %>
+        <th>Edit</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +19,9 @@
         <td><%= c.department %></td>
         <td><%= c.campus %></td>
         <td><%= c.course_title %></td>
+        <% if admin %>
+          <td><%= link_to 'Edit', edit_course_path(c) %></td>
+        <% end %>
       </tr>
       <tr class='<%= "collapse" %>' id='<%= "course_#{c.id}" %>'>
         <td>
