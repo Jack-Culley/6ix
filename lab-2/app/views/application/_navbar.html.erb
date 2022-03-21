@@ -1,0 +1,16 @@
+<% if signed_in? %>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <%= link_to image_tag('OSUsheet_BlockO.jpg', id: 'navbar-image'), dashboard_index_path %>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <!-- put profile link here -->
+          <div>Profile</div>
+          <%= link_to "Logout", destroy_user_session_path, class: 'button is-danger', method: :delete %>
+        </div>
+      </div>
+    </div>
+  </nav>
+<% end %>
