@@ -6,6 +6,7 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
+    @sections = Section.all
   end
 
   private
@@ -32,7 +33,15 @@ class DashboardController < ApplicationController
   def save_courses(courses)
     courses.each do |course_data|
       course = course_data['course']
-      Course.create(department: course['subject'], campus: course['campus'], course_title: course['title'])
+      sections = course_data['sections']
+      course_object = Course.create(department: course['subject'], campus: course['campus'],
+                                    course_title: course['title'])
+      sections.each do |section|
+        Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
+                       end_time: section['meetings'].first['endTime'],
+                       days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thurdsay'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
+                       number_of_graders: 0, course_id: course_object.id)
+      end
     end
   end
 end

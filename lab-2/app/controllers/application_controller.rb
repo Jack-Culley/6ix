@@ -15,16 +15,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_params(opts)
-    params = {}
-    opts.each do |key, value|
-      params[key.to_sym] = value
-    end
-
-    params
-  end
-
   protected
+
+  def after_sign_in_path_for(resource)
+    dashboard_index_path
+  end
 
   def update_allowed_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name user_type])

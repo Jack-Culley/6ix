@@ -42,14 +42,16 @@ ActiveRecord::Schema.define(version: 20_220_311_225_021) do
   end
 
   create_table 'sections', id: false, force: :cascade do |t|
-    t.integer 'section_number', null: false
-    t.datetime 'start_time', null: false
-    t.datetime 'end_time', null: false
-    t.string 'days_of_the_week', null: false
+    t.integer 'section_number'
+    t.datetime 'start_time'
+    t.datetime 'end_time'
+    t.boolean 'days_of_the_week', default: [], array: true
     t.integer 'number_of_graders', default: 0, null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.bigint 'instructor_id'
+    t.bigint 'course_id'
+    t.index ['course_id'], name: 'index_sections_on_course_id'
     t.index ['instructor_id'], name: 'index_sections_on_instructor_id'
   end
 
@@ -69,5 +71,6 @@ ActiveRecord::Schema.define(version: 20_220_311_225_021) do
   end
 
   add_foreign_key 'availabilities', 'users'
+  add_foreign_key 'sections', 'courses'
   add_foreign_key 'sections', 'users', column: 'instructor_id'
 end
