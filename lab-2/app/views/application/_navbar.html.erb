@@ -1,14 +1,18 @@
 <% if signed_in? %>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <%= link_to image_tag('OSUsheet_BlockO.jpg', id: 'navbar-image'), dashboard_index_path %>
+      <%= link_to image_tag('OSUsheet_BlockO.jpg', id: 'navbar-image', class: 'navbar-item'), dashboard_index_path %>
     </div>
     <div class="navbar-menu">
       <div class="navbar-end">
         <div class="navbar-item">
-          <!-- put profile link here -->
-          <div>Profile</div>
-          <%= link_to "Logout", destroy_user_session_path, class: 'button is-danger', method: :delete %>
+          <div class="columns">
+            <!-- put profile link here -->
+            <div class="column"><button class="button is-light">Profile</button></div>
+            <div class="column">
+              <%= link_to "Logout", destroy_user_session_path, class: 'button is-danger', method: :delete %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -13,8 +13,12 @@
 
   <body>
     <%= render partial: 'navbar' %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice || alert %>
+      <section class='<%= "notice hero #{notice ? 'is-success' : 'is-danger'} is-small" %>'>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      </section>
+    <% end %>
     <%= yield %>
   </body>
 </html>
