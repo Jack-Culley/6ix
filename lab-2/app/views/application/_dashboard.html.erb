@@ -1,2 +1,55 @@
-<div>Hello <%= @user.first_name %><div>
-<%= @user.user_type %>
+<div class="is-size-1">Course catalogue</div>
+<table class="table is-fullwidth is-hoverable" id="parent-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Department</th>
+      <th>Campus</th>
+      <th>Course Title</th>
+      <% if admin %>
+        <th>Edit</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% courses.all.each do |c| %>
+      <tr>
+        <!-- &#8594; is the right facing arrow code -->
+        <td class='<%= "toggle course_#{c.id}" %>' data-bs-toggle="collapse" data-bs-target='#<%= "course_#{c.id}" %>'>&#8594;</td> 
+        <td><%= c.department %></td>
+        <td><%= c.campus %></td>
+        <td><%= c.course_title %></td>
+        <% if admin %>
+          <td><%= link_to 'Edit', edit_course_path(c) %></td>
+        <% end %>
+      </tr>
+      <tr class='<%= "collapse" %>' id='<%= "course_#{c.id}" %>'>
+        <td>
+          <table class="table" id="child-table">
+              <thead>
+                <tr>
+                  <th>Section Number</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Days of the Week</th>
+                  <th>Number of graders</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% sections.where(course_id: c.id).each do |s| %>
+                    <tr class="expandable">
+                      <td><%= s.section_number %></td>
+                      <td><%= get_date(s.start_time) %></td>
+                      <td><%= get_date(s.end_time) %></td>
+                      <td><%= get_days_of_week(s.days_of_the_week) %></td>
+                      <td><%= s.number_of_graders %></td>
+                    </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%== render partial: 'bulma_nav', locals: {pagy: pagy} %>

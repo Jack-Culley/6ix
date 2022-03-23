@@ -3,7 +3,11 @@
   <div class="is-size-1 card-header is-justify-content-center">Sign up</div>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <% unless resource.errors.messages.empty? %>
+      <section class="notice hero is-danger is-small">
+        <%= render "devise/shared/error_messages", resource: resource %>
+      </section>
+    <% end %>
 
     <div id="container"> 
       <div class="field">

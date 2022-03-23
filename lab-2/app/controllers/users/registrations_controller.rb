@@ -13,8 +13,7 @@ module Users
     # POST /resource
     def create
       super do |resource|
-        sign_in resource
-        redirect_to '/dashboard' and return
+        resource.update(is_approved: approved?(resource))
       end
     end
 
@@ -41,6 +40,14 @@ module Users
     # def cancel
     #   super
     # end
+
+    private
+
+    def approved?(user)
+      return false if user&.user_type == 'administrator' || user&.user_type == 'instructor'
+
+      true
+    end
 
     # protected
 
