@@ -11,9 +11,11 @@ module Users
     # end
 
     # POST /resource
-    # def create
-    #   super
-    # end
+    def create
+      super do |resource|
+        resource.update(is_approved: approved?(resource))
+      end
+    end
 
     # GET /resource/edit
     # def edit
@@ -38,6 +40,14 @@ module Users
     # def cancel
     #   super
     # end
+
+    private
+
+    def approved?(user)
+      return false if user&.user_type == 'administrator' || user&.user_type == 'instructor'
+
+      true
+    end
 
     # protected
 
