@@ -35,5 +35,8 @@
 yarn-debug.log*
 .yarn-integrity
 
-# ignore schema.rb as it us automatically generated for each machine
+# Ignore schema.rb as it us automatically generated for each machine
 /db/schema.rb
+
+#Ignore .lock files
+/.lock
