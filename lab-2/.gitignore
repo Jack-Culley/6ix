@@ -39,4 +39,4 @@ yarn-debug.log*
 /db/schema.rb
 
 #Ignore .lock files
-/.lock
+/*.lock
