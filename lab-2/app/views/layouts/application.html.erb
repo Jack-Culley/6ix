@@ -7,13 +7,18 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %>></p>
-    <p class="alert"><%= alert %>></p>
+    <%= render partial: 'navbar' %>
+    <% if notice || alert %>
+      <section class='<%= "notice hero #{notice ? 'is-success' : 'is-danger'} is-small" %>'>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      </section>
+    <% end %>
     <%= yield %>
   </body>
 </html>

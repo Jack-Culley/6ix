@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Prerequisite
+- Postgres 12
+- Rails 6.1.5
+- ruby 3.0.2p107
+- An super user in postgres
 
-Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Installation:
+1. Pull repo
+2. Create a postgres superuser
+  1. `sudo -u postgres psql`
+  2. Run this query to create a superuser`CREATE USER username SUPERUSER PASSWORD 'passwordstring';`
+  3. Restart postgres
+4. Export `POSTGRES_PASSWORD` and `POSTGRES_USERNAME` associated with your postgres superuser from shell configuration file
+5. Run the command `bundle install`
+6. Run the command `yarn install`
+7. Run the command `npm install`
+8. Create and add data to the database using `rails db:create` and `rails db:migrate`
