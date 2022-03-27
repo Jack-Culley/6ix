@@ -3,6 +3,7 @@
   <% if admin %>
     <div class="column" align="right" style="margin-right:5px;margin-top:5px">
       <%= link_to "Add Course", new_course_path, class: 'button is-success' %>
+      <%= link_to "Refresh", dashboard_path(@user), class: 'button is-success' , method: :delete %>      
     </div>
   <% end %>
 </div>
