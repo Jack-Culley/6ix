@@ -13,9 +13,13 @@
 </html>
 
 <div class="is-size-1">Signed in as <%= @first %> <%= @last %>(<%= @type %>)</div>
-<div class="is-size-3">Email: <%= @email %></div>
-<div class="is-size-3">Courses applied for:</div>
-<%= link_to "Reset Password", "/resource/password/edit?reset_password_token=abcdef", class: 'button' %>
+<div class="is-size-3">
+  <p>Email: <%= @email %></p>
+  <p>Courses applied for:</p>
+</div>
+
+
+<%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
 
 
 

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root 'home#index'
   resources 'dashboard', only: %w[index]
   resources 'course'
-  get "/profile", to: "profile#index"
+  resources 'profile', only: %w[index]
 
 
 
