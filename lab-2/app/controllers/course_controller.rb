@@ -13,6 +13,7 @@ class CourseController < ApplicationController
     @course = Course.find_by(id: params[:id])
     @course.update(course_params)
     if @course.valid?
+      flash[:notice] = 'Course updated!'
       redirect_to dashboard_index_url
     else
       respond_with @course
@@ -24,6 +25,7 @@ class CourseController < ApplicationController
     sections = Section.where(course_id: course.id)
     sections.delete_all
     course.delete
+    flash[:notice] = 'Course deleted!'
     redirect_to dashboard_index_url
   end
 
