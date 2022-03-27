@@ -12,14 +12,22 @@
 </head>
 </html>
 
-<div class="is-size-1">Signed in as <%= @user.first_name %> <%= @user.last_name %>(<%= @user.user_type %>)</div>
-<div class="is-size-3">
-  <p>Email: <%= @user.email %></p>
-  <p>Courses applied for:</p>
-</div>
+<div class="is-flex is-justify-content-center">
+  <div class="card" id="form">
+    <div class="is-size-1 card-header is-justify-content-center">Signed in as <%= @user.first_name %> <%= @user.last_name %>(<%= @user.user_type %>)</div>
+      <div class="links">
+        <div class="actions is-text-align-center">
+          <div class="is-size-3">
+            <p>Email: <%= @user.email %></p>
+            <p>Courses applied for:</p>
+          </div>
+          <%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-<%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
 
 
 
