@@ -1,1 +1,7 @@
-<%= render "#{@user.user_type}_dashboard" %>
+<% if @user.is_approved %>
+<%= render "#{@user.user_type}_dashboard"%>
+<%else%>
+<h1>User not yet approved, please check again later </h1>
+<%end%>
+
+
