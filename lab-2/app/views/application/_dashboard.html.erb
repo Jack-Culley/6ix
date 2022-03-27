@@ -1,4 +1,11 @@
-<div class="is-size-1">Course catalogue</div>
+<div class="columns">
+  <div class="column"><div class="is-size-1">Course catalogue</div></div>
+  <% if admin %>
+    <div class="column" align="right" style="margin-right:5px;margin-top:5px">
+      <%= link_to "Add Course", new_course_path, class: 'button is-success' %>
+    </div>
+  <% end %>
+</div>
 <table class="table is-fullwidth is-hoverable" id="parent-table">
   <thead>
     <tr>
