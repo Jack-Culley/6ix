@@ -4,15 +4,15 @@
 - Postgres 12
 - Rails 6.1.5
 - ruby 3.0.2p107
-- An super user in postgres
+- A super user in postgres
 
 
 ## Installation:
 1. Pull repo
 2. Create a postgres superuser
-  1. `sudo -u postgres psql`
-  2. Run this query to create a superuser`CREATE USER username SUPERUSER PASSWORD 'passwordstring';`
-  3. Restart postgres
+   -`sudo -u postgres psql`
+   -Run this query to create a superuser`CREATE USER username SUPERUSER PASSWORD 'passwordstring';`
+   -Restart postgres
 4. Export `POSTGRES_PASSWORD` and `POSTGRES_USERNAME` associated with your postgres superuser from shell configuration file
 5. Run the command `bundle install`
 6. Run the command `yarn install`
