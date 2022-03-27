@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab2</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+</html>
+
+<div class="is-size-1">Signed in as <%= @first %> <%= @last %>(<%= @type %>)</div>
+<div class="is-size-3">Email: <%= @email %></div>
+<div class="is-size-3">Courses applied for:</div>
+<%= link_to "Reset Password", "/resource/password/edit?reset_password_token=abcdef", class: 'button' %>
+
+
+
+
