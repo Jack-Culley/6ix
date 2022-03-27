@@ -2,7 +2,7 @@
   <div class="card" id="form">
   <div class="is-size-1 card-header is-justify-content-center">Edit course</div>
 
-  <%= form_for(@course, url: course_path(@course), html: { method: :put }) do |f| %>
+  <%= form_for(@course, url: course_index_path, html: { method: :post }) do |f| %>
     <%= render "devise/shared/error_messages", resource: @course %>
 
     <div id="container"> 
@@ -21,10 +21,11 @@
         <%= f.text_field :course_title, class: 'input' %>
       </div>
 
+     <!--   TODO: Create nested form for course sections PROJ 3  -->
+
       <div class="links">
         <div class="actions is-text-align-center">
-          <%= f.submit "Update", class: 'button' %>
-          <%= link_to "Delete", course_path, class: 'button is-danger', method: :delete %>
+          <%= f.submit "Create", class: 'button' %>
         </div>
       </div>
     </div>

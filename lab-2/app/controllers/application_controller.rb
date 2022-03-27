@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def admin?
+    redirect_to dashboard_index_path unless current_user.user_type == 'administrator'
+  end
+
   protected
 
   def after_sign_in_path_for(_resource)
