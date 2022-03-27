@@ -10,9 +10,9 @@
 ## Installation:
 1. Pull repo
 2. Create a postgres superuser
-   -`sudo -u postgres psql`
-   -Run this query to create a superuser`CREATE USER username SUPERUSER PASSWORD 'passwordstring';`
-   -Restart postgres
+   * sudo -u postgres psql`
+   * Run this query to create a superuser`CREATE USER username SUPERUSER PASSWORD 'passwordstring';`
+   * Restart postgres
 4. Export `POSTGRES_PASSWORD` and `POSTGRES_USERNAME` associated with your postgres superuser from shell configuration file
 5. Run the command `bundle install`
 6. Run the command `yarn install`
