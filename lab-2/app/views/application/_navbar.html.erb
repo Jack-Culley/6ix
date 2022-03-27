@@ -8,7 +8,9 @@
         <div class="navbar-item">
           <div class="columns">
             <!-- put profile link here -->
-            <div class="column"><button class="button is-light">Profile</button></div>
+            <div class="column">
+              <%= link_to "Profile", profile_index_path, class: 'button' %>
+            </div>
             <div class="column">
               <%= link_to "Logout", destroy_user_session_path, class: 'button is-danger', method: :delete %>
             </div>
