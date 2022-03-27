@@ -3,6 +3,8 @@
 class CourseController < ApplicationController
   respond_to :html
 
+  before_action :admin?
+
   def edit
     @course = Course.find_by(id: params[:id])
   end
