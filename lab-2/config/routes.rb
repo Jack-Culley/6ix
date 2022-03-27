@@ -7,5 +7,10 @@ Rails.application.routes.draw do
   resources 'course'
   resources 'profile', only: %w[index]
 
+  resources 'user_approval' do
+    collection do
+      put :approve_button_click
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
