@@ -22,7 +22,7 @@
 
       <div class="field">
         <%= f.label :email, 'Email (must be name.#@osu.edu)' %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", pattern: '/[a-zA-Z-]\.\d+@osu\.edu/gm' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", pattern: '[a-zA-Z-]+\.\d+@osu\.edu' %>
       </div>
 
       <div class="field">
