@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def admin?
-    redirect_to dashboard_index_path unless current_user.user_type == 'administrator'
+    redirect_to dashboard_index_path unless current_user.user_type == 'administrator' && current_user.is_approved
   end
 
   protected

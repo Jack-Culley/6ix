@@ -7,7 +7,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="columns">
-            <% if admin && !@on_approval_page%>
+            <% if admin && !@on_approval_page && current_user.is_approved %>
               <div class="column">
                 <%= link_to "Approve Users", user_approval_index_path, class: 'button is-warning', method: :get %>
               </div>
