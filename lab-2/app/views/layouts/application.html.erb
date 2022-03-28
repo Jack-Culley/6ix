@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <%= render partial: 'navbar' %>
+    <%= render partial: 'navbar',locals: { admin: admin? } %>
     <% if notice || alert %>
       <section class='<%= "notice hero #{notice ? 'is-success' : 'is-danger'} is-small" %>'>
         <p class="notice"><%= notice %></p>
