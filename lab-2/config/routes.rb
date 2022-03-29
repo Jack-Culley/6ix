@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   root 'home#index'
-  resources 'dashboard', only: %w[index]
+  resources 'dashboard', only: %w[index destroy]
   resources 'course'
   resources 'profile', only: %w[index]
 
