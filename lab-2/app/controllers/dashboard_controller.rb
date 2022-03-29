@@ -10,6 +10,12 @@ class DashboardController < ApplicationController
     @sections = Section.all
   end
 
+  def destroy
+    Section.delete_all
+    Course.delete_all
+    redirect_to dashboard_index_path
+  end
+
   private
 
   def get_courses
