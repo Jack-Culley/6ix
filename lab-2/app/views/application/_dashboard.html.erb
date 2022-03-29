@@ -3,8 +3,7 @@
   <% if admin %>
     <div class="column" align="right" style="margin-right:5px;margin-top:5px">
       <%= link_to "Add Course", new_course_path, class: 'button is-success' %>
-      <%= link_to "Refresh", dashboard_path(@user), class: 'button is-success' , method: :delete %>      
-    </div>
+    </div> 
   <% end %>
 </div>
 <table class="table is-fullwidth is-hoverable" id="parent-table">
@@ -60,4 +59,7 @@
     <% end %>
   </tbody>
 </table>
+<div class="column" align="left" style="margin-left:5px;margin-top:10px">  
+  <%= link_to "Restore Courses", dashboard_path(@user), class: 'button is-danger' , method: :delete, data: { confirm: 'Warning: Restoring courses will discard all admin changes to the course catalogue.' }%>
+</div>
 <%== render partial: 'bulma_nav', locals: {pagy: pagy} %>
