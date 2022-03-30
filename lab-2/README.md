@@ -18,4 +18,4 @@
 6. Run the command `yarn install`
 7. Run the command `npm install`
 8. Create and add data to the database using `rails db:create` and `rails db:migrate`
-9. Then run `rails db:seed` to create the first admin user. This user's credentials are: email: `admin@osu.edu` and password `admin123`
+9. Then run `rails db:seed` to create the first admin user. This user's credentials are: email: `admin.1@osu.edu` and password `admin123`

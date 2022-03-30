@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
-    @pagy, @courses = pagy(Course.all)
+    @pagy, @courses = pagy(Course.order(id: :asc))
     @sections = Section.all
   end
 
@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
   end
 
   def query_courses
-    return Course.all unless Course.all.empty?
+    return Course.order(id: :asc) unless Course.all.empty?
 
     data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: '1222' }).to_hash&.dig(:body, 'data')
     save_courses(data['courses'])
