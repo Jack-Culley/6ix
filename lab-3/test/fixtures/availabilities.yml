@@ -1,0 +1,7 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  availabiliy_json: MyText
+
+two:
+  availabiliy_json: MyText
