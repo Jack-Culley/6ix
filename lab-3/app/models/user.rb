@@ -6,9 +6,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_one :availability
-  has_many :courses_users
-  has_many :courses, through: :courses_users
+  # has_many :courses_users
+  # has_many :courses, through: :courses_users
   has_many :sections
+  has_many :courses, through: :sections
+  has_many :courses_taken
+  accepts_nested_attributes_for :courses_taken
   USER_TYPES = %w[student administrator instructor].freeze
   validates :user_type, acceptance: { accept: USER_TYPES }
   validates :first_name, presence: true, length: { maximum: 50, too_long: 'First name too long, max: 50.' }

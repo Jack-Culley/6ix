@@ -1,0 +1,14 @@
+.nested-fields 
+  .field 
+    = f.label :grade
+    %br
+    = f.text_field :grade, class: 'input'
+  .field 
+    = f.label :department
+    %br
+    = f.text_field :department, class: 'input'
+  .field 
+    = f.label :course_number
+    %br
+    = f.text_field :course_number, class: 'input'
+  = link_to_remove_association 'remove course', f, class: 'button'

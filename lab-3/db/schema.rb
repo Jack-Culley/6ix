@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_11_225021) do
+ActiveRecord::Schema.define(version: 2022_04_06_192009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,8 +27,22 @@ ActiveRecord::Schema.define(version: 2022_03_11_225021) do
     t.string "department", default: "CSE", null: false
     t.string "campus", null: false
     t.string "course_title", null: false
+    t.integer "course_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "courses_takens", force: :cascade do |t|
+    t.float "grade", null: false
+    t.boolean "interest"
+    t.boolean "is_recommended"
+    t.boolean "is_requested"
+    t.integer "course_number", null: false
+    t.string "department", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_courses_takens_on_user_id"
   end
 
   create_table "courses_users", id: false, force: :cascade do |t|
@@ -46,6 +60,7 @@ ActiveRecord::Schema.define(version: 2022_03_11_225021) do
     t.datetime "end_time"
     t.boolean "days_of_the_week", default: [], array: true
     t.integer "number_of_graders", default: 0, null: false
+    t.integer "grader_ids", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "instructor_id"
@@ -71,6 +86,7 @@ ActiveRecord::Schema.define(version: 2022_03_11_225021) do
   end
 
   add_foreign_key "availabilities", "users"
+  add_foreign_key "courses_takens", "users"
   add_foreign_key "sections", "courses"
   add_foreign_key "sections", "users", column: "instructor_id"
 end
