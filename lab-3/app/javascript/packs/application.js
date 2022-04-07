@@ -11,6 +11,9 @@ import 'bulma/css/bulma.css';
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
+require("jquery")
+require("@nathanvda/cocoon")
+require("jquery")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

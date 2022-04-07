@@ -42,7 +42,7 @@ class DashboardController < ApplicationController
       course = course_data['course']
       sections = course_data['sections']
       course_object = Course.create(department: course['subject'], campus: course['campus'],
-                                    course_title: course['title'])
+        course_title: course['title'], course_number: course['catalogNumber'])
       sections.each do |section|
         Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
                        end_time: section['meetings'].first['endTime'],

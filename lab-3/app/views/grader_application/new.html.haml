@@ -1,0 +1,18 @@
+.is-flex.is-justify-content-center
+  .card#form
+    .is-size-1.card-header.is-justify-content-center
+      Course grades
+    = form_with model: @user, url: grader_application_index_path, method: :post do |f|
+      = render "devise/shared/error_messages", resource: @user
+
+      #container
+        .field
+          = f.fields_for :courses_taken do |course_taken|
+            = render 'courses_taken_fields', f: course_taken
+        .links 
+          .actions.is-text-align-center
+          = link_to_add_association 'add course', f, :courses_taken, class: "button"
+
+      .links 
+        .actions.is-text-align-center
+          = f.submit "Create", class: 'button'
