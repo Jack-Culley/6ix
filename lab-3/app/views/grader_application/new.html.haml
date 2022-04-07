@@ -3,7 +3,7 @@
     .is-size-1.card-header.is-justify-content-center
       Course grades
     = form_with model: @user, url: grader_application_index_path, method: :post do |f|
-      = render "devise/shared/error_messages", resource: @user
+      = render "devise/shared/error_messages", resource: @course
 
       #container
         .field
