@@ -13,6 +13,25 @@
           .actions.is-text-align-center
           = link_to_add_association 'add course', f, :courses_taken, class: "button"
 
+      %br
+      = f.fields_for :availability do |a|
+        .weekdays.is-flex.is-flex-direction-column.is-size-3.field
+          Availabilities
+          - %w[monday tuesday wednesday thursday friday].each do |day|
+            = a.fields_for "#{day.to_sym}" do |d|
+              = d.label "#{day.to_sym}", class: "is-size-5 checkbox"
+              = d.check_box "#{day.to_sym}", class: 'weekday'
+              %div{id: "#{day}-fields", class: 'hidden'}
+                = d.label :start_time, class: "is-size-6"
+                = d.text_field :start_time, class: 'input'
+                = d.label :end_time, class: "is-size-6"
+                = d.text_field :end_time, class: 'input'
+
+      .links 
+        .actions.is-text-align-center
+          = f.submit "Create", class: 'button'
+  
+= javascript_pack_tag 'datePicker'
       .links 
         .actions.is-text-align-center
           = f.submit "Create", class: 'button'
