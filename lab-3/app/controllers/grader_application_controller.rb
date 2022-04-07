@@ -15,6 +15,7 @@ class GraderApplicationController < ApplicationController
     @user = current_user
     courses_taken = application_params&.dig(:courses_taken_attributes).to_h
     courses_taken.each do |key, _value|
+      binding.pry
       course_params = courses_taken[key]
       course_params.delete('_destroy')
       @course = CoursesTaken.create(course_params)

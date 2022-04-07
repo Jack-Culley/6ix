@@ -20,7 +20,7 @@
           - %w[monday tuesday wednesday thursday friday].each do |day|
             = a.fields_for "#{day.to_sym}" do |d|
               = d.label "#{day.to_sym}", class: "is-size-5 checkbox"
-              = d.check_box "#{day.to_sym}", class: 'weekday'
+              = d.check_box :is_available, class: 'weekday'
               %div{id: "#{day}-fields", class: 'hidden'}
                 = d.label :start_time, class: "is-size-6"
                 = d.text_field :start_time, class: 'input'
@@ -32,6 +32,4 @@
           = f.submit "Create", class: 'button'
   
 = javascript_pack_tag 'datePicker'
-      .links 
-        .actions.is-text-align-center
-          = f.submit "Create", class: 'button'
+
