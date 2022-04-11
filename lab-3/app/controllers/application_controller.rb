@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def admin?
     redirect_to dashboard_index_path unless current_user.user_type == 'administrator' && current_user.is_approved
   end
-  
+
   def student?
     redirect_to dashboard_index_path unless current_user.user_type == 'student'
   end

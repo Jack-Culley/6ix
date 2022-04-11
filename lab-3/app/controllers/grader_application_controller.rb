@@ -17,9 +17,9 @@ class GraderApplicationController < ApplicationController
     courses_taken = application_params&.dig(:courses_taken_attributes).to_h
     has_errors = false
     ActiveRecord::Base.transaction do
-      create_or_update_courses_taken(courses_taken)
+      create_courses_taken(courses_taken)
       availability_params = application_params&.dig(:availability)
-      has_errors = create_or_update_availabilities(availability_params)
+      has_errors = create_availabilities(availability_params)
     end
 
     return if has_errors
@@ -44,7 +44,7 @@ class GraderApplicationController < ApplicationController
                                                                                         ]])
   end
 
-  def create_or_update_courses_taken(courses_taken)
+  def create_courses_taken(courses_taken)
     # TODO: Link courses taken & availabilities to a user
     flash[:alert] = []
     courses_taken.each do |key, _value|
@@ -61,7 +61,7 @@ class GraderApplicationController < ApplicationController
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
-  def create_or_update_availabilities(availability_params)
+  def create_availabilities(availability_params)
     regexp = /\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z/
     count = 0
     @availabilities = @user.availability

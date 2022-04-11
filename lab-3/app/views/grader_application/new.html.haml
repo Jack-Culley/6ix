@@ -13,7 +13,6 @@
           .actions.is-text-align-center
           = link_to_add_association 'add course', f, :courses_taken, class: "button"
 
-      -# - unless @user.availability
       %br
       = f.fields_for :availability do |a|
         .weekdays.is-flex.is-flex-direction-column.is-size-3.field
