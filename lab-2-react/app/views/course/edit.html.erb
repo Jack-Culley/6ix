@@ -1,0 +1,33 @@
+<div class="is-flex is-justify-content-center">
+  <div class="card" id="form">
+  <div class="is-size-1 card-header is-justify-content-center">Edit course</div>
+
+  <%= form_for(@course, url: course_path(@course), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: @course %>
+
+    <div id="container"> 
+      <div class="field">
+        <%= f.label :department %><br />
+        <%= f.text_field :department, class: 'input' %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :campus %><br />
+        <%= f.text_field :campus, class: 'input' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :course_title %><br />
+        <%= f.text_field :course_title, class: 'input' %>
+      </div>
+
+      <div class="links">
+        <div class="actions is-text-align-center">
+          <%= f.submit "Update", class: 'button' %>
+          <%= link_to "Delete", course_path, class: 'button is-danger', method: :delete %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

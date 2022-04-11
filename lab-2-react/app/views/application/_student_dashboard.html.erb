@@ -1,0 +1,7 @@
+<%
+=begin%>
+ <%= render partial: 'dashboard', locals: { courses: @courses, sections: @sections, pagy: @pagy, admin: false } %> 
+<%
+=end%>
+<%= react_component('Dashboard', render(partial: 'dashboard_data.json', locals: { courses: @courses, sections: @sections, pagy: @pagy, admin: false })) %>
+

@@ -6,6 +6,7 @@ class CreateCourses < ActiveRecord::Migration[6.1]
       t.string :department, null: false, default: 'CSE'
       t.string :campus, null: false
       t.string :course_title, null: false
+      t.integer :course_number, null: false
 
       t.timestamps
     end

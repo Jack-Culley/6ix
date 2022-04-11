@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources 'dashboard', only: %w[index destroy]
   resources 'course'
   resources 'profile', only: %w[index]
-
+  resources 'grader_application'
   resources 'user_approval' do
     collection do
       put :approve_button_click

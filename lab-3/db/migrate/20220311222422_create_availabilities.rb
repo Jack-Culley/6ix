@@ -3,7 +3,7 @@
 class CreateAvailabilities < ActiveRecord::Migration[6.1]
   def change
     create_table :availabilities do |t|
-      t.text :availabiliy_json
+      t.json :availability_json
 
       t.timestamps
     end
