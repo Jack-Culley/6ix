@@ -2,7 +2,7 @@
 
 class GraderApplicationController < ApplicationController
   respond_to :html
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :student?
 
   def index; end
 
@@ -15,12 +15,16 @@ class GraderApplicationController < ApplicationController
   def create
     @user = current_user
     courses_taken = application_params&.dig(:courses_taken_attributes).to_h
-    fill_courses_taken(courses_taken)
-    availability_params = application_params&.dig(:availability)
-    has_errors = create_availabilities(availability_params)
+    has_errors = false
+    ActiveRecord::Base.transaction do
+      create_or_update_courses_taken(courses_taken)
+      availability_params = application_params&.dig(:availability)
+      has_errors = create_or_update_availabilities(availability_params)
+    end
 
     return if has_errors
 
+    flash[:alert] = nil
     flash[:notice] = 'Successfully submitted course(s) taken'
     redirect_to dashboard_index_path
   end
@@ -40,23 +44,27 @@ class GraderApplicationController < ApplicationController
                                                                                         ]])
   end
 
-  def fill_courses_taken(courses_taken)
+  def create_or_update_courses_taken(courses_taken)
     # TODO: Link courses taken & availabilities to a user
     flash[:alert] = []
     courses_taken.each do |key, _value|
       course_params = courses_taken[key]
       course_params.delete('_destroy')
+      next if Course.find_by(id: course_params['id'])
+
+      course_params.delete('id')
+      course_params[:user_id] = @user.id
       @course = CoursesTaken.create(course_params)
-      flash[:alert] << @course.errors.full_messages
+      flash[:alert] << @course.errors.full_messages unless @course.errors.empty?
     end
   end
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
-  def create_availabilities(availability_params)
+  def create_or_update_availabilities(availability_params)
     regexp = /\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z/
     count = 0
-    @availabilities = Availability.new
+    @availabilities = @user.availability
     # This block ensures that the availabilities are not empty or filled in correctly
     availability_params.to_h.each do |day, value|
       if value[:availabilities].empty?

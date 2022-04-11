@@ -13,6 +13,7 @@
           .actions.is-text-align-center
           = link_to_add_association 'add course', f, :courses_taken, class: "button"
 
+      -# - unless @user.availability
       %br
       = f.fields_for :availability do |a|
         .weekdays.is-flex.is-flex-direction-column.is-size-3.field
@@ -25,7 +26,7 @@
               = d.check_box :is_available, class: 'weekday'
               %div{id: "#{day}-fields", class: 'hidden'}
                 = d.label :availabilities, class: "is-size-6"
-                = d.text_field :availabilities, class: 'input', pattern: '\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z', placeholder: '(start_time,end_time),(start_time,end_time), ...'
+                = d.text_field :availabilities, class: 'input', pattern: '\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z', placeholder: '(start_time,end_time),(start_time,end_time),...'
 
       .links 
         .actions.is-text-align-center

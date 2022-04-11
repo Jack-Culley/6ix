@@ -17,8 +17,12 @@
       <section class='<%= "notice hero #{notice ? 'is-success' : 'is-danger'} is-small" %>'>
         <p class="notice"><%= notice %></p>
         <p class="alert">
-          <% alert.each do |alert| %>
-            <ul><%= alert %></ul>
+          <% if alert.class == Array %>
+            <% alert&.each do |alert| %>
+              <ul><%= alert %></ul>
+            <% end %>
+          <% else %>
+            <%= alert %>
           <% end %>
         </p>
       </section>
