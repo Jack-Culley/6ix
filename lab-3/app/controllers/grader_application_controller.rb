@@ -21,6 +21,7 @@ class GraderApplicationController < ApplicationController
       @course = CoursesTaken.create(course_params)
       respond_with(@user, @course) && return unless @course.valid?
     end
+    # regexp for restricting date \A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z
 
     flash[:notice] = 'Successfully submitted course(s) taken'
     redirect_to dashboard_index_path

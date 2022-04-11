@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  section_number: 
+  start_time: 2022-03-11 17:42:01
+  end_time: 2022-03-11 17:42:01
+  days_of_the_week: MyString
+  number_of_graders: 
+
+two:
+  section_number: 
+  start_time: 2022-03-11 17:42:01
+  end_time: 2022-03-11 17:42:01
+  days_of_the_week: MyString
+  number_of_graders: 

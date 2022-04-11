@@ -1,0 +1,75 @@
+.container {
+    .card {
+        width: 500px;
+        align-items: center;
+        background-color: rgb(255, 239, 220);
+        text-align: center;
+        display: block;
+        .card-body {
+            background-color: rgb(255, 239, 220);
+        }
+        .button {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            width: 200px;
+        }
+    }
+}
+
+.card#form {
+    background-color: rgb(255, 239, 220);
+    width: 50%;
+    .is-size-1 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .field {
+        width: 50%;
+        margin-right: auto;
+        margin-left: auto;
+        select { // Need custom styling on bulma css dropdown
+            width: 100%;
+            background: white;
+            height: 2.5em;
+            border-radius: 4px;
+            box-shadow: inset 0 .0625em .125em rgba(10,10,10,.05);
+            outline: 0;
+            cursor: pointer;
+            font-size: 1em;
+            border: 1px solid transparent;
+            border-color: #dbdbdb;
+        }
+    }
+    .links {
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.expanded {
+    display: grid;
+    grid-column: 1/-1;
+}
+
+#parent-table th {
+    width: 25%
+}
+
+nav {
+    #navbar-image {
+        max-width: 75px;
+        max-height: 75px;
+    }
+}
+
+nav {
+    padding: 5px 5px 5px 5px;
+}
+
+.hero {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,14 @@
+<div class="container is-flex is-justify-content-center">
+    <div class="card" id="user-actions">
+        <div class="card-header is-justify-content-center is-size-1">User Actions</div>
+        <!-- add link to sign up method -->
+        <div class="card-body is-flex-direction-column">
+            <% if current_user %>
+                <%= link_to "Dashboard", dashboard_index_path, class: 'button' %>
+            <% else %>
+                <%= link_to "Sign up", new_user_registration_path, class: 'button' %>
+                <%= link_to "Sign in", new_user_session_path, class: 'button' %>
+            <% end %>
+        </div>
+    </div>
+</div>
