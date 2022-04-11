@@ -16,7 +16,11 @@
     <% if notice || alert %>
       <section class='<%= "notice hero #{notice ? 'is-success' : 'is-danger'} is-small" %>'>
         <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
+        <p class="alert">
+          <% alert.each do |alert| %>
+            <ul><%= alert %></ul>
+          <% end %>
+        </p>
       </section>
     <% end %>
     <%= yield %>

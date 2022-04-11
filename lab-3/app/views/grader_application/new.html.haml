@@ -2,7 +2,7 @@
   .card#form
     .is-size-1.card-header.is-justify-content-center
       Course grades
-    = form_with model: @user, url: grader_application_index_path, method: :post do |f|
+    = form_for @user, url: grader_application_index_path, method: :post do |f|
       = render "devise/shared/error_messages", resource: @course
 
       #container
@@ -17,15 +17,15 @@
       = f.fields_for :availability do |a|
         .weekdays.is-flex.is-flex-direction-column.is-size-3.field
           Availabilities
+          .is-size-7
+            Please input times in military times and as a comma separated list. Ex: (start_time1,end_time1),(start_time2,end_time2), ...
           - %w[monday tuesday wednesday thursday friday].each do |day|
             = a.fields_for "#{day.to_sym}" do |d|
               = d.label "#{day.to_sym}", class: "is-size-5 checkbox"
               = d.check_box :is_available, class: 'weekday'
               %div{id: "#{day}-fields", class: 'hidden'}
-                = d.label :start_time, class: "is-size-6"
-                = d.text_field :start_time, class: 'input'
-                = d.label :end_time, class: "is-size-6"
-                = d.text_field :end_time, class: 'input'
+                = d.label :availabilities, class: "is-size-6"
+                = d.text_field :availabilities, class: 'input', pattern: '\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z', placeholder: '(start_time,end_time),(start_time,end_time), ...'
 
       .links 
         .actions.is-text-align-center
