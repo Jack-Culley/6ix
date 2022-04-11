@@ -8,6 +8,10 @@
     %br
     = f.text_field :department, class: 'input'
   .field 
+    = f.label :is_requested, 'Preferred class to grade?'
+    %br
+    = f.check_box :is_requested
+  .field 
     = f.label :course_number
     %br
     = f.text_field :course_number, class: 'input'
