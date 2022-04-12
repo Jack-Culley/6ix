@@ -12,5 +12,6 @@ Rails.application.routes.draw do
       put :approve_button_click
     end
   end
+  resources 'assign_graders', only: %w[index]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
