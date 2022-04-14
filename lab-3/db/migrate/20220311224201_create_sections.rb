@@ -8,6 +8,7 @@ class CreateSections < ActiveRecord::Migration[6.1]
       t.datetime :end_time
       t.boolean :days_of_the_week, array: true, default: []
       t.integer :number_of_graders, null: false, default: 0
+      t.integer :number_of_graders_required, null: false, default: 1
       t.integer :grader_ids, array: true, default: []
 
       t.timestamps

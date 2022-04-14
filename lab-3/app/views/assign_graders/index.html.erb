@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>User Approval Page</title>
+    <title>Assign Graders Page</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
-    <h1>hello world</h1>
+    <div class="columns">
+      <div class="column">
+        <div class="is-size-1">Open Sections</div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Section</th>
+          <th>Graders Assigned</th>
+          <th>Graders Required</th>
+          <%# <th>Click to Assign</th> %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @open_sections.all.each do |section_var| %>
+          <tr>
+            <td><%= section_var.course.course_title %></td>
+            <td><%= section_var.section_number %></td>
+            <td><%= section_var.number_of_graders %></td>
+            <td><%= section_var.number_of_graders_required %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="columns">
+      <div class="column">
+        <div class="is-size-1">Filled Sections</div>
+      </div>
+    </div>
   </body>
 </html>

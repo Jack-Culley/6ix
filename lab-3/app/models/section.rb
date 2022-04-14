@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Section < ApplicationRecord
+  self.primary_key = 'section_number'
   DAYS = {}.tap do |h|
     h['0'] = 'M'
     h['1'] = 'T'
