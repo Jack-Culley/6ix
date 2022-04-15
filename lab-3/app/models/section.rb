@@ -12,5 +12,5 @@ class Section < ApplicationRecord
     h['6'] = 'U'
   end
   has_one :user
-  has_one :course
+  belongs_to :course
 end
