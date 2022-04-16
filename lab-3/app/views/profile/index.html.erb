@@ -19,7 +19,11 @@
         <div class="actions is-text-align-center">
           <div class="is-size-3">
             <p>Email: <%= @user.email %></p>
-            <p>Courses applied for:</p>
+            <% if student? %>
+              <p>Courses applied for:</p>
+            <% elsif instructor? %>
+              <p>Your recommendations:</p>
+            <% end %>
           </div>
           <%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
         </div>

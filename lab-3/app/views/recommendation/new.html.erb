@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab3</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+</html>
+
+<div class="is-flex is-justify-content-center">
+  <div class="card" id="form">
+    <div class="is-size-1 card-header is-justify-content-center">New Recommendation</div>
+    <%= form_for(resource, as: resource_name, url: recommendation_new_path) do |f| %>
+      <div id="container">
+        <div class="field">
+          <%= f.label :first_name, 'First Name' %><br />
+          <%= f.text_field :first_name, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :last_name, 'Last Name' %><br />
+          <%= f.text_field :last_name, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :email, 'Email (must be name.#@osu.edu)' %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", pattern: '\A[a-zA-Z-]+\.\d+@osu\.edu\z' %>
+        </div>
+
+        <div class="field">
+          <%= f.label :recommendation, 'Type your recommendation here' %><br />
+          <%= f.text_field :recommendation, class: "input" %>
+        </div>
+        <div class="actions is-text-align-center">
+        <%= f.submit "Submit Recommendation", class: "button" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
