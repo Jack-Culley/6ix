@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources 'course'
   resources 'profile', only: %w[index]
   resources 'grader_application'
-  resources 'recommendation', only: %w[new]
+  resources 'recommendation', only: %w[index]
   resources 'user_approval' do
     collection do
       put :approve_button_click

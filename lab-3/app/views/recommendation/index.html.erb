@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab3</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+</html>
+
+
+<div class="columns">
+  <div class="column"><div class="is-size-1">Student Recommendation</div></div>
+</div>
+<table class="table is-fullwidth is-hoverable" id="parent-table">
+  <thead>
+  <tr>
+    <th></th>
+    <th>Student</th>
+    <th>Email</th>
+    <th>Recommendation Status</th>
+    <th>Recommend</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= form_for(@students) do |f| %>
+  <% users.where(user_type: 'student').order(last_name: :asc) do |s| %>
+    <tr>
+      <td><%= s.first_name %> <%= s.last_name %></td>
+      <td><%= s.email %></td>
+      <td><%= s.is_recommended %></td>
+        <td>
+          <%= f.check_box :is_recommended, {}, true, false %>
+        </td>
+    </tr>
+  <% end %>
+    </tbody>
+    </table>
+    <div class="actions is-text-align-center">
+      <%= f.submit "Submit Recommendations", class: "button" %>
+    </div>
+  <% end %>
+
+<%== render partial: 'bulma_nav', locals: {pagy: pagy} %>
