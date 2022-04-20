@@ -17,19 +17,22 @@
       <thead>
         <tr>
           <th>Course Name</th>
+          <th>Course Number</th>
           <th>Section</th>
           <th>Graders Assigned</th>
           <th>Graders Required</th>
-          <%# <th>Click to Assign</th> %>
+          <th>Click to Assign</th>
         </tr>
       </thead>
       <tbody>
         <% @open_sections.all.each do |section_var| %>
             <tr>
                 <td><%= section_var.course.course_title %></td>
+                <td><%= section_var.course.course_number%></td>
                 <td><%= section_var.section_number %></td>
                 <td><%= section_var.number_of_graders %></td>
                 <td><%= section_var.number_of_graders_required %></td>
+                <td><%= link_to "Assign", assign_grader_path(section_var), class: 'button is-info', method: :get %></td>
             </tr>
         <% end %>
       </tbody>
@@ -44,6 +47,7 @@
       <thead>
         <tr>
           <th>Course Name</th>
+          <th>Course Number</th>
           <th>Section</th>
           <th>Graders Assigned</th>
           <th>Graders Required</th>
@@ -54,6 +58,7 @@
         <% @filled_sections.all.each do |section_var| %>
             <tr>
                 <td><%= section_var.course.course_title %></td>
+                <td><%= section_var.course.course_number%></td>
                 <td><%= section_var.section_number %></td>
                 <td><%= section_var.number_of_graders %></td>
                 <td><%= section_var.number_of_graders_required %></td>

@@ -62,9 +62,9 @@ class GraderApplicationController < ApplicationController
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def create_availabilities(availability_params)
-    regexp = /\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z/
+    regexp = /\A(\([0-2]{1}\d{3},[0-2]{1}\d{3}\),{0,1})+\z/
     count = 0
-    @availabilities = @user.availability
+    @availabilities = @user.availability || Availability.new
     # This block ensures that the availabilities are not empty or filled in correctly
     availability_params.to_h.each do |day, value|
       if value[:availabilities].empty?
@@ -86,7 +86,7 @@ class GraderApplicationController < ApplicationController
     end
 
     json_obj = { data: availability_params }.to_json
-    @availabilities.update(availabiliy_json: json_obj, user_id: @user.id)
+    @availabilities.update(availability_json: json_obj, user_id: @user.id)
     false
   end
 end
