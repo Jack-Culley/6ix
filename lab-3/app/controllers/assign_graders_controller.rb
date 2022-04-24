@@ -3,8 +3,8 @@
 class AssignGradersController < ApplicationController
   before_action :admin?
   def index
-    @open_sections = Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders < number_of_graders_required')
-    @filled_sections = Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders >= number_of_graders_required')
+    @open_sections = Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders < number_of_graders_required').order(:course_id)
+    @filled_sections = Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders >= number_of_graders_required').order(:course_id)
     # used for displaying the button only on the dashboard page
     @on_assign_graders_page = true
   end
@@ -19,6 +19,19 @@ class AssignGradersController < ApplicationController
     # @user = User.all
     # @recommended_graders =
     # @interested_graders =
+  end
+
+  def update
+    @section_number = params[:id]
+    new_number = params[:section][:number_of_graders_required]
+    @section = Section.find_by(section_number: @section_number)
+    @section.update(number_of_graders_required: new_number)
+    if @section.valid?
+      flash[:notice] = 'Section updated!'
+      redirect_to assign_graders_url
+    else
+      respond_with @section
+    end
   end
 
   def parse_time(availabilities)
@@ -69,8 +82,11 @@ class AssignGradersController < ApplicationController
           break
         end
       end
-      possible_graders << u if u.courses_taken.where(course_number: @section.course.course_number,
-                                                     department: @section.course.department) && available_to_grade
+      u.courses_taken.each do |userCourse|
+        if userCourse.course_number == @section.course.course_number && userCourse.department == @section.course.department && available_to_grade
+          possible_graders << u
+        end
+      end
     end
     possible_graders
   end
