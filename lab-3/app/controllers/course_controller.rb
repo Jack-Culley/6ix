@@ -14,7 +14,7 @@ class CourseController < ApplicationController
     @course.update(course_params)
     if @course.valid?
       flash[:notice] = 'Course updated!'
-      redirect_to dashboard_index_url
+      redirect_to dashboard_index_url(refresh: { semester: @course.term })
     else
       respond_with @course
     end
@@ -36,7 +36,7 @@ class CourseController < ApplicationController
   def create
     @course = Course.create(course_params)
     if @course.valid?
-      redirect_to dashboard_index_url
+      redirect_to dashboard_index_url(refresh: { semester: @course.term })
     else
       respond_with @course
     end
@@ -45,6 +45,6 @@ class CourseController < ApplicationController
   private
 
   def course_params
-    params.require(:course).permit(:department, :campus, :course_title, :course_number)
+    params.require(:course).permit(:department, :campus, :course_title, :term, :course_number)
   end
 end

@@ -15,7 +15,7 @@ module ApplicationHelper
 
   def student?
     return true if current_user&.user_type == 'student'
-    
+
     false
   end
 end
