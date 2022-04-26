@@ -26,9 +26,23 @@
                       <% else %>
                         <%= check_box_tag  "graders[#{person.id}]", true, @tags%>
                       <% end %>
-                      <%= label_tag("graders[#{person.id}]","Name: " + person.first_name + " " + person.last_name + ", Email: " + person.email + ", Grade: " + person.courses_taken.where(course_number: @section.course.course_number).first.letter_grade) %>
+                      <%# The following code computes the status of the potential grader: requested, reccomended, interested %>
+                      <%if person.courses_taken.where(course_number: @section.course.course_number).first.interest%>
+                        <% status = "Interested" %>
+                      <% elsif person.courses_taken.where(course_number: @section.course.course_number).first.is_recommended%>
+                        <% status = "Recommended" %>
+                      <% elsif person.courses_taken.where(course_number: @section.course.course_number).first.is_requested%> 
+                        <% status = "Requested" %>
+                      <% end %> 
+                      <%= label_tag("graders[#{person.id}]","Name: " + person.first_name + " " + person.last_name + ", Email: " + person.email + ", Grade: " + person.courses_taken.where(course_number: @section.course.course_number).first.letter_grade) + ", Status: " + status%>
                     </div>
                   <% end %>
+              </div>
+              <div class="container m-5">
+                <h5>Definitions of Status Labels:</h5>
+                <p>Interested: Student is interested in grading course</p>
+                <p>Recommended: Student was recommended by an instructor to be a grader</p>
+                <p>Requested: Student was specifically requested by an instructor to be a grader for this course</p>
               </div>
 
           

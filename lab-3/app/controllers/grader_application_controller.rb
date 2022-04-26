@@ -32,7 +32,7 @@ class GraderApplicationController < ApplicationController
   private
 
   def application_params
-    params.require(:user).permit(courses_taken_attributes: %i[id letter_grade department course_number _destroy is_requested],
+    params.require(:user).permit(courses_taken_attributes: %i[id letter_grade department course_number _destroy interest],
                                  availability: [monday: %i[is_available
                                                            availabilities], tuesday: %i[is_available
                                                                                         availabilities], wednesday: %i[
