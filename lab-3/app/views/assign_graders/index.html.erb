@@ -51,7 +51,7 @@
           <th>Section</th>
           <th>Graders Assigned</th>
           <th>Graders Required</th>
-          <%# <th>Click to Assign</th> %>
+          <th>Click to Assign</th>
         </tr>
       </thead>
       <tbody>
@@ -62,6 +62,7 @@
                 <td><%= section_var.section_number %></td>
                 <td><%= section_var.number_of_graders %></td>
                 <td><%= section_var.number_of_graders_required %></td>
+                <td><%= link_to "Assign", assign_grader_path(section_var), class: 'button is-info', method: :get %></td>
             </tr>
         <% end %>
       </tbody>

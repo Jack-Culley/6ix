@@ -14,18 +14,33 @@ class AssignGradersController < ApplicationController
     # #binding.pry
     @section = Section.find_by(section_number: @section_number)
     @possible_graders = possible_graders
-
-    # @requested_graders = User.where()
-    # @user = User.all
-    # @recommended_graders =
-    # @interested_graders =
   end
 
   def update
+    # update required number
     @section_number = params[:id]
     new_number = params[:section][:number_of_graders_required]
     @section = Section.find_by(section_number: @section_number)
     @section.update(number_of_graders_required: new_number)
+
+    # update graders list
+    graders_hash = params[:graders]
+
+    if !graders_hash.nil?
+      graders_array = []
+
+      graders_hash.each do |key, _value|
+        graders_array << key.to_i
+      end
+
+      @section.update(grader_ids: graders_array)
+      @section.update(number_of_graders: graders_array.length)
+    else
+      @section.update(grader_ids: [])
+      @section.update(number_of_graders: 0)
+    end
+
+    # flashes alert
     if @section.valid?
       flash[:notice] = 'Section updated!'
       redirect_to assign_graders_url
@@ -34,10 +49,10 @@ class AssignGradersController < ApplicationController
     end
   end
 
+  # this method parses availabilities json and returns true if user's availability matches section's
   def parse_time(availabilities)
     availabilities.each do |availability|
       times = availability.split(',')
-      # binding.pry
       startTime = @section.start_time.hour.to_s + @section.start_time.min.to_s
       endTime = @section.end_time.hour.to_s + @section.end_time.min.to_s
       return false unless times[0].to_i <= startTime.to_i && times[1].to_i >= endTime.to_i
@@ -45,6 +60,7 @@ class AssignGradersController < ApplicationController
     true
   end
 
+  # this method determines and array of possible graders for a section based on their availability
   def possible_graders
     possible_graders = []
     User.all.where(user_type: 'student').each do |u|
@@ -72,7 +88,6 @@ class AssignGradersController < ApplicationController
         if available_for_day == days_of_the_week[index]
           availabilities = data['availabilities'].gsub('(', '').split(/\),/)
           availabilities.last.chop!
-          # break unless parse_time(availabilites)
           if parse_time(availabilities) == false
             available_to_grade = false
             break

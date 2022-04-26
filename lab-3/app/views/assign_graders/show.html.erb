@@ -10,14 +10,29 @@
     <div class="is-flex is-justify-content-center">
       <div class="card " id="form">
         <div class="is-size-1 card-header is-justify-content-center">Assign Graders</div>
-          <%= form_for(@section, url: assign_grader_path, html: { method: :put }) do |f| %>
+
+          <%= form_for(@section, url: assign_grader_path, html: { method: :put } ) do |f| %>
             <%= render "devise/shared/error_messages", resource: @section %>
-              <div class="field">
+              <div class="container mb-5">
                   <label class="label">Graders Required for Section</label>
                   <%= f.number_field :number_of_graders_required, min: 1, step: 1 %>
               </div>
+              <div class="container m-1">
+                  <label class="label">Options for Graders</label>
+                  <% @possible_graders.each_with_index do |person, index| %>
+                    <div class="container m-1">
+                      <% if @section.grader_ids.include?(person.id) %>
+                        <%= check_box_tag  "graders[#{person.id}]", true, @tags, {checked: true}%> 
+                      <% else %>
+                        <%= check_box_tag  "graders[#{person.id}]", true, @tags%>
+                      <% end %>
+                      <%= label_tag("graders[#{person.id}]","Name: " + person.first_name + " " + person.last_name + ", Email: " + person.email + ", Grade: " + person.courses_taken.where(course_number: @section.course.course_number).first.letter_grade) %>
+                    </div>
+                  <% end %>
+              </div>
+
           
-              <div class="links">
+              <div class="links mt-5">
                 <div class="actions is-text-align-center">
                   <%= f.submit "Update", class: 'button' %>
                 </div>
