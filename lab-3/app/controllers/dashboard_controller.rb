@@ -6,7 +6,6 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
-    # courses = Course.order(id: :asc)
     courses = Course.where(term: params[:refresh][:semester]).order(id: :asc) unless params[:refresh].nil?
     courses = Course.order(id: :asc) if params[:refresh]&.dig(:semester)&.empty?
     @pagy, @courses = pagy(courses || Course.order(id: :asc))
