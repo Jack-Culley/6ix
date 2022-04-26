@@ -6,9 +6,8 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
-    courses = Course.where(term: params[:refresh][:semester]).order(id: :asc) unless params[:refresh].nil?
-    courses = Course.order(id: :asc) if params[:refresh]&.dig(:semester)&.empty?
-    @pagy, @courses = pagy(courses || Course.order(id: :asc))
+    courses = filter_courses
+    @pagy, @courses = pagy(courses || Course.order(id: sort_order.to_sym))
     @sections = Section.all
   end
 
@@ -19,6 +18,19 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def filter_courses
+    return Course.for_course_number(params[:course_search]).order(id: sort_order.to_sym) unless params[:course_search].nil?
+    return Course.for_level(params[:course_level].to_i).order(id: sort_order.to_sym) unless params[:course_level].nil?
+    return Course.for_term(params[:refresh][:semester]).order(id: sort_order.to_sym) unless params[:refresh].nil?
+    return Course.order(id: sort_order.to_sym) if params[:refresh]&.dig(:semester)&.empty?
+  end
+
+  def sort_order
+    return params[:sort] unless params[:sort].nil?
+
+    'asc'
+  end
 
   def get_courses
     @courses ||= query_courses
