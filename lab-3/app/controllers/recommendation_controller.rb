@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RecommendationController < ApplicationController
+  before_action :authenticate_user!, :instructor?
+
   def index;
     @user = current_user
     get_students
@@ -13,8 +15,5 @@ class RecommendationController < ApplicationController
 
   def query_students
     return User.where(user_type: 'student').order(last_name: :asc) unless User.all.empty?
-  end
-
-  def update
   end
 end

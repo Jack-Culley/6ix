@@ -1,0 +1,24 @@
+.is-flex.is-justify-content-center
+  .is-size-1.card-header.is-justify-content-center Student Recommendation
+
+%table#parent-table.table.is-fullwidth.is-hoverable
+  %thead
+    %tr
+      %th Student
+      %th Email
+      %th Recommendation Status
+      %th Recommend
+
+  %tbody
+
+    = User.where(user_type: 'student').order(last_name: :asc) do |s|
+      = form_with model: @user, url: recommendation_index_path, method: :post do |f|
+        %tr
+          %td= s.first_name s.last_name
+          %td= s.email
+          %td= s.is_recommended
+          %td= f.check_box :is_recommended, {checked: s.is_recommended?}, true, false
+
+        %div.actions.is-text-align-center= f.submit "Submit Recommendations", class: "button"
+
+= render partial: 'bulma_nav', locals: {pagy: @pagy}
