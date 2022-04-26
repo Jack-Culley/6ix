@@ -19,3 +19,11 @@
 7. Run the command `npm install`
 8. Create and add data to the database using `rails db:create` and `rails db:migrate`
 9. Then run `rails db:seed` to create the first admin user. This user's credentials are: email: `admin.1@osu.edu` and password `admin123`
+
+## How to run
+1. Run the webpack dev server by running `bin/webpack-dev-server` in the root directory of the app
+2. Run the app by running `rails s`
+
+## Functionality
+- Admin
+  1. Able to refresh the course catalogue by pressing the 
