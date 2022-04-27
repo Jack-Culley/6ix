@@ -5,12 +5,9 @@ class RecommendationController < ApplicationController
 
   def index
     @user = current_user
-    get_students
     @pagy, @students = pagy(User.order(last_name: :asc))
-  end
-
-  def get_students
-    @students ||= query_students
+    @students = query_students
+    @sections = Section.all
   end
 
   def query_students
@@ -18,13 +15,27 @@ class RecommendationController < ApplicationController
   end
 
   def get_instructor_name(instructor_id)
-    @first_name = User.where(id: instructor_id).first_name
-    @last_name = User.where(id: instructor_id).last_name
+    @first_name = User.find(id: instructor_id).first_name
+    @last_name = User.find(id: instructor_id).last_name
     return @first_name + " " + @last_name
-
   end
+  helper_method :get_instructor_name
 
-  def get_course_name(course_number)
-    return courses.where(id: course_number).course_title
-  end
+  def get_recommendation_status(user_id)
+    @student = User.find(user_id)
+    if @student.courses_taken.empty?
+      return "Not Recommended"
+    end
+    @courses = @student.courses_taken
+    @courses.all.each do |c|
+        if c.is_recommended
+          return "Recommended"
+          exit
+        end
+        return "Not Recommended"
+      end
+    end
+  helper_method :get_recommendation_status
+
+
 end

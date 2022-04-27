@@ -25,12 +25,11 @@
                   <th>Courses applied for</th>
                 </thead>
                 <tbody>
-                  <% courses_taken.where("studentId = ? AND is_requested = ?", @user.id, true) do |c| %>
+                  <% @user.courses_taken.where(studentId: @user.id) do |c| %>
                   <td><%= c.course_title %></td>
                   <% end %>
                 </tbody>
               </table>
-              <p>Recommendation Status: <%= @user.is_recommended ? 'Recommended' : 'Not Recommended' %></p>
             <% end %>
           </div>
           <%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
