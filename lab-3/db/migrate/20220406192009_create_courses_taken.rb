@@ -6,7 +6,7 @@ class CreateCoursesTaken < ActiveRecord::Migration[6.1]
       t.string :letter_grade, null: false
       t.boolean :interest
       t.boolean :is_recommended
-      t.boolean :is_requested
+      t.string :is_requested, default: ""
       t.integer :course_number, null: false
       t.string :department, null: false
 
