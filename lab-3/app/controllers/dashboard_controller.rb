@@ -79,7 +79,7 @@ class DashboardController < ApplicationController
       sections.each do |section|
         Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
                        end_time: section['meetings'].first['endTime'],
-                       days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thurdsay'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
+                       days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursdsay'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
                        number_of_graders: 0, course_id: course_object.id)
       end
     end
