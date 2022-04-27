@@ -11,7 +11,6 @@ class AssignGradersController < ApplicationController
 
   def show
     @section_number = params[:id]
-    # #binding.pry
     @section = Section.find_by(section_number: @section_number)
     @possible_graders = possible_graders
   end
@@ -33,11 +32,9 @@ class AssignGradersController < ApplicationController
         graders_array << key.to_i
       end
 
-      @section.update(grader_ids: graders_array)
-      @section.update(number_of_graders: graders_array.length)
+      @section.update(grader_ids: graders_array, number_of_graders: graders_array.length)
     else
-      @section.update(grader_ids: [])
-      @section.update(number_of_graders: 0)
+      @section.update(grader_ids: [], number_of_graders: 0)
     end
 
     # flashes alert
@@ -64,9 +61,7 @@ class AssignGradersController < ApplicationController
   def possible_graders
     possible_graders = []
     User.all.where(user_type: 'student').each do |u|
-      # binding.pry
       available_to_grade = true
-      # u.courses_taken.where(course_number: sw1.course_number, department: sw1.department) returns a user with the course in question taken
       start_time = DateTime.parse(@section.start_time.to_s)
       end_time = DateTime.parse(@section.end_time.to_s)
       days_of_the_week = @section.days_of_the_week
