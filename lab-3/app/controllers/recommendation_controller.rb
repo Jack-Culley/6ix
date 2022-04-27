@@ -15,6 +15,9 @@ class RecommendationController < ApplicationController
   end
 
   def get_instructor_name(instructor_id)
+    if instructor_id == nil
+      return "No instructor"
+    end
     first_name = User.find(id: instructor_id).first_name
     last_name = User.find(id: instructor_id).last_name
     return first_name + " " + last_name
@@ -37,5 +40,37 @@ class RecommendationController < ApplicationController
     end
   helper_method :get_recommendation_status
 
+  def get_sections_requested(user_id)
+    courses = CoursesTaken.find_by(user_id: user_id)
+    if courses.is_requested != ""
+      return courses.is_requested.split(" ")
+    end
+  end
+  helper_method :get_sections_requested
+
+  def recommend_button_click
+    @course = CoursesTaken.find_by(user_id: params[:id], course_number: params[:course_number])
+    @course.update(is_recommended: true)
+    if @course.is_recommended?
+      flash[:notice] = 'Student has been recommended'
+      redirect_to recommendation_index_path
+    else
+      flash[:alert] = 'Failed to recommend student'
+    end
+  end
+
+  def request_button_click
+    @instructor = User.find_by(id: params[:iid])
+    @student = User.find_by(id: params[:sid])
+    @course = CoursesTaken.find_by(course_number: params[:course_number])
+    @section = Section.find_by(section_number: params[:section_number])
+    @course.update(is_requested: "#{params[:section_number]}")
+    if @course.is_requested?
+      flash[:notice] = 'Student has been requested for your section'
+      redirect_to recommendation_index_path
+    else
+      flash[:alert] = 'Failed to request student'
+    end
+  end
 
 end

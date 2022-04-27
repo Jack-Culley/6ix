@@ -7,15 +7,13 @@
       %th
       %th Student
       %th Email
-      %th Recommendation Status
 
   %tbody
     - @students.all.each do |s|
       %tr
-        %td{class: "toggle #{s.id}", "data-bs-target" => "##{"user_#{s.id}"}", "data-bs-toggle" => "collapse"} &#8594;
+        %td{class: "toggle #{s.id} is-fullwidth", "data-bs-target" => "##{"user_#{s.id}"}", "data-bs-toggle" => "collapse"} &#8594;
         %td= s.first_name + " " + s.last_name
         %td= s.email
-        %td= get_recommendation_status(s.id)
         %tr{class: "collapse", id: "user_#{s.id}"}
           %td
             %table.table#child-table
@@ -24,31 +22,32 @@
                   %th
                   %th Eligible Courses
                   %th Recommend
-                  %th
+                  %th Recommendation Status
               %tbody
                 - s.courses_taken.all.each do |c|
-                  = form_for @user, url: recommendation_index_path, method: :post do |f|
-                    %tr
-                      %td{class: "toggle course_#{c.id}", "data-bs-target" => "##{"course_#{c.id}"}", "data-bs-toggle" => "collapse"} &#8594;
-                      %td= Course.find_by(course_number: c.course_number).course_title
-                      %td= f.check_box :is_recommended, {checked: c.is_recommended?, disabled: c.is_recommended?}, true, false
-                      %td= f.submit "Submit Recommendations/Requests", class: "button is-danger"
-                    %tr{class: "collapse", id: "course_#{c.id}"}
-                      %td
-                      %td
-                        %table.table#child-table
-                          %thead
-                            %tr
-                              %th Section Number
-                              %th Number of Graders
-                              %th Instructor
-                              %th Request
-                          %tbody
-                            - @sections.where(course_id: c.id).each do |section|
-                              %tr.expandable
-                                %td= section.section_number
-                                %td= section.number_of_graders
-                                %td= get_instructor_name(section.instructor_id)
-                                %td= f.check_box :is_requested, {checked: c.is_requested}, true, false
+                  %tr
+                    %td{class: "toggle course_#{c.id}", "data-bs-target" => "##{"course_#{c.id}"}", "data-bs-toggle" => "collapse"} &#8594;
+                    %td= Course.find_by(course_number: c.course_number).course_title
+                    %td= link_to "Recommend For Course", recommend_button_click_recommendation_index_path(course_number: c.course_number, id: s.id), class: "button is-danger", method: :put
+                    %td= get_recommendation_status(s.id)
+                  %tr{class: "collapse", id: "course_#{c.id}"}
+                    %td
+                    %td
+                      %table.table#child-table
+                        %thead
+                          %tr
+                            %th Section Number
+                            %th Number of Graders
+                            %th Instructor
+                            %th Request
+                            %th Requested for:
+                        %tbody
+                          - @sections.where(course_id: c.id).each do |section|
+                            %tr.expandable
+                              %td= section.section_number
+                              %td= section.number_of_graders
+                              %td= get_instructor_name(section.instructor_id)
+                              %td= link_to "Request", request_button_click_recommendation_index_path(section_number: section.section_number, iid: @user.id, course_number: c.course_number, sid: s.id), class: 'button is-danger', method: :put
+                              %td= get_sections_requested(s.id)
 
 = render partial: 'bulma_nav', locals: {pagy: @pagy}
