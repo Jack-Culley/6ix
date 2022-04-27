@@ -29,7 +29,55 @@ class GraderApplicationController < ApplicationController
     redirect_to dashboard_index_path
   end
 
+  def edit
+    @user = current_user
+    @course = Course.find(params[:id])
+    @availabilities = Availability.find(params[:id])
+  end
+
+  def update
+    @user = current_user
+    update_user_courses
+    has_errors = update_user_availabilities
+    return if has_errors
+    
+    flash[:alert] = nil
+    flash[:notice] = 'Successfully updated course(s) taken'
+    redirect_to dashboard_index_path
+
+    
+  end
+
+
+
   private
+
+  def update_user_courses
+    flash[:alert] = []
+    courses_taken=application_params&.dig(:courses_taken_attributes).to_h
+    courses_taken.each do |key, _value|
+      course_params = courses_taken[key]
+      should_destroy = course_params.dig('_destroy')=='1'? true:false
+      @user.courses_taken.delete(course_params[:id].to_i)if should_destroy 
+      next if should_destroy
+      course_params.delete('_destroy')
+      
+      @course = CoursesTaken.find_or_initialize_by(id: course_params[:id], course_number: course_params[:course_number]).tap do |course_taken|
+        course_taken.letter_grade = course_params[:letter_grade]
+        course_taken.department = course_params[:department]
+        course_taken.course_number = course_params[:course_number]
+        course_taken.is_requested = course_params[:is_requested] 
+        course_taken.user_id = current_user.id
+      end
+      @course.save
+      flash[:alert] << @course.errors.full_messages unless @course.errors.empty?
+    end
+  end
+
+  def update_user_availabilities
+    availability_params = application_params&.dig(:availability)
+    create_availabilities(availability_params)
+  end
 
   def application_params
     params.require(:user).permit(courses_taken_attributes: %i[id letter_grade department course_number _destroy is_requested],
@@ -64,7 +112,7 @@ class GraderApplicationController < ApplicationController
   def create_availabilities(availability_params)
     regexp = /\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z/
     count = 0
-    @availabilities = @user.availability
+    @availabilities = @user.availability || Availability.create
     # This block ensures that the availabilities are not empty or filled in correctly
     availability_params.to_h.each do |day, value|
       if value[:availabilities].empty?
@@ -86,7 +134,7 @@ class GraderApplicationController < ApplicationController
     end
 
     json_obj = { data: availability_params }.to_json
-    @availabilities.update(availabiliy_json: json_obj, user_id: @user.id)
+    @availabilities.update(availability_json: json_obj, user_id: @user.id)
     false
   end
 end
