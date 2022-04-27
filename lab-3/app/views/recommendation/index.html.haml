@@ -10,7 +10,7 @@
       %th Recommendation Status
 
   %tbody
-    = @students.all.each do |s|
+    - @students.all.each do |s|
       %tr
         %td{class: "toggle #{s.id}", "data-bs-target" => "##{"user_#{s.id}"}", "data-bs-toggle" => "collapse"} &#8594;
         %td= s.first_name + " " + s.last_name
@@ -26,7 +26,7 @@
                   %th Recommend
                   %th
               %tbody
-                = s.courses_taken.all.each do |c|
+                - s.courses_taken.all.each do |c|
                   = form_for @user, url: recommendation_index_path, method: :post do |f|
                     %tr
                       %td{class: "toggle course_#{c.id}", "data-bs-target" => "##{"course_#{c.id}"}", "data-bs-toggle" => "collapse"} &#8594;
@@ -43,7 +43,7 @@
                               %th Instructor
                               %th Request
                           %tbody
-                            = @sections.where(course_id: c.id).each do |section|
+                            - @sections.where(course_id: c.id).each do |section|
                               %tr.expandable
                                 %td= section.section_number
                                 %td= section.number_of_graders
