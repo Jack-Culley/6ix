@@ -14,4 +14,15 @@ module DashboardHelper
 
     date.strftime('%H:%M')
   end
+
+  def convert_term_code(term_code)
+    case term_code
+    when '1222'
+      'Spring 22'
+    when '1224'
+      'Summer 22'
+    when '1228'
+      'Autumn 22'
+    end
+  end
 end

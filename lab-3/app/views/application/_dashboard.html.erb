@@ -6,6 +6,22 @@
     </div> 
   <% end %>
 </div>
+<div id="filters" class="columns">
+  <div class="column">
+    <form action="/dashboard">
+      <label for="course_level">Level search: &nbsp</label>
+      <input type="text" name="course_level" id="course-level" placeholder="Enter multiples of 1000" pattern="^[1-6]{1}0{3}$">
+    </form>
+  </div>
+  <div class="column">
+    <form action="/dashboard">
+      <label for="course_search">Course search: &nbsp</label>
+      <input type="text" name="course_search" id="course-search" placeholder="ex: 3901", pattern="^[1-6]{1}[0-9]{3}$">
+    </form>
+  </div>
+  <div class="column"><a class="button" href="/dashboard?sort=asc">Sort by asc</a></div>
+  <div class="column"><a class="button" href="/dashboard?sort=desc">Sort by desc</a></div>
+</div>
 <table class="table is-fullwidth is-hoverable" id="parent-table">
   <thead>
     <tr>
@@ -13,6 +29,7 @@
       <th>Department</th>
       <th>Campus</th>
       <th>Course Title</th>
+      <th>Term</th>
       <% if admin %>
         <th>Edit</th>
       <% end %>
@@ -26,6 +43,7 @@
         <td><%= c.department %></td>
         <td><%= c.campus %></td>
         <td><%= c.course_title %></td>
+        <td><%= convert_term_code(c.term) %></td>
         <% if admin %>
           <td><%= link_to 'Edit', edit_course_path(c) %></td>
         <% end %>
@@ -59,9 +77,12 @@
     <% end %>
   </tbody>
 </table>
+<div class="column" align="left" style="margin-left:5px;margin-top:10px">  
+  <%= link_to "Change Semester", refresh_index_path(), class: 'button is-info'%>
+</div>
 <% if admin %>
   <div class="column" align="left" style="margin-left:5px;margin-top:10px">  
-    <%= link_to "Restore Courses", dashboard_path(@user), class: 'button is-danger' , method: :delete, data: { confirm: 'Warning: Restoring courses will discard all admin changes to the course catalogue.' }%>
+    <%= link_to "Restore Courses", dashboard_path(@user), method: :delete, class: 'button is-danger', data: { confirm: 'Warning: Restoring courses will discard all admin changes to the course catalogue.' } %>
   </div>
 <% end %>
 <%== render partial: 'bulma_nav', locals: {pagy: pagy} %>
