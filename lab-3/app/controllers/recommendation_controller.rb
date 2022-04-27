@@ -6,7 +6,7 @@ class RecommendationController < ApplicationController
   def index;
     @user = current_user
     get_students
-    @pagy, @students = pagy(User.order(lname: :asc))
+    @pagy, @students = pagy(User.order(last_name: :asc))
   end
 
   def get_students
@@ -14,6 +14,6 @@ class RecommendationController < ApplicationController
   end
 
   def query_students
-    return User.where(user_type: 'student').order(last_name: :asc) unless User.all.empty?
+    return User.where(user_type: "student").order(last_name: :asc) unless User.all.empty?
   end
 end

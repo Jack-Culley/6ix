@@ -26,7 +26,10 @@
         <%= f.text_field :course_number, class: 'input' %>
       </div>
 
-     <!--   TODO: Create nested form for course sections PROJ 3  -->
+      <div class="field">
+        <%= f.label :term %><br />
+        <%= f.select :term, [['Autumn', '1228'], ['Spring','1222'],['Summer', '1224']] %>
+      </div>
 
       <div class="links">
         <div class="actions is-text-align-center">

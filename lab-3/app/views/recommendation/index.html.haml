@@ -8,17 +8,16 @@
       %th Email
       %th Recommendation Status
       %th Recommend
+      %th Request
 
   %tbody
-
-    = User.where(user_type: 'student').order(last_name: :asc) do |s|
-      = form_with model: @user, url: recommendation_index_path, method: :post do |f|
+    = @students.all.each do |s|
+      = form_for @user, url: recommendation_index_path, method: :post do |f|
         %tr
-          %td= s.first_name s.last_name
+          %td= s.first_name
           %td= s.email
           %td= s.is_recommended
           %td= f.check_box :is_recommended, {checked: s.is_recommended?}, true, false
-
+          %td= f.text_field :
         %div.actions.is-text-align-center= f.submit "Submit Recommendations", class: "button"
-
 = render partial: 'bulma_nav', locals: {pagy: @pagy}

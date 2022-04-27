@@ -6,7 +6,8 @@ class DashboardController < ApplicationController
   def index
     @user = current_user
     get_courses
-    @pagy, @courses = pagy(Course.order(id: :asc))
+    courses = filter_courses
+    @pagy, @courses = pagy(courses || Course.order(id: sort_order.to_sym))
     @sections = Section.all
   end
 
@@ -18,23 +19,55 @@ class DashboardController < ApplicationController
 
   private
 
+  def filter_courses
+    return Course.for_course_number(params[:course_search]).order(id: sort_order.to_sym) unless params[:course_search].nil?
+    return Course.for_level(params[:course_level].to_i).order(id: sort_order.to_sym) unless params[:course_level].nil?
+    return Course.for_term(params[:refresh][:semester]).order(id: sort_order.to_sym) unless params[:refresh].nil?
+    return Course.order(id: sort_order.to_sym) if params[:refresh]&.dig(:semester)&.empty?
+  end
+
+  def sort_order
+    return params[:sort] unless params[:sort].nil?
+
+    'asc'
+  end
+
   def get_courses
     @courses ||= query_courses
   end
 
-  def query_courses
-    return Course.order(id: :asc) unless Course.all.empty?
+  def api_params(page = nil)
+    h = { q: 'cse', campus: 'col' }
+    return h if params[:refresh].nil?
 
-    data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: '1222' }).to_hash&.dig(:body, 'data')
+    h[:term] = params[:refresh][:semester]
+    h[:page] = page if page
+    h
+  end
+
+  def build_courses
+    data = osu_client.get('classes/search', api_params).to_hash&.dig(:body, 'data')
     save_courses(data['courses'])
     total_pages = data['totalPages']
     2.upto(total_pages) do |page|
       data = osu_client.get('classes/search',
-                            { q: 'cse', campus: 'col', term: '1222', p: page }).to_hash&.dig(:body, 'data')
+                            api_params(page)).to_hash&.dig(:body, 'data')
       save_courses(data['courses'])
     end
+  end
+
+  def query_courses
+    return unless Course.all.empty?
+
+    build_courses
 
     Course.all
+  end
+
+  def term_code(course)
+    return '1222' if course['term'].include?('Spring')
+    return '1224' if course['term'].include?('Summer')
+    return '1228' if course['term'].include?('Autumn')
   end
 
   def save_courses(courses)
@@ -42,7 +75,7 @@ class DashboardController < ApplicationController
       course = course_data['course']
       sections = course_data['sections']
       course_object = Course.create(department: course['subject'], campus: course['campus'],
-                                    course_title: course['title'], course_number: course['catalogNumber'])
+                                    course_title: course['title'], course_number: course['catalogNumber'], term: term_code(course))
       sections.each do |section|
         Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
                        end_time: section['meetings'].first['endTime'],
