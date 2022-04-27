@@ -10,32 +10,41 @@
 
   %tbody
     = @students.all.each do |s|
-      = form_for @user, url: recommendation_index_path, method: :post do |f|
-        %tr
-          %td{:class => {"toggle #{s.id}"}, :data-bs-toggle => {"collapse"}, :data-bs-target => {s.id}}&#8594;
-          %td= s.first_name
-          %td= s.email
-          %td= s.is_recommended
-          %tr{:class => {"collapse"}, :id => {s.id}}
-            %td
-              %table.table#child-table
-                %thead
-                  %tr
-                    %th Eligible Courses
-                    %th Recommend
-                    %th
-                    %th
-        <td>
-          <table class="table" id="child-table">
-            <thead>
-              <tr>
-                <th>Section Number</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Days of the Week</th>
-                <th>Number of graders</th>
-              </tr>
-
-          %td= f.text_field :
-        %div.actions.is-text-align-center= f.submit "Submit Recommendations", class: "button"
+      %tr
+        %td{class: "toggle #{s.id}", "data-bs-target" => "##{"user_#{s.id}"}", "data-bs-toggle" => "collapse"} &#8594;
+        %td= s.first_name
+        %td= s.last_name
+        %td= s.email
+        %tr{class: "collapse", id: "user_#{s.id}"}
+          %td
+            %table.table#child-table
+              %thead
+                %tr
+                  %th
+                  %th Eligible Courses
+                  %th Recommend
+              %tbody
+                = s.courses_taken.all.each do |c|
+                  = form_for @user, url: recommendation_index_path, method: :post do |f|
+                    %tr
+                      %td{class: "toggle course_#{c.id}", "data-bs-target" => "##{"course_#{c.id}"}", "data-bs-toggle" => "collapse"} &#8594;
+                      %td= get_course_name(c.course_number)
+                      %td= f.check_box :is_recommended, {checked: c.is_recommended?}, true, false
+                    %tr{class: "collapse", id: "course_#{c.id}"}
+                      %td
+                        %table.table#child-table
+                          %thead
+                            %tr
+                              %th Section Number
+                              %th Number of Graders
+                              %th Instructor
+                              %th Request
+                          %tbody
+                            = sections.where(course_id: c.id).each do |section|
+                              %tr.expandable
+                                %td= section.section_number
+                                %td= section.number_of_graders
+                                %td= get_instructor_name(section.instructor_id)
+                                %td= f.check_box :is_requested, {checked: c.is_requested}, true, false
+                      %div.actions.is-text-align-center= f.submit "Submit Recommendations/Requests", class: "button"
 = render partial: 'bulma_nav', locals: {pagy: @pagy}
