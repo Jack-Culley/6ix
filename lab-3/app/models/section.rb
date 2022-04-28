@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Section < ApplicationRecord
+  self.primary_key = 'section_number'
   DAYS = {}.tap do |h|
     h['0'] = 'M'
     h['1'] = 'T'
@@ -11,5 +12,5 @@ class Section < ApplicationRecord
     h['6'] = 'U'
   end
   has_one :user
-  has_one :course
+  belongs_to :course
 end
