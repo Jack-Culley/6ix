@@ -43,7 +43,7 @@ class GraderApplicationController < ApplicationController
     
     flash[:alert] = nil
     flash[:notice] = 'Successfully updated course(s) taken'
-    redirect_to dashboard_index_path
+    return redirect_to dashboard_index_path
 
     
   end
@@ -77,7 +77,14 @@ class GraderApplicationController < ApplicationController
 
   def update_user_availabilities
     availability_params = application_params&.dig(:availability)
-    create_availabilities(availability_params)
+    availability_params.to_h.each do |day, value|
+      if (value[:is_available]=='0' && !value[:availabilities].empty?)     
+        availability_params[day.to_sym][:availabilities]=''  
+      elsif (value[:is_available]=='1' && value[:availabilities].empty?)
+        availability_params[day.to_sym][:is_available] = '0'       
+      end 
+    end
+    create_availabilities(availability_params, is_edit:true)
   end
 
   def application_params
@@ -94,7 +101,6 @@ class GraderApplicationController < ApplicationController
   end
 
   def create_courses_taken(courses_taken)
-    # TODO: Link courses taken & availabilities to a user
     flash[:alert] = []
     courses_taken.each do |key, _value|
       course_params = courses_taken[key]
@@ -110,7 +116,7 @@ class GraderApplicationController < ApplicationController
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
-  def create_availabilities(availability_params)
+  def create_availabilities(availability_params, is_edit:false)
     regexp = /\A(\([0-2]{1}\d{3},[0-2]{1}\d{3}\),{0,1})+\z/
     count = 0
     @availabilities = @user.availability || Availability.create
@@ -123,14 +129,18 @@ class GraderApplicationController < ApplicationController
 
       unless value[:availabilities].match?(regexp)
         @availabilities.errors.add(day.to_sym,
-                                   " availabilites aren't in the correct format.")
+                                   " availabilities aren't in the correct format.")
       end
     end
 
     @availabilities.errors.add(:availabilities, ' no availabilities selected') if count == 5
     unless @availabilities.errors.empty? && flash[:alert].empty?
       flash[:alert] << @availabilities.errors.full_messages if @availabilities.errors.any?
-      redirect_to new_grader_application_url
+      if(is_edit)
+        redirect_to edit_grader_application_url(current_user.id)
+      else
+        redirect_to new_grader_application_url
+      end
       return true
     end
 
