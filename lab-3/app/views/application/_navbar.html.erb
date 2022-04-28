@@ -18,7 +18,7 @@
               </div>
             <% elsif student? %>
               <div class="column">
-                <% if current_user&.courses_taken&.empty? %>
+                <% if current_user&.courses_taken&.empty? && !current_user.availability %>
                   <%= link_to "Start Grader Application", new_grader_application_url, class: 'button is-warning', method: :get %>
                 <% else %>
                   <%= link_to "Edit Grader Application", edit_grader_application_url(current_user), class: 'button is-warning', method: :get %>
