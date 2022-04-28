@@ -19,10 +19,12 @@
           Availabilities
           .is-size-7
             Please input times in military times and as a comma separated list. Ex: (start_time1,end_time1),(start_time2,end_time2), ...
+            <br>
+            <br>If you wish to remove your availabilities for a whole day, you may uncheck that day or erase all time intervals for that day.
           - %w[monday tuesday wednesday thursday friday].each do |day|
             = a.fields_for "#{day.to_sym}" do |d|
               = d.label "#{day.to_sym}", class: "is-size-5 checkbox"
-              = d.check_box :is_available, class: 'weekday',checked:JSON.parse(@user.availability.availability_json)['data'][day]['is_available']== '1' ? true : false
+              = d.check_box :is_available, class: 'weekday',checked:JSON.parse(@user.availability.availability_json)['data'][day]['is_available']== '1' ? true : false, autocomplete: 'off'
               %div{id: "#{day}-fields", class: JSON.parse(@user.availability.availability_json)['data'][day]['is_available']== '1' ? "" : "hidden"}
                 = d.label :availabilities, class: "is-size-6"
                 = d.text_field :availabilities, class: 'input', value:JSON.parse(@user.availability.availability_json)['data'][day]['availabilities'], pattern: '\A(\([0-2]{1}\d{1,3},[0-2]{1}\d{1,3}\),{0,1})+\z', placeholder: '(start_time,end_time),(start_time,end_time),...'
