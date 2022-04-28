@@ -22,7 +22,7 @@
           - %w[monday tuesday wednesday thursday friday].each do |day|
             = a.fields_for "#{day.to_sym}" do |d|
               = d.label "#{day.to_sym}", class: "is-size-5 checkbox"
-              = d.check_box :is_available, class: 'weekday'
+              = d.check_box :is_available, class: 'weekday', autocomplete: 'off'
               %div{id: "#{day}-fields", class: 'hidden'}
                 = d.label :availabilities, class: "is-size-6"
                 = d.text_field :availabilities, class: 'input', pattern: '\A(\([0-2]{1}\d{3},[0-2]{1}\d{3}\),{0,1})+\z', placeholder: '(start_time,end_time),(start_time,end_time),...'

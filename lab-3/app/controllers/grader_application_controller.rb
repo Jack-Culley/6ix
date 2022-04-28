@@ -31,8 +31,7 @@ class GraderApplicationController < ApplicationController
 
   def edit
     @user = current_user
-    @course = Course.find(params[:id])
-    @availabilities = Availability.find(params[:id])
+    @availabilities = @user.availability
   end
 
   def update
