@@ -24,8 +24,11 @@
                   <%= link_to "Edit Grader Application", edit_grader_application_url(current_user), class: 'button is-warning', method: :get %>
                 <% end %>
               </div>
+            <% elsif instructor? %>
+              <div class="column">
+                <%= link_to "Make Recommendation", recommendation_index_path, class: 'button is-warning' %>
+              </div>
             <% end %>
-            <!-- put profile link here -->
             <div class="column">
               <%= link_to "Profile", profile_index_path, class: 'button' %>
             </div>

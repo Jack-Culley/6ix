@@ -19,7 +19,40 @@
         <div class="actions is-text-align-center">
           <div class="is-size-3">
             <p>Email: <%= @user.email %></p>
-            <p>Courses applied for:</p>
+            <% if student? %>
+              <table id="form">
+                <thead>
+                <tr>
+                  <th>Courses applied for:</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <% CoursesTaken.where(user_id: current_user.id).each do |c| %>
+                  <tr>
+                    <td><%= get_course_title(c.course_number) %></td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <br>
+            <% elsif instructor? %>
+              <table class="table is-fullwidth" id="profile-table">
+              <thead>
+              <tr>
+              <th>Student Requested</th>
+              <th>Section</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% Section.where(instructor_id: @user.id).uniq.each do |s| %>
+              <tr>
+                <td><%= get_requests(s.section_number) %></td>
+                <td><%= s.section_number %></td>
+              </tr>
+              <% end %>
+              </tbody>
+              </table>
+            <% end %>
           </div>
           <%= link_to "Reset Password", edit_user_registration_path, class: 'button is-danger' %>
         </div>
