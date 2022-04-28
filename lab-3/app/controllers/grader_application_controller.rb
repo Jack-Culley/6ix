@@ -59,16 +59,21 @@ class GraderApplicationController < ApplicationController
       course_params.delete('_destroy')
 
       @course = CoursesTaken.find_or_initialize_by(id: course_params[:id],
-                                                   course_number: course_params[:course_number]).tap do |course_taken|
-        course_taken.letter_grade = course_params[:letter_grade]
-        course_taken.department = course_params[:department]
-        course_taken.course_number = course_params[:course_number]
-        course_taken.is_requested = course_params[:is_requested]
-        course_taken.user_id = current_user.id
-        course_taken.interest = course_params[:interest]
+                                                     course_number: course_params[:course_number])
+      unless @course.id.nil?
+        query = "UPDATE courses_takens SET letter_grade='#{course_params[:letter_grade]}', department='#{course_params[:department]}', course_number=#{course_params[:course_number]}, user_id=#{current_user.id}, interest=#{course_params[:interest] == '1' ? true:false} WHERE id=#{@course.id}"
+        course_id = @course.id
+        @course = ActiveRecord::Base.connection.execute(query)
+      else
+        @course.letter_grade = course_params[:letter_grade]
+        @course.department = course_params[:department]
+        @course.course_number = course_params[:course_number]
+        @course.is_requested = course_params[:is_requested]
+        @course.user_id = current_user.id
+        @course.interest = course_params[:interest]
+        @course.save!
+        flash[:alert] << @course.errors.full_messages unless @course.errors.empty?
       end
-      @course.save
-      flash[:alert] << @course.errors.full_messages unless @course.errors.empty?
     end
   end
 

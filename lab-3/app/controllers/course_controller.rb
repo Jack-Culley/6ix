@@ -36,7 +36,7 @@ class CourseController < ApplicationController
   def create
     @course = Course.create(course_params)
     if @course.valid?
-      redirect_to dashboard_index_url(refresh: { semester: @course.term })
+      redirect_to dashboard_index_url(term: @course.term)
     else
       respond_with @course
     end

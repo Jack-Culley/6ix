@@ -12,4 +12,6 @@ class Course < ApplicationRecord
                                   where(params).and(where('course_number >= ? AND course_number < ?', level, level + 1000))
                                 }
   scope :for_params, ->(params) { where(params) }
+
+  validates :course_number, presence: true, format: {with: /\A\d{4}\z/, message: "invalid must be 4 digits 0-9"}
 end
