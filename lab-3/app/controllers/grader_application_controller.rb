@@ -68,6 +68,7 @@ class GraderApplicationController < ApplicationController
         course_taken.course_number = course_params[:course_number]
         course_taken.is_requested = course_params[:is_requested] 
         course_taken.user_id = current_user.id
+        course_taken.interest = course_params[:interest]
       end
       @course.save
       flash[:alert] << @course.errors.full_messages unless @course.errors.empty?
