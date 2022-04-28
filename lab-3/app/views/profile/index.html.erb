@@ -44,7 +44,7 @@
               </tr>
               </thead>
               <tbody>
-              <% Section.where(instructor_id: @user.id).each do |s| %>
+              <% Section.where(instructor_id: @user.id).uniq.each do |s| %>
               <tr>
                 <td><%= get_requests(s.section_number) %></td>
                 <td><%= s.section_number %></td>
