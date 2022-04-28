@@ -19,6 +19,7 @@
           <th>Course Name</th>
           <th>Course Number</th>
           <th>Section</th>
+          <th>Term</th>
           <th>Graders Assigned</th>
           <th>Graders Required</th>
           <th>Click to Assign</th>
@@ -30,6 +31,7 @@
                 <td><%= section_var.course.course_title %></td>
                 <td><%= section_var.course.course_number%></td>
                 <td><%= section_var.section_number %></td>
+                <td><%= convert_term_code(section_var.course.term)%></td>
                 <td><%= section_var.number_of_graders %></td>
                 <td><%= section_var.number_of_graders_required %></td>
                 <td><%= link_to "Assign", assign_grader_path(section_var), class: 'button is-info', method: :get %></td>
@@ -49,6 +51,7 @@
           <th>Course Name</th>
           <th>Course Number</th>
           <th>Section</th>
+          <th>Term</th>
           <th>Graders Assigned</th>
           <th>Graders Required</th>
           <th>Click to Assign</th>
@@ -60,6 +63,7 @@
                 <td><%= section_var.course.course_title %></td>
                 <td><%= section_var.course.course_number%></td>
                 <td><%= section_var.section_number %></td>
+                <td><%= convert_term_code(section_var.course.term)%></td>
                 <td><%= section_var.number_of_graders %></td>
                 <td><%= section_var.number_of_graders_required %></td>
                 <td><%= link_to "Assign", assign_grader_path(section_var), class: 'button is-info', method: :get %></td>

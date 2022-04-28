@@ -46,13 +46,18 @@ class DashboardController < ApplicationController
   end
 
   def build_courses
-    data = osu_client.get('classes/search', api_params).to_hash&.dig(:body, 'data')
-    save_courses(data['courses'])
-    total_pages = data['totalPages']
-    2.upto(total_pages) do |page|
-      data = osu_client.get('classes/search',
-                            api_params(page)).to_hash&.dig(:body, 'data')
+    #data = osu_client.get('classes/search', api_params).to_hash&.dig(:body, 'data')
+    # spring 1222, fall 1228, summer 1224
+    course_codes = ['1222','1228','1224']
+    course_codes.each do |code|
+      data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: code }).to_hash&.dig(:body, 'data')
       save_courses(data['courses'])
+      total_pages = data['totalPages']
+      2.upto(total_pages) do |page|
+        data = osu_client.get('classes/search',
+          { q: 'cse', campus: 'col', term: code, p: page }).to_hash&.dig(:body, 'data')
+        save_courses(data['courses'])
+      end
     end
   end
 
