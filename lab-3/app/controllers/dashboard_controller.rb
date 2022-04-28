@@ -36,48 +36,35 @@ class DashboardController < ApplicationController
     @courses ||= query_courses
   end
 
-  def api_params(page = nil)
-    h = { q: 'cse', campus: 'col' }
-    return h if params[:refresh].nil?
-
-    h[:term] = params[:refresh][:semester]
-    h[:page] = page if page
-    h
-  end
-
-  def build_courses
-    data = osu_client.get('classes/search', api_params).to_hash&.dig(:body, 'data')
-    save_courses(data['courses'])
+  def build_courses(term)
+    data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: term }).to_hash&.dig(:body, 'data')
+    save_courses(data['courses'],term)
     total_pages = data['totalPages']
     2.upto(total_pages) do |page|
       data = osu_client.get('classes/search',
-                            api_params(page)).to_hash&.dig(:body, 'data')
-      save_courses(data['courses'])
+                            { q: 'cse', campus: 'col', term: term, p: page }).to_hash&.dig(:body, 'data')
+      save_courses(data['courses'], term)
     end
   end
 
   def query_courses
     return unless Course.all.empty?
 
-    build_courses
+    build_courses('1222')
+    build_courses('1224')
+    build_courses('1228')
 
     Course.all
   end
 
-  def term_code(course)
-    return '1222' if course['term'].include?('Spring')
-    return '1224' if course['term'].include?('Summer')
-    return '1228' if course['term'].include?('Autumn')
-  end
-
-  def save_courses(courses)
+  def save_courses(courses, term)
     courses.each do |course_data|
       course = course_data['course']
       sections = course_data['sections']
       course_object = Course.create(department: course['subject'], campus: course['campus'],
-                                    course_title: course['title'], course_number: course['catalogNumber'], term: term_code(course))
+                                    course_title: course['title'], course_number: course['catalogNumber'], term: term)
       sections.each do |section|
-        Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
+        s = Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
                        end_time: section['meetings'].first['endTime'],
                        days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursdsay'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
                        number_of_graders: 0, course_id: course_object.id)
