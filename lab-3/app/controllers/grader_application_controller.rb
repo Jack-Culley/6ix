@@ -64,7 +64,7 @@ class GraderApplicationController < ApplicationController
   def create_availabilities(availability_params)
     regexp = /\A(\([0-2]{1}\d{3},[0-2]{1}\d{3}\),{0,1})+\z/
     count = 0
-    @availabilities = @user.availability || Availability.new
+    @availabilities = @user.availability || Availability.create
     # This block ensures that the availabilities are not empty or filled in correctly
     availability_params.to_h.each do |day, value|
       if value[:availabilities].empty?
