@@ -39,7 +39,7 @@
         <% end %>
       </tbody>
     </table>
-
+    <%== render partial: 'bulma_nav', locals: {pagy: @pagy_open} %>
     <div class="columns">
       <div class="column">
         <div class="is-size-1">Filled Sections</div>
@@ -71,5 +71,6 @@
         <% end %>
       </tbody>
     </table>
+    <%== render partial: 'bulma_nav', locals: {pagy: @pagy_filled} %>
   </body>
 </html>
