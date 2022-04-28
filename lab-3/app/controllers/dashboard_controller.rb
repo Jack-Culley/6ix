@@ -20,7 +20,10 @@ class DashboardController < ApplicationController
   private
 
   def filter_courses
-    return Course.for_params_with_level(filter_params, params[:course_level].to_i).order(course_number: sort_order) unless params[:course_level].nil? || params[:course_level].empty?
+    unless params[:course_level].nil? || params[:course_level].empty?
+      return Course.for_params_with_level(filter_params,
+                                          params[:course_level].to_i).order(course_number: sort_order)
+    end
 
     Course.for_params(filter_params).order(course_number: sort_order)
   end
@@ -45,7 +48,7 @@ class DashboardController < ApplicationController
 
   def build_courses(term)
     data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: term }).to_hash&.dig(:body, 'data')
-    save_courses(data['courses'],term)
+    save_courses(data['courses'], term)
     total_pages = data['totalPages']
     2.upto(total_pages) do |page|
       data = osu_client.get('classes/search',
@@ -69,12 +72,12 @@ class DashboardController < ApplicationController
       course = course_data['course']
       sections = course_data['sections']
       course_object = Course.find_or_create_by(department: course['subject'], campus: course['campus'],
-                                    course_title: course['title'], course_number: course['catalogNumber'], term: term)
+                                               course_title: course['title'], course_number: course['catalogNumber'], term: term)
       sections.each do |section|
         s = Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
-                       end_time: section['meetings'].first['endTime'],
-                       days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursday'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
-                       number_of_graders: 0, course_id: course_object.id)
+                           end_time: section['meetings'].first['endTime'],
+                           days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursday'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
+                           number_of_graders: 0, course_id: course_object.id)
       end
     end
   end

@@ -6,16 +6,15 @@ class RecommendationController < ApplicationController
   def index
     @user = current_user
     query_students
-    @pagy, @students = pagy(User.where(user_type: "student").order(last_name: :asc))
+    @pagy, @students = pagy(User.where(user_type: 'student').order(last_name: :asc))
     @sections = Section.all
   end
 
   def query_students
-    @students ||= User.where(user_type: "student") unless User.where(user_type: "student").empty?
+    @students ||= User.where(user_type: 'student') unless User.where(user_type: 'student').empty?
   end
 
   def recommend_button_click
-
     @course = CoursesTaken.find_by(user_id: params[:id], course_number: params[:course_number])
     if @course.is_recommended?
       flash[:alert] = 'Student is already recommended'
@@ -49,5 +48,4 @@ class RecommendationController < ApplicationController
       flash[:alert] = 'Failed to request student'
     end
   end
-
 end
