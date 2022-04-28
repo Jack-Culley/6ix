@@ -29,6 +29,7 @@
       <th>Department</th>
       <th>Campus</th>
       <th>Course Title</th>
+      <th>Course Number</th>
       <th>Term</th>
       <% if admin %>
         <th>Edit</th>
@@ -43,6 +44,7 @@
         <td><%= c.department %></td>
         <td><%= c.campus %></td>
         <td><%= c.course_title %></td>
+        <td><%= c.course_number %></td>
         <td><%= convert_term_code(c.term) %></td>
         <% if admin %>
           <td><%= link_to 'Edit', edit_course_path(c) %></td>

@@ -13,5 +13,7 @@ Rails.application.routes.draw do
       put :approve_button_click
     end
   end
+  resources 'assign_graders'
+  # get '/assign_graders_to_section/:id', to: 'assign_graders_to_section#index', as: 'section'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
