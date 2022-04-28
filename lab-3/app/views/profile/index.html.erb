@@ -20,15 +20,37 @@
           <div class="is-size-3">
             <p>Email: <%= @user.email %></p>
             <% if student? %>
-              <thead class="table is-fullwidth is-hoverable" id="parent-table">
+              <table id="form">
                 <thead>
-                  <th>Courses applied for</th>
+                <tr>
+                  <th>Courses applied for:</th>
+                </tr>
                 </thead>
                 <tbody>
-                  <% @user.courses_taken.where(studentId: @user.id) do |c| %>
-                  <td><%= c.course_title %></td>
+                  <% CoursesTaken.where(user_id: current_user.id).each do |c| %>
+                  <tr>
+                    <td><%= get_course_title(c.course_number) %></td>
+                  </tr>
                   <% end %>
                 </tbody>
+              </table>
+              <br>
+            <% elsif instructor? %>
+              <table class="table is-fullwidth" id="profile-table">
+              <thead>
+              <tr>
+              <th>Student Requested</th>
+              <th>Section</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% Section.where(instructor_id: @user.id).each do |s| %>
+              <tr>
+                <td><%= get_requests(s.section_number) %></td>
+                <td><%= s.section_number %></td>
+              </tr>
+              <% end %>
+              </tbody>
               </table>
             <% end %>
           </div>
