@@ -6,22 +6,39 @@
     </div> 
   <% end %>
 </div>
-<div id="filters" class="columns">
-  <div class="column">
-    <form action="/dashboard">
+<form name="filters">
+  <div id="filters" class="columns">
+    <div class="column">
+      
       <label for="course_level">Level search: &nbsp</label>
-      <input type="text" name="course_level" id="course-level" placeholder="Enter multiples of 1000" pattern="^[1-6]{1}0{3}$">
-    </form>
-  </div>
-  <div class="column">
-    <form action="/dashboard">
+      <input type="text" name="course_level" id="course-level" placeholder="Enter multiples of 1000" pattern="^[1-9]{1}0{3}$">
+      
+    </div>
+    <div class="column">
       <label for="course_search">Course search: &nbsp</label>
-      <input type="text" name="course_search" id="course-search" placeholder="ex: 3901", pattern="^[1-6]{1}[0-9]{3}$">
-    </form>
+      <input type="text" name="course_search" id="course-search" placeholder="ex: 3901", pattern="^[1-9]{1}[0-9]{3}$">
+    </div>
+    <div class="column">
+      <label for = "ordering"></label>
+      <select name="ordering" id="ordering">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+    <div class="column">
+      <label for = "term"></label>
+      <select name="term" id="term">
+        <option value="">All '22 Terms</option>
+        <option value="1222">Spring</option>
+        <option value="1224">Summer</option>
+        <option value="1228">Autumn</option>
+      </select>
+    </div>
+    <div class = "column">
+      <input type="submit" value="Submit">
+    </div>
   </div>
-  <div class="column"><a class="button" href="/dashboard?sort=asc">Sort by asc</a></div>
-  <div class="column"><a class="button" href="/dashboard?sort=desc">Sort by desc</a></div>
-</div>
+</form>
 <table class="table is-fullwidth is-hoverable" id="parent-table">
   <thead>
     <tr>
@@ -79,9 +96,6 @@
     <% end %>
   </tbody>
 </table>
-<div class="column" align="left" style="margin-left:5px;margin-top:10px">  
-  <%= link_to "Change Semester", refresh_index_path(), class: 'button is-info'%>
-</div>
 <% if admin %>
   <div class="column" align="left" style="margin-left:5px;margin-top:10px">  
     <%= link_to "Restore Courses", dashboard_path(@user), method: :delete, class: 'button is-danger', data: { confirm: 'Warning: Restoring courses will discard all admin changes to the course catalogue.' } %>

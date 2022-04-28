@@ -20,10 +20,17 @@ class DashboardController < ApplicationController
   private
 
   def filter_courses
-    return Course.for_course_number(params[:course_search]).order(id: sort_order.to_sym) unless params[:course_search].nil?
-    return Course.for_level(params[:course_level].to_i).order(id: sort_order.to_sym) unless params[:course_level].nil?
-    return Course.order(id: sort_order.to_sym) if params[:refresh]&.dig(:semester)&.empty?
-    return Course.for_term(params[:refresh][:semester]).order(id: sort_order.to_sym) unless params[:refresh].nil?
+    return Course.for_params_with_level(filter_params, params[:course_level].to_i).order(course_number: sort_order) unless params[:course_level].nil? || params[:course_level].empty?
+
+    Course.for_params(filter_params).order(course_number: sort_order)
+  end
+
+  def filter_params
+    h = {}
+    h[:course_number] = params[:course_search] unless params[:course_search].nil? || params[:course_search].empty?
+    h[:term] = params[:term] unless params[:term].nil? || params[:term].empty?
+
+    h
   end
 
   def sort_order
@@ -61,7 +68,7 @@ class DashboardController < ApplicationController
     courses.each do |course_data|
       course = course_data['course']
       sections = course_data['sections']
-      course_object = Course.create(department: course['subject'], campus: course['campus'],
+      course_object = Course.find_or_create_by(department: course['subject'], campus: course['campus'],
                                     course_title: course['title'], course_number: course['catalogNumber'], term: term)
       sections.each do |section|
         s = Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
