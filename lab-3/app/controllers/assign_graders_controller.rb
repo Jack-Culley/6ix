@@ -3,8 +3,11 @@
 class AssignGradersController < ApplicationController
   before_action :admin?
   def index
-    open_sections ||= Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders < number_of_graders_required').order(:course_id)
-    filled_sections ||= Section.joins('INNER JOIN courses c ON sections.course_id = c.id').where('number_of_graders >= number_of_graders_required').order(:course_id)
+    # binding.pry
+    @open_courses ||= Course.joins('INNER JOIN sections s ON courses.id = s.course_id').where('number_of_graders < number_of_graders_required').for_params(filter_params_open).order(course_number: sort_order_open).pluck(:id)
+    open_sections ||= Section.where(course_id: @open_courses).where('number_of_graders < number_of_graders_required')
+    @filled_courses ||= Course.joins('INNER JOIN sections s ON courses.id = s.course_id').where('number_of_graders >= number_of_graders_required').for_params(filter_params_filled).order(course_number: sort_order_filled).pluck(:id)
+    filled_sections ||= Section.where(course_id: @filled_courses).where('number_of_graders >= number_of_graders_required')
     @pagy_open, @open_sections = pagy(open_sections, page_param: :page_open)
     @pagy_filled, @filled_sections = pagy(filled_sections, page_param: :page_filled)
     # used for displaying the button only on the dashboard page
@@ -101,5 +104,39 @@ class AssignGradersController < ApplicationController
       end
     end
     possible_graders
+  end
+
+  def filter_params_open
+    h = {}
+    unless params[:course_search_open].nil? || params[:course_search_open].empty?
+      h[:course_number] =
+        params[:course_search_open]
+    end
+    h[:term] = params[:term_open] unless params[:term_open].nil? || params[:term_open].empty?
+
+    h
+  end
+
+  def filter_params_filled
+    h = {}
+    unless params[:course_search_filled].nil? || params[:course_search_filled].empty?
+      h[:course_number] =
+        params[:course_search_filled]
+    end
+    h[:term] = params[:term_filled] unless params[:term_filled].nil? || params[:term_filled].empty?
+
+    h
+  end
+
+  def sort_order_open
+    return params[:sort_open] unless params[:sort_open].nil?
+
+    'asc'
+  end
+
+  def sort_order_filled
+    return params[:sort_filled] unless params[:sort_filled].nil?
+
+    'asc'
   end
 end

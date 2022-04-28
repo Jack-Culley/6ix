@@ -13,4 +13,6 @@ class Section < ApplicationRecord
   end
   has_one :user
   belongs_to :course
+
+  scope :for_params, ->(params) { where(params) }
 end
