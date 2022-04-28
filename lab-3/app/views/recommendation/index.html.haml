@@ -28,8 +28,8 @@
                   %tr
                     %td{class: "toggle course_#{c.id}", "data-bs-target" => "##{"course_#{c.id}"}", "data-bs-toggle" => "collapse"} &#8594;
                     %td= Course.find_by(course_number: c.course_number).course_title
-                    %td= link_to "Recommend For Course", recommend_button_click_recommendation_index_path(course_number: c.course_number, id: s.id), class: "button is-danger", method: :put
-                    %td= get_recommendation_status(s.id)
+                    %td= link_to "Recommend For Course", recommend_button_click_recommendation_index_path(course_number: c.course_number, id: s.id), class: "button is-danger", disabled: c.is_recommended,method: :put
+                    %td= get_recommendation_status(s.id, c.course_number)
                   %tr{class: "collapse", id: "course_#{c.id}"}
                     %td
                     %td
@@ -40,7 +40,7 @@
                             %th Number of Graders
                             %th Instructor
                             %th Request
-                            %th Requested for:
+                            %th Requested?
                         %tbody
                           - @sections.where(course_id: c.id).each do |section|
                             %tr.expandable
@@ -48,6 +48,6 @@
                               %td= section.number_of_graders
                               %td= get_instructor_name(section.instructor_id)
                               %td= link_to "Request", request_button_click_recommendation_index_path(section_number: section.section_number, iid: @user.id, course_number: c.course_number, sid: s.id), class: 'button is-danger', method: :put
-                              %td= get_sections_requested(s.id)
+                              %td= get_sections_requested(s.id, section.section_number)
 
 = render partial: 'bulma_nav', locals: {pagy: @pagy}
