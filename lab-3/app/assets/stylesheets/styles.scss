@@ -16,6 +16,10 @@
     }
 }
 
+#profile-table {
+    background-color: rgb(255, 239, 220);
+}
+
 .card#form {
     background-color: rgb(255, 239, 220);
     width: 50%;
@@ -72,4 +76,27 @@ nav {
 
 .hero {
     margin-bottom: 10px;
+}
+
+.filter-select {
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    select { // Need custom styling on bulma css dropdown
+        width: 100%;
+        background: white;
+        height: 2.5em;
+        border-radius: 4px;
+        box-shadow: inset 0 .0625em .125em rgba(10,10,10,.05);
+        outline: 0;
+        cursor: pointer;
+        font-size: 1em;
+        border: 1px solid transparent;
+        border-color: #dbdbdb;
+    }
+}
+
+div.filters {
+    margin-right: auto;
+    margin-left: auto;
 }

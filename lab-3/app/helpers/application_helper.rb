@@ -18,4 +18,10 @@ module ApplicationHelper
 
     false
   end
+
+  def instructor?
+    return true if current_user&.user_type == 'instructor'
+
+    false
+  end
 end

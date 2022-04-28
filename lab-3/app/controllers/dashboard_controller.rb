@@ -20,10 +20,20 @@ class DashboardController < ApplicationController
   private
 
   def filter_courses
-    return Course.for_course_number(params[:course_search]).order(id: sort_order.to_sym) unless params[:course_search].nil?
-    return Course.for_level(params[:course_level].to_i).order(id: sort_order.to_sym) unless params[:course_level].nil?
-    return Course.order(id: sort_order.to_sym) if params[:refresh]&.dig(:semester)&.empty?
-    return Course.for_term(params[:refresh][:semester]).order(id: sort_order.to_sym) unless params[:refresh].nil?
+    unless params[:course_level].nil? || params[:course_level].empty?
+      return Course.for_params_with_level(filter_params,
+                                          params[:course_level].to_i).order(course_number: sort_order)
+    end
+
+    Course.for_params(filter_params).order(course_number: sort_order)
+  end
+
+  def filter_params
+    h = {}
+    h[:course_number] = params[:course_search] unless params[:course_search].nil? || params[:course_search].empty?
+    h[:term] = params[:term] unless params[:term].nil? || params[:term].empty?
+
+    h
   end
 
   def sort_order
@@ -38,7 +48,7 @@ class DashboardController < ApplicationController
 
   def build_courses(term)
     data = osu_client.get('classes/search', { q: 'cse', campus: 'col', term: term }).to_hash&.dig(:body, 'data')
-    save_courses(data['courses'],term)
+    save_courses(data['courses'], term)
     total_pages = data['totalPages']
     2.upto(total_pages) do |page|
       data = osu_client.get('classes/search',
@@ -61,13 +71,13 @@ class DashboardController < ApplicationController
     courses.each do |course_data|
       course = course_data['course']
       sections = course_data['sections']
-      course_object = Course.create(department: course['subject'], campus: course['campus'],
-                                    course_title: course['title'], course_number: course['catalogNumber'], term: term)
+      course_object = Course.find_or_create_by(department: course['subject'], campus: course['campus'],
+                                               course_title: course['title'], course_number: course['catalogNumber'], term: term)
       sections.each do |section|
         s = Section.create(section_number: section['classNumber'].to_i, start_time: section['meetings'].first['startTime'],
-                       end_time: section['meetings'].first['endTime'],
-                       days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursdsay'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
-                       number_of_graders: 0, course_id: course_object.id)
+                           end_time: section['meetings'].first['endTime'],
+                           days_of_the_week: [section['meetings'].first['monday'], section['meetings'].first['tuesday'], section['meetings'].first['wednesday'], section['meetings'].first['thursday'], section['meetings'].first['friday'], section['meetings'].first['saturday'], section['meetings'].first['sunday']],
+                           number_of_graders: 0, course_id: course_object.id)
       end
     end
   end

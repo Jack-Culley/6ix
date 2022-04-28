@@ -13,6 +13,36 @@
       </div>
     </div>
 
+  <div class="filters p-3 mb-5" >
+    <form name="filters" class="filters">
+      <div id="filters" class="columns">
+        <div class="column">
+          <input type="text" name="course_search_open" id="course-search" placeholder="ex: 3901", pattern="^[1-9]{1}[0-9]{3}$" class="input">
+          <label for="course_search_open">Course search &nbsp</label>
+        </div>
+        <div class="column filter-select">
+          <select name="ordering_open" id="ordering_open">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+          <label for = "ordering_open"></label>
+        </div>
+        <div class="column filter-select">
+          <select name="term_open" id="term_open">
+            <option value="">All '22 Terms</option>
+            <option value="1222">Spring</option>
+            <option value="1224">Summer</option>
+            <option value="1228">Autumn</option>
+          </select>
+          <label for = "term_open"></label>
+        </div>
+        <div class = "column filter-select">
+          <input type="submit" value="Filter" class="button">
+        </div>
+      </div>
+    </form>
+  </div>
+
     <table class="table">
       <thead>
         <tr>
@@ -39,12 +69,41 @@
         <% end %>
       </tbody>
     </table>
-
+    <%== render partial: 'bulma_nav', locals: {pagy: @pagy_open} %>
     <div class="columns">
       <div class="column">
         <div class="is-size-1">Filled Sections</div>
       </div>
     </div>
+    <div class="filters p-3 mb-5" >
+    <form name="filters" class="filters">
+      <div id="filters" class="columns">
+        <div class="column">
+          <input type="text" name="course_search_filled" id="course-search" placeholder="ex: 3901", pattern="^[1-9]{1}[0-9]{3}$" class="input">
+          <label for="course_search_filled">Course search &nbsp</label>
+        </div>
+        <div class="column filter-select">
+          <select name="ordering_filled" id="ordering_filled">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+          <label for = "ordering_filled"></label>
+        </div>
+        <div class="column filter-select">
+          <select name="term_filled" id="term_filled">
+            <option value="">All '22 Terms</option>
+            <option value="1222">Spring</option>
+            <option value="1224">Summer</option>
+            <option value="1228">Autumn</option>
+          </select>
+          <label for = "term_filled"></label>
+        </div>
+        <div class = "column filter-select">
+          <input type="submit" value="Filter" class="button">
+        </div>
+      </div>
+    </form>
+  </div>
     <table class="table">
       <thead>
         <tr>
@@ -71,5 +130,6 @@
         <% end %>
       </tbody>
     </table>
+    <%== render partial: 'bulma_nav', locals: {pagy: @pagy_filled} %>
   </body>
 </html>

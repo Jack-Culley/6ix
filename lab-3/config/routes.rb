@@ -4,10 +4,15 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   root 'home#index'
   resources 'dashboard', only: %w[index destroy]
-  resources 'refresh', only: %w[index]
   resources 'course'
   resources 'profile', only: %w[index]
   resources 'grader_application'
+  resources 'recommendation' do
+    collection do
+      put :request_button_click
+      put :recommend_button_click
+    end
+  end
   resources 'user_approval' do
     collection do
       put :approve_button_click
