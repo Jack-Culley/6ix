@@ -5,50 +5,14 @@ class RecommendationController < ApplicationController
 
   def index
     @user = current_user
-    @pagy, @students = pagy(User.order(last_name: :asc))
-    @students = query_students
+    query_students
+    @pagy, @students = pagy(User.where(user_type: "student").order(last_name: :asc))
     @sections = Section.all
   end
 
   def query_students
-    return User.where(user_type: "student").order(last_name: :asc) unless User.all.empty?
+    @students ||= User.where(user_type: "student") unless User.where(user_type: "student").empty?
   end
-
-  def get_instructor_name(instructor_id)
-    if instructor_id == nil
-      return "No instructor"
-    end
-    first_name = User.find(instructor_id).first_name
-    last_name = User.find(instructor_id).last_name
-    return first_name + " " + last_name
-  end
-  helper_method :get_instructor_name
-
-  def get_recommendation_status(user_id, course_num)
-    student = User.find(user_id)
-    if student.courses_taken.empty?
-      return "Not Recommended"
-    end
-    course = student.courses_taken.find_by(course_number: course_num)
-    if course.is_recommended
-        return "Recommended"
-        exit
-      end
-      return "Not Recommended"
-    end
-
-  helper_method :get_recommendation_status
-
-  def get_sections_requested(user_id, section_number)
-    courses = CoursesTaken.find_by(user_id: user_id)
-    if courses.is_requested != ""
-      if courses.is_requested.include?(section_number.to_s)
-        return "Yes"
-      end
-      return "No"
-    end
-  end
-  helper_method :get_sections_requested
 
   def recommend_button_click
 
